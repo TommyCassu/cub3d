@@ -1,12 +1,12 @@
-NO ./path_to_the_north_texture.xpm
-SO ./path_to_the_south_texture.xpm
-EA ./path_to_the_west_texture.xpm
-WE ./path_to_the_west_texture.pge
+NO ./textures/425.xpm
+SO ./textures/425.xpm
+EA ./textures/425.xpm
+WE ./textures/425.xpm
 
 F 220,100,0
 C 225,30,0
 
-111111
+ 111111
 100101
 101001
 1100N1

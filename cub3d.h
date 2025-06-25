@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/25 17:33:15 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/25 23:00:26 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct	s_map
 {
 	int	**map_tab;
 	t_textdata	*textdata;
-	
+	char	*floor;
+	char	*ceilling;
 }	t_map;
 
 typedef struct	s_data
@@ -39,6 +40,6 @@ typedef struct	s_data
 }	t_data;
 
 /* Parsing */
-int	parsing(t_data *data, char *filename);
+void    read_data(t_data *data,  char *filename);
 
 #endif

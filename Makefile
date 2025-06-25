@@ -1,4 +1,4 @@
-SRC			= main.c parsing/parsing.c
+SRC			= main.c parsing/parsing.c parsing/read_data.c
 
 SRCS		= ${SRC}
 
@@ -11,7 +11,7 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 
 LIBMLX_DIR	= minilibx-linux
 
-LIBMLX		= -L$(LIBMLX_DIR) -lmlx_Linux -lX11 -lXext
+LIBMLX		= -L$(LIBMLX_DIR) -lX11 -lXext
 
 # Include paths
 INCLUDES	= -Iinclude -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
