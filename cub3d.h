@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/25 23:00:26 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/27 01:04:25 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "libft/libft.h"
 # include <stdio.h>
 
-typedef struct	s_textdata
+typedef struct s_textdata
 {
 	char	*north;
 	char	*south;
@@ -26,20 +26,25 @@ typedef struct	s_textdata
 	char	*east;
 }	t_textdata;
 
-typedef struct	s_map
+typedef struct s_map
 {
-	int	**map_tab;
+	char		**map_tab;
 	t_textdata	*textdata;
-	char	*floor;
-	char	*ceilling;
+	char		*floor;
+	char		*ceilling;
+	int			height_map;
+	int			width_map;
 }	t_map;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	t_map	*map;
 }	t_data;
 
 /* Parsing */
-void    read_data(t_data *data,  char *filename);
+void	read_data(t_data *data,  char *filename);
+void	read_map(t_map *map, char *line);
+int		is_map_line(char *line);
+void	write_map(t_map *map, char	*filename);
 
 #endif

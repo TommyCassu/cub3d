@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/25 23:47:12 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/27 01:03:01 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 void	config_memory(t_map *map, char *line, char *direction)
 {
 	char	*new_line;
-	char	*tmp_line;
 
-	tmp_line = ft_substr(line, 3, (ft_strlen(line) - 4));
-	new_line = ft_strtrim(tmp_line, " ");
+	new_line = ft_strtrim(line + 2, " \t\n");
 	if (direction[0] == 'N' && direction[1] == 'O')
 		map->textdata->north = ft_strdup(new_line);
 	else if (direction[0] == 'S' && direction[1] == 'O')
@@ -32,7 +30,6 @@ void	config_memory(t_map *map, char *line, char *direction)
 	else if (direction[0] == 'C')
 		map->ceilling = ft_strdup(new_line);
 	free(direction);
-	free(tmp_line);
 	free(new_line);
 	return ;
 }
@@ -49,28 +46,49 @@ int	add_data(t_data *data, char *line)
 	return (0);
 }
 
-void	read_data(t_data *data,  char *filename)
+void	malloc_map(t_map *map)
 {
-	int	fd;
-	char	*line;
+	int	i;
 
+	i = 0;
+	map->map_tab = malloc(sizeof(char *) * map->height_map);
+	if (!map->map_tab)
+		return ;
+	while (i < map->height_map)
+	{
+		map->map_tab[i] = malloc(sizeof(char) * (map->width_map + 1));
+		if (!map->map_tab[i])
+			return ;
+		ft_memset(map->map_tab[i], '#', map->width_map);
+		map->map_tab[i][map->width_map] = '\0';
+		i++;
+	}
+}
+
+void	read_data(t_data *data, char *filename)
+{
+	int		fd;
+	char	*line;
+	int		map_line;
+
+	map_line = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
 	while (line)
 	{
-		//break if its line map
-		add_data(data, line);
+		if (is_map_line(line))
+			map_line = 1;
+		if (map_line)
+			read_map(data->map, line);
+		else
+			add_data(data, line);
 		free(line);
 		line = get_next_line(fd);
 	}
-	while (line)
-	{
-		//map
-		free(line);
-		line = get_next_line(fd);
-	}
+	close(fd);
+	malloc_map(data->map);
 	free(line);
 	return ;
 }

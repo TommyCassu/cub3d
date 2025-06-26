@@ -1,4 +1,4 @@
-SRC			= main.c parsing/parsing.c parsing/read_data.c
+SRC			= main.c parsing/parsing.c parsing/read_data.c parsing/read_map.c
 
 SRCS		= ${SRC}
 
