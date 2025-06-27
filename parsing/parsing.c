@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/25 22:26:32 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/28 00:37:38 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,57 +15,107 @@
 int	check_valid_file(char *line)
 {
 	int	len;
-	int	fd;
-	char	*new_line;
-	
-	
-	new_line = ft_substr(line, 3, (ft_strlen(line) - 4));
-	len = ft_strlen(new_line);
-	if (len < 4 || ft_strcmp(new_line + (len - 4), ".xpm") != 0)
+	int	fd;	
+
+	if (!line)
+		return (1);
+	len = ft_strlen(line);
+	if (len < 4 || ft_strcmp(line + (len - 4), ".xpm") != 0)
 	{
-		free(new_line);
-		return (perror("bad extension"), 1);
+		printf("Error : Bad extension file\n");
+		return (1);
 	}
-	fd = open(new_line, O_RDONLY);
+	fd = open(line, O_RDONLY);
 	if (fd < 0)
 	{
-		free(new_line);
-		return (perror("Bad file"), 1);
+		printf("Error : Bad file\n");
+		return (1);
 	}
-		
 	return (0);
 }
 
-int	parse_textures(char *line)
+int	parsing_texture(t_textdata *textures)
 {
-	if (ft_strncmp(line, "NO", 2) == 0 || ft_strncmp(line, "SO", 2) == 0
-		|| ft_strncmp(line, "EA", 2) == 0 || ft_strncmp(line, "WE", 2) == 0)
-			check_valid_file(line);
-	//else if (ft_strncmp(line, "F", 1) == 0 || ft_strncmp(line, "C", 1) == 0)
-		// verif valid color;
+	if (check_valid_file(textures->north))
+	{
+		free(textures->north);
+		textures->north = NULL;
+		return (0);
+	}
+	else if (check_valid_file(textures->south))
+	{
+		free(textures->south);
+		textures->south = NULL;
+		return (0);
+	}
+	else if (check_valid_file(textures->east))
+	{
+		free(textures->east);
+		textures->east = NULL;
+		return (0);
+	}
+	else if (check_valid_file(textures->west))
+	{
+		free(textures->west);
+		textures->west = NULL;
+		return (0);
+	}
 	return (1);
 }
 
-int	parsing(t_data *data, char *filename)
+int	ft_verif_digit(char	*str)
 {
-	int	fd;
-	char	*line;
-	
-	(void)data;
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	line = get_next_line(fd);
-	while (line)
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		if (!ft_strcmp(line, "\n") == 0)
-		{
-			parse_textures(line);
-			//	map
-		}
-		free(line);
-		line = get_next_line(fd);
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
 	}
-	free(line);
+	return (1);
+}
+
+void	parsing_rgb(t_map *map, char *line, char *direction)
+{
+	char	*new_value;
+	char	**tab_value;
+	int		r;
+	int		g;
+	int		b;
+
+	new_value = NULL;
+	if (direction[0] == 'F')
+		new_value = ft_strtrim(line, " F\n");
+	else if (direction[0] == 'C')
+		new_value = ft_strtrim(line, " C\n");
+	tab_value = ft_split(new_value, ',');
+	r = ft_atoi(tab_value[0]);
+	g = ft_atoi(tab_value[1]);
+	b = ft_atoi(tab_value[2]);
+	if (new_value)
+		free(new_value);
+	if (ft_verif_digit(tab_value[0]) && ft_verif_digit(tab_value[1]) && ft_verif_digit(tab_value[2]))
+	{
+		if (!(r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255))
+			return ;
+		if (direction[0] == 'F')
+			map->floor_rgb = (r << 16) | (g << 8) | b;
+		else if (direction[0] == 'C')
+			map->ceilling_rgb = (r << 16) | (g << 8) | b;
+	}
+	ft_free(tab_value);
+	free(tab_value);
+}
+
+int	parsing(t_data *data)
+{
+	if (!parsing_texture(data->map->textdata))
+		return (0); // error free
+	if (data->map->ceilling_rgb == -1 || data->map->floor_rgb == -1)
+		return (0); // error free
+	if (!parsing_map(data->map))
+		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/27 01:03:01 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:36:37 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	config_memory(t_map *map, char *line, char *direction)
 	else if (direction[0] == 'E' && direction[1] == 'A')
 		map->textdata->east = ft_strdup(new_line);
 	else if (direction[0] == 'F')
-		map->floor = ft_strdup(new_line);
+		parsing_rgb(map, line, direction);
 	else if (direction[0] == 'C')
-		map->ceilling = ft_strdup(new_line);
+		parsing_rgb(map, line, direction);
 	free(direction);
 	free(new_line);
 	return ;
@@ -38,7 +38,7 @@ int	add_data(t_data *data, char *line)
 {
 	if (ft_strncmp(line, "NO", 2) == 0 || ft_strncmp(line, "SO", 2) == 0
 		|| ft_strncmp(line, "EA", 2) == 0 || ft_strncmp(line, "WE", 2) == 0
-		|| ft_strncmp(line, "F", 1) != 0 || ft_strncmp(line, "C", 1) != 0)
+		|| ft_strncmp(line, "F", 1) == 0 || ft_strncmp(line, "C", 1) == 0)
 	{
 		config_memory(data->map, line, ft_substr(line, 0, 2));
 		return (1);

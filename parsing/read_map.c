@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/27 01:03:19 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:35:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	write_map(t_map *map, char	*filename)
 	line = get_next_line(fd);
 	while (line)
 	{
+		map_line = 0;
 		if (is_map_line(line))
 			map_line = 1;
 		if (map_line)
