@@ -72,6 +72,7 @@ void	read_data(t_data *data, char *filename)
 	int		map_line;
 
 	map_line = 0;
+	// Rajouter la verif de l'extension du filename
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;

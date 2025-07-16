@@ -43,12 +43,12 @@ int	check_spawn(char **map, int height, int width)
 	}
 	if (spawn_count == 0)
 	{
-		printf("Erreur: Aucun point de spawn trouvé.\n");
+		printf("Error: No spawn point found.\n");
 		return (1);
 	}
 	else if (spawn_count > 1)
 	{
-		printf("Erreur: Plusieurs points de spawn trouvés (%d).\n", spawn_count);
+		printf("Error: Multiple spawn points found (%d).\n", spawn_count);
 		return (1);
 	}
 	return (0);
@@ -73,6 +73,8 @@ int	is_map_closed(char **map, int height, int width)
 					!is_valid(map[i][j + 1]) || !is_valid(map[i][j - 1]))
 					return (1);
 			}
+			else if (map[i][j] != '#' && map[i][j] != '\0' && map[i][j] != '1')
+				return (1);
 			j++;
 		}
 		i++;
@@ -86,7 +88,7 @@ int	parsing_map(t_map	*map)
 		return (0);
 	if (is_map_closed(map->map_tab, map->height_map, map->width_map))
 	{
-		printf("error map\n");
+		printf("Error: Invalid map enter.\n");
 		return (0);
 	}
 	return (1);
