@@ -47,5 +47,5 @@ void	ft_free_cub3d(t_data *data)
 		}
 		free_map(data->map);
 	}
-	free(data);	
+	free(data);
 }

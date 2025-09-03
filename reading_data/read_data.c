@@ -12,23 +12,23 @@
 
 #include "../cub3d.h"
 
-void	config_memory(t_map *map, char *line, char *direction)
+void	config_memory(t_data *data, char *line, char *direction)
 {
 	char	*new_line;
 
 	new_line = ft_strtrim(line + 2, " \t\n");
 	if (direction[0] == 'N' && direction[1] == 'O')
-		map->textdata->north = ft_strdup(new_line);
+		data->map->textdata->north = ft_strdup(new_line);
 	else if (direction[0] == 'S' && direction[1] == 'O')
-		map->textdata->south = ft_strdup(new_line);
+		data->map->textdata->south = ft_strdup(new_line);
 	else if (direction[0] == 'W' && direction[1] == 'E')
-		map->textdata->west = ft_strdup(new_line);
+		data->map->textdata->west = ft_strdup(new_line);
 	else if (direction[0] == 'E' && direction[1] == 'A')
-		map->textdata->east = ft_strdup(new_line);
+		data->map->textdata->east = ft_strdup(new_line);
 	else if (direction[0] == 'F')
-		parsing_rgb(map, line, direction);
+		parsing_rgb(data, line, direction);
 	else if (direction[0] == 'C')
-		parsing_rgb(map, line, direction);
+		parsing_rgb(data, line, direction);
 	free(direction);
 	free(new_line);
 	return ;
@@ -36,12 +36,20 @@ void	config_memory(t_map *map, char *line, char *direction)
 
 int	add_data(t_data *data, char *line)
 {
-	if (ft_strncmp(line, "NO", 2) == 0 || ft_strncmp(line, "SO", 2) == 0
-		|| ft_strncmp(line, "EA", 2) == 0 || ft_strncmp(line, "WE", 2) == 0
-		|| ft_strncmp(line, "F", 1) == 0 || ft_strncmp(line, "C", 1) == 0)
+	if ((ft_strncmp(line, "NO", 2) == 0 && !data->map->textdata->north)
+		|| (ft_strncmp(line, "SO", 2) == 0 && data->map->textdata->south == NULL)
+		|| (ft_strncmp(line, "EA", 2) == 0 && data->map->textdata->east == NULL)
+		|| (ft_strncmp(line, "WE", 2) == 0 && data->map->textdata->west == NULL)
+		|| (ft_strncmp(line, "F", 1) == 0 && data->map->floor_rgb == -1)
+		|| (ft_strncmp(line, "C", 1) == 0 && data->map->ceilling_rgb == -1))
 	{
-		config_memory(data->map, line, ft_substr(line, 0, 2));
+		config_memory(data, line, ft_substr(line, 0, 2));
 		return (1);
+	}
+	else if (line[0] != '\n')
+	{
+		printf("Error map ! %s", line);
+		data->error_status = 1;
 	}
 	return (0);
 }

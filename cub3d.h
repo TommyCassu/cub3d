@@ -39,6 +39,7 @@ typedef struct s_map
 typedef struct s_data
 {
 	t_map	*map;
+	int		error_status;
 }	t_data;
 
 /* Parsing */
@@ -48,7 +49,7 @@ int		is_map_line(char *line);
 void	write_map(t_map *map, char	*filename);
 int		parsing(t_data *data);
 void	ft_free(char **result);
-void	parsing_rgb(t_map *map, char *line, char *direction);
+void	parsing_rgb(t_data *data, char *line, char *direction);
 int		parsing_map(t_map	*map);
 void	print_map(t_map *map);
 

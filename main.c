@@ -12,15 +12,6 @@
 
 #include "cub3d.h"
 
-/*
-int	error_msg(char	*msg)
-{
-	printf("%s\n", msg);
-	//free data
-	return (1);
-}
-*/
-
 void	print_map(t_map *map)
 {
 	int	i;
@@ -53,6 +44,7 @@ void	init_data(t_data *data)
 	data->map->ceilling_rgb = -1;
 	data->map->width_map = 0;
 	data->map->height_map = 0;
+	data->error_status = 0;
 }
 
 int	main(int ac, char **av)
@@ -64,6 +56,11 @@ int	main(int ac, char **av)
 		data = malloc(sizeof(t_data));
 		init_data(data);
 		read_data(data, av[1]);
+		if (data->error_status == 1)
+		{
+			ft_free_cub3d(data);
+			return (0);
+		}
 		write_map(data->map, av[1]);
 		if (parsing(data))
 			print_map(data->map);
