@@ -1,14 +1,14 @@
-NO                        ./textures/425.xpm
+NO ./textures/425.xpm
+EA ./textures/425.xpm
+WE ./textures/425.xpm
 
+SO ./textures/425.xpm
 
 F 32,32,32
 
 
 C 0,0,102
-EA ./textures/425.xpm
-WE ./textures/425.xpm
 
-SO ./textures/425.xpme
 
     11111
     10001

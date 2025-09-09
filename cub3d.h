@@ -26,6 +26,15 @@ typedef struct s_textdata
 	char	*east;
 }	t_textdata;
 
+typedef struct s_img
+{
+	void		*ptr;
+	int			*addr;
+	int			line_s;
+	int			bpp;
+	int			endian;
+}				t_img;
+
 typedef struct s_map
 {
 	char		**map_tab;
@@ -36,11 +45,23 @@ typedef struct s_map
 	int			width_map;
 }	t_map;
 
+typedef struct s_mlx
+{
+	void		*ptr;
+	void		*win;
+	t_img		img;
+}				t_mlx;
+
 typedef struct s_data
 {
 	t_map	*map;
+	t_mlx	*mlx;
 	int		error_status;
 }	t_data;
+
+/* initialisation */
+void	init_data(t_data *data);
+void	init_mlx(t_mlx *mlx, t_data *data);
 
 /* Parsing */
 void	read_data(t_data *data, char *filename);

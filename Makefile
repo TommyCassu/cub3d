@@ -1,4 +1,4 @@
-SRC			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c
+SRC			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c init.c
 
 SRCS		= ${SRC}
 
@@ -11,7 +11,7 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 
 LIBMLX_DIR	= minilibx-linux
 
-LIBMLX		= -L$(LIBMLX_DIR) -lX11 -lXext
+LIBMLX		= -Lmlx_linux -lmlx_Linux -L$(LIBMLX_DIR) -Imlx_linux -lX11 -lXext -lm -lz
 
 # Include paths
 INCLUDES	= -Iinclude -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
@@ -26,7 +26,7 @@ RANLIB		= ranlib
 
 GCC			= gcc
 
-CFLAGS		= -Wall -Werror -Wextra -g
+CFLAGS		= 
 
 all:		${NAME}
 
