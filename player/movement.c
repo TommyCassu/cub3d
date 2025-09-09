@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 16:02:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 17:00:56 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:30:33 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ int	handler_player(int key, void *param)
 	//if (key == XK_Escape)
 	//	handler_exit_data(data);
 	if ((key == XK_w || key == XK_Up))
-		move_player(data, 'W', x, y);
+		move_player(data, 'W');
 	else if ((key == XK_a || key == XK_Left))
-		move_player(data, 'A', x, y);
+		move_player(data, 'A');
 	else if ((key == XK_s || key == XK_Down))
-		move_player(data, 'S', x, y);
+		move_player(data, 'S');
 	else if ((key == XK_d || key == XK_Right))
-		move_player(data, 'D', x, y);
+		move_player(data, 'D');
 	return (0);
 }
 
-void	move_player(t_data *data, char key, int x, int y)
+void	move_player(t_data *data, char key)
 {
 	int step = 4;
 	 if (key == 'W')

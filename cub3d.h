@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 17:18:21 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:31:37 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void    pixels_to_image(t_img *image, int x, int y, int pixcolor);
 //player
 void	draw_player(t_mlx *mlx, int px, int py, int color);
 int		handler_player(int key, void *param);
-void	move_player(t_data *data, char key, int x, int y);
+void	move_player(t_data *data, char key);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 17:22:18 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:35:03 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,29 @@
 # include <X11/keysym.h>
 
 
-void    print_map(t_map *map)
-{
-    int    i;
-
-    i = 0;
-    while (i < map->height_map)
-    {
-        printf("%s\n", map->map_tab[i]);
-        i++;
-    }
-    if (map->textdata->north)
-        printf("%s\n", map->textdata->north);
-    if (map->textdata->south)
-        printf("%s\n", map->textdata->south);
-	printf("%d\n", map->height_map);
-	printf("%d\n", map->width_map);
-    printf("%s\n", map->textdata->east);
-    printf("%s\n", map->textdata->west);
-    printf("%d\n", map->ceilling_rgb);
-    printf("%d\n", map->floor_rgb);
-	printf("%d\n", map->player->start_x);
-	printf("%d\n", map->player->start_y);
-}
+//void    print_map(t_map *map)
+//{
+//    int    i;
+//
+//    i = 0;
+//    while (i < map->height_map)
+//    {
+//        printf("%s\n", map->map_tab[i]);
+//        i++;
+//    }
+//    if (map->textdata->north)
+//        printf("%s\n", map->textdata->north);
+//    if (map->textdata->south)
+//        printf("%s\n", map->textdata->south);
+//	printf("%d\n", map->height_map);
+//	printf("%d\n", map->width_map);
+//    printf("%s\n", map->textdata->east);
+//    printf("%s\n", map->textdata->west);
+//    printf("%d\n", map->ceilling_rgb);
+//    printf("%d\n", map->floor_rgb);
+//	printf("%d\n", map->player->start_x);
+//	printf("%d\n", map->player->start_y);
+//}
 
 int    main(int ac, char **av)
 {
@@ -56,7 +56,7 @@ int    main(int ac, char **av)
         write_map(data->map, av[1]);
         if (parsing(data))
         {
-            print_map(data->map);
+            //print_map(data->map);
             draw_map(data);
 			draw_player(data->mlx, data->map->player->x, data->map->player->y, 0xFF0000);
 			mlx_hook(data->mlx->win, KeyPress, KeyPressMask, handler_player, data);
