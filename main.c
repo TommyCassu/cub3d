@@ -3,28 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 15:58:25 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/09 17:22:18 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mlx_put_pixel.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 13:23:55 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 14:05:22 by tcassu           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../cub3d.h"
-
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 
 void    print_map(t_map *map)
@@ -41,6 +29,8 @@ void    print_map(t_map *map)
         printf("%s\n", map->textdata->north);
     if (map->textdata->south)
         printf("%s\n", map->textdata->south);
+	printf("%d\n", map->height_map);
+	printf("%d\n", map->width_map);
     printf("%s\n", map->textdata->east);
     printf("%s\n", map->textdata->west);
     printf("%d\n", map->ceilling_rgb);
@@ -68,7 +58,8 @@ int    main(int ac, char **av)
         {
             print_map(data->map);
             draw_map(data);
-			
+			draw_player(data->mlx, data->map->player->x, data->map->player->y, 0xFF0000);
+			mlx_hook(data->mlx->win, KeyPress, KeyPressMask, handler_player, data);
 	        mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
 			mlx_loop(data->mlx->ptr);
         }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 15:58:49 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/09 17:18:21 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define CUB3D_H
 
 # include "minilibx-linux/mlx.h"
+# include <X11/X.h>
 # include <X11/keysym.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 # include <stdio.h>
 
@@ -87,5 +89,15 @@ void	print_map(t_map *map);
 void    draw_map(t_data *data);
 /* Free / error*/
 void	ft_free_cub3d(t_data *data);
+//minimap
+void    pixels_to_image(t_img *image, int x, int y, int pixcolor);
+
+
+//player
+void	draw_player(t_mlx *mlx, int px, int py, int color);
+int		handler_player(int key, void *param);
+void	move_player(t_data *data, char key, int x, int y);
+
+
 
 #endif
