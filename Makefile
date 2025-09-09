@@ -1,8 +1,10 @@
-SRC			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c init.c minimap/mlx_put_pixel.c player/movement.c
+FILES			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c init.c minimap/mlx_put_pixel.c player/movement.c
 
 SRCS		= ${SRC}
 
-OBJS		= ${SRCS:.c=.o}
+OBJS = $(addprefix $(OBJDIR)/, $(FILES:.c=.o))
+
+OBJDIR = obj
 
 # LIB FLAGS
 LIBFT_DIR	= libft
@@ -24,27 +26,34 @@ RM			= rm -f
 
 RANLIB		= ranlib
 
-GCC			= gcc
+CC			= cc
 
-CFLAGS		= 
+CFLAGS		= -Wall -Wextra -Werror
 
 all:		${NAME}
 
 .c.o:
-	${GCC} ${CFLAGS} -c ${INCLUDES} $< -o ${<:.c=.o}
+	${CC} ${CFLAGS} -c ${INCLUDES} $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS} $(LIBFT)
-	$(GCC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft $(LIBMLX) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft $(LIBMLX) -o $(NAME)
+
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	${RM} ${OBJS}
+	@echo "\033[1;32m" "Cleaning .o \033[0m"
+	@rm -rf $(OBJDIR)
+	@make -C libft/ clean
 
 fclean:		clean
-	${RM} ${NAME}
-	$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo "\033[1;32m" "Cleaning program \033[0m"
+	@rm -f $(NAME)
+	@make -C libft/ fclean
 
 re:			fclean all
 

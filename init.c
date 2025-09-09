@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 15:49:15 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/09 18:42:24 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,17 @@ void	init_data(t_data *data)
 {
     ft_memset(data, 0, sizeof(t_data));
     data->map = malloc(sizeof(t_map));
+    ft_memset(data->map, 0, sizeof(t_map));
     data->mlx = malloc(sizeof(t_mlx));
+    ft_memset(data->mlx, 0, sizeof(t_mlx));
     data->mlx->img = malloc(sizeof(t_img));
+    ft_memset(data->mlx->img, 0, sizeof(t_img));
 	data->map->textdata = malloc(sizeof(t_textdata));
+    ft_memset(data->map->textdata, 0, sizeof(t_textdata));
     data->map->player = malloc(sizeof(t_player));
+    ft_memset(data->map->player, 0, sizeof(t_player));
 	data->map->floor_rgb = -1;
 	data->map->ceilling_rgb = -1;
-
 }
 void	init_mlx(t_mlx *mlx, t_data *data)
 {
