@@ -1,4 +1,4 @@
-SRC			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c init.c
+SRC			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c init.c minimap/mlx_put_pixel.c
 
 SRCS		= ${SRC}
 

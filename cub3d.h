@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/28 00:37:08 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:58:49 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,18 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
+typedef struct s_player
+{
+	int x;
+	int y;
+	int	start_x;
+	int	start_y;
+}			t_player;
+
 typedef struct s_map
 {
 	char		**map_tab;
+	t_player	*player;
 	t_textdata	*textdata;
 	int			floor_rgb;
 	int			ceilling_rgb;
@@ -49,7 +58,7 @@ typedef struct s_mlx
 {
 	void		*ptr;
 	void		*win;
-	t_img		img;
+	t_img		*img;
 }				t_mlx;
 
 typedef struct s_data
@@ -74,6 +83,8 @@ void	parsing_rgb(t_data *data, char *line, char *direction);
 int		parsing_map(t_map	*map);
 void	print_map(t_map *map);
 
+/* draw map */
+void    draw_map(t_data *data);
 /* Free / error*/
 void	ft_free_cub3d(t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:47:27 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/28 00:36:59 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:48:54 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_valid(char c)
 	return (c == '0' || c == '1' || is_player(c));
 }
 
-int	check_spawn(char **map, int height, int width)
+int	check_spawn(t_map *map, int height, int width)
 {
 	int	i;
 	int	j;
@@ -35,8 +35,14 @@ int	check_spawn(char **map, int height, int width)
 		j = 0;
 		while (j < width)
 		{
-			if (is_player(map[i][j]))
+			if (is_player(map->map_tab[i][j]))
+			{
+				map->player->start_x = j;
+				map->player->start_y = i;
+				map->player->x = j;
+				map->player->y = i;
 				spawn_count++;
+			}
 			j++;
 		}
 		i++;
@@ -84,7 +90,7 @@ int	is_map_closed(char **map, int height, int width)
 
 int	parsing_map(t_map	*map)
 {
-	if (check_spawn(map->map_tab, map->height_map, map->width_map))
+	if (check_spawn(map, map->height_map, map->width_map))
 		return (0);
 	if (is_map_closed(map->map_tab, map->height_map, map->width_map))
 	{
