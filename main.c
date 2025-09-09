@@ -3,68 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/28 00:37:13 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/09 17:22:18 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
 
-void	print_map(t_map *map)
+
+void    print_map(t_map *map)
 {
-	int	i;
+    int    i;
 
-	i = 0;
-	while (i < map->height_map)
-	{
-		printf("%s\n", map->map_tab[i]);
-		i++;
-	}
-	if (map->textdata->north)
-		printf("%s\n", map->textdata->north);
-	if (map->textdata->south)
-		printf("%s\n", map->textdata->south);
-	printf("%s\n", map->textdata->east);
-	printf("%s\n", map->textdata->west);
-	printf("%d\n", map->ceilling_rgb);
-	printf("%d\n", map->floor_rgb);
+    i = 0;
+    while (i < map->height_map)
+    {
+        printf("%s\n", map->map_tab[i]);
+        i++;
+    }
+    if (map->textdata->north)
+        printf("%s\n", map->textdata->north);
+    if (map->textdata->south)
+        printf("%s\n", map->textdata->south);
+	printf("%d\n", map->height_map);
+	printf("%d\n", map->width_map);
+    printf("%s\n", map->textdata->east);
+    printf("%s\n", map->textdata->west);
+    printf("%d\n", map->ceilling_rgb);
+    printf("%d\n", map->floor_rgb);
+	printf("%d\n", map->player->start_x);
+	printf("%d\n", map->player->start_y);
 }
 
-void	init_data(t_data *data)
+int    main(int ac, char **av)
 {
-	data->map = malloc(sizeof(t_map));
-	data->map->textdata = malloc(sizeof(t_textdata));
-	data->map->textdata->north = NULL;
-	data->map->textdata->south = NULL;
-	data->map->textdata->east = NULL;
-	data->map->textdata->west = NULL;
-	data->map->floor_rgb = -1;
-	data->map->ceilling_rgb = -1;
-	data->map->width_map = 0;
-	data->map->height_map = 0;
-	data->error_status = 0;
-}
+    t_data    *data;
+    if (ac == 2)
+    {
+        data = malloc(sizeof(t_data));   
+        init_data(data);
+        init_mlx(data->mlx, data);
+        read_data(data, av[1]);
+        if (data->error_status == 1)
+        {
+            ft_free_cub3d(data);
+            return (0);
+        }
+        write_map(data->map, av[1]);
+        if (parsing(data))
+        {
+            print_map(data->map);
+            draw_map(data);
+			draw_player(data->mlx, data->map->player->x, data->map->player->y, 0xFF0000);
+			mlx_hook(data->mlx->win, KeyPress, KeyPressMask, handler_player, data);
+	        mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
+			mlx_loop(data->mlx->ptr);
+        }
 
-int	main(int ac, char **av)
-{
-	t_data	*data;
-
-	if (ac == 2)
-	{
-		data = malloc(sizeof(t_data));
-		init_data(data);
-		read_data(data, av[1]);
-		if (data->error_status == 1)
-		{
-			ft_free_cub3d(data);
-			return (0);
-		}
-		write_map(data->map, av[1]);
-		if (parsing(data))
-			print_map(data->map);
-		ft_free_cub3d(data);
-	}
-	return (0);
+        ft_free_cub3d(data);
+    }
+    
+    return (0);
 }
