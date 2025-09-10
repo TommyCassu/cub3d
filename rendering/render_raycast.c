@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/10 19:45:38 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/10 22:07:11 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int    key_handler(int key, t_data *data)
 
     if ((key == XK_w || key == XK_Up))
     {
-        //if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == 0)
+        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == 0)
             data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
-        //if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == 0)
+        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == 0)
             data->map->player->y += data->map->player->dirY * data->game->moveSpeed;
     }
     if ((key == XK_s || key == XK_Down))
@@ -101,6 +101,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
     double  frameTime;
     
     color = 2883328;
+    
     while (1)
     {
         x = 0;
@@ -111,11 +112,12 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
             game->rayDir_x = player->dirX + game->planeX * game->cameraX;
             game->rayDir_y = player->dirY + game->planeY * game->cameraX;
     
-            game->mapX = player->x;
-            game->mapY = player->y;
+            game->mapX = (int)player->x;
+            game->mapY = (int)player->y;
             game->hit = 0;
+            
             /* calcul length of ray */
-            if ( game->rayDir_x == 0)
+            if (game->rayDir_x == 0)
                 deltaDistX = 1e30;
             else
                 deltaDistX = fabs(1 / game->rayDir_x);
@@ -158,7 +160,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 }
                 else
                 {
-                    game->sideDistY += deltaDistX;
+                    game->sideDistY += deltaDistY;
                     game->mapY += game->stepY;
                     game->side = 1;
                 }
@@ -198,13 +200,13 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
         game->time = get_time();
         frameTime = (game->time - game->oldTime) / 1000.0;
         /* temporaire (clear l'ancienne affichage, affiche celle actuelle, clear memoire de l'img pour la suivante)*/
-        mlx_clear_window(data->mlx->ptr, data->mlx->win);
+        //mlx_clear_window(data->mlx->ptr, data->mlx->win);
         mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
-        clear_img(data->mlx->img);
+        //clear_img(data->mlx->img);
         /* */
         //printf("ewqeqweqweqweqweqweqweqweqwe");
         game->moveSpeed = 1;
         game->rotSpeed = frameTime * 3.0;
-        //break;
+        break;
     }
 }

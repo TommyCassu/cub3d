@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/10 19:31:42 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/10 22:07:03 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ void	init_mlx(t_mlx *mlx, t_data *data)
     mlx->img->ptr = mlx_new_image(mlx->ptr, RES_X, RES_Y);
     mlx->img->addr = (int *)mlx_get_data_addr(mlx->img->ptr, &mlx->img->bpp,
             &mlx->img->line_s, &mlx->img->endian);
-    //mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
     
 }
