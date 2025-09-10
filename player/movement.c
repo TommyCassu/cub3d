@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 16:02:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 18:30:33 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:46:18 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void    draw_player(t_mlx *mlx, int px, int py, int color)
 	}
 }
 
+/*
 int	handler_player(int key, void *param)
 {
 	int		x;
@@ -68,4 +69,4 @@ void	move_player(t_data *data, char key)
 	draw_player(data->mlx, data->map->player->x, data->map->player->y, 0xFF0000);
 
 	mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
-}
+}*/

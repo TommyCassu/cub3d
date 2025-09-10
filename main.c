@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 17:35:03 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:39:54 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int    main(int ac, char **av)
         data = malloc(sizeof(t_data));   
         init_data(data);
         init_mlx(data->mlx, data);
+        init_raycast(data);
         read_data(data, av[1]);
         if (data->error_status == 1)
         {
@@ -57,9 +58,10 @@ int    main(int ac, char **av)
         if (parsing(data))
         {
             //print_map(data->map);
-            draw_map(data);
-			draw_player(data->mlx, data->map->player->x, data->map->player->y, 0xFF0000);
-			mlx_hook(data->mlx->win, KeyPress, KeyPressMask, handler_player, data);
+            //draw_map(data);
+			//draw_player(data->mlx, data->map->player->x, data->map->player->y, 0xFF0000);
+            render_raycast(data, data->game, data->map->player);
+			mlx_hook(data->mlx->win, KeyPress, KeyPressMask, key_handler, data);
 	        mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
 			mlx_loop(data->mlx->ptr);
         }

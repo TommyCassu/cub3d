@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:47:27 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 17:18:15 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:44:28 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	check_spawn(t_map *map, int height, int width)
 			{
 				map->player->start_x = j;
 				map->player->start_y = i;
-				map->player->x = j * 32 + 13;
-				map->player->y = i * 32 + 13;
+				map->player->x = j;
+				map->player->y = i;
 				spawn_count++;
 			}
 			j++;
