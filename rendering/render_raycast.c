@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/10 18:55:01 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/10 19:45:38 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void    draw_verline(t_data *data, t_game *game, int x, int color)
     int i;
 
     i = game->drawStart;
+    
     while (i < game->drawEnd)
     {
         pixels_to_image(data->mlx->img, x, i, color);
@@ -58,9 +59,9 @@ int    key_handler(int key, t_data *data)
 
     if ((key == XK_w || key == XK_Up))
     {
-        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == 0)
+        //if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == 0)
             data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == 0)
+        //if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == 0)
             data->map->player->y += data->map->player->dirY * data->game->moveSpeed;
     }
     if ((key == XK_s || key == XK_Down))
@@ -99,9 +100,9 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
     int color;
     double  frameTime;
     
+    color = 2883328;
     while (1)
     {
-        
         x = 0;
         while (x < RES_X)
         {
@@ -161,7 +162,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                     game->mapY += game->stepY;
                     game->side = 1;
                 }
-                printf("[%c]\n", data->map->map_tab[game->mapX][game->mapY]);
+                //printf("[%c]\n", data->map->map_tab[game->mapX][game->mapY]);
                 if (data->map->map_tab[game->mapX][game->mapY] == '1')
                     game->hit = 1;
             }
@@ -171,15 +172,19 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 game->perpWallDist = game->sideDistX - deltaDistX;
             else
                 game->perpWallDist = game->sideDistY - deltaDistY;
-            
+             //printf("%F oooo %F ---- %F\n", game->perpWallDist, game->sideDistX, deltaDistY);
             /* Calcul height of line to draw colone wall */
             game->lineHeight = RES_Y / game->perpWallDist;
             
             /* */
+            
             game->drawStart = -game->lineHeight / 2 + RES_Y / 2;
+            
             if (game->drawStart < 0)
                 game->drawStart = 0;
             game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
+            //asm("int $3");
+            //printf("%d ======== %d ---- %d\n", game->lineHeight, game->drawStart, game->drawEnd);
             if (game->drawEnd >= RES_Y)
                 game->drawEnd = RES_Y - 1;
             
@@ -198,7 +203,8 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
         clear_img(data->mlx->img);
         /* */
         //printf("ewqeqweqweqweqweqweqweqweqwe");
-        game->moveSpeed = frameTime * 5.0;
+        game->moveSpeed = 1;
         game->rotSpeed = frameTime * 3.0;
+        //break;
     }
 }

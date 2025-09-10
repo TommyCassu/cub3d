@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/10 15:46:03 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/10 19:31:42 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	init_data(t_data *data)
     ft_memset(data->map->player, 0, sizeof(t_player));
 	data->map->floor_rgb = -1;
 	data->map->ceilling_rgb = -1;
+    data->map->player->dirX = -1;
+    data->map->player->dirY = 0;
 }
 void	init_mlx(t_mlx *mlx, t_data *data)
 {
