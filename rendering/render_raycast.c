@@ -6,29 +6,20 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 02:59:30 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 14:36:50 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void    clear_img(t_img *img)
+int    get_pixel(t_img *image, int x, int y)
 {
-    int y;
-    int x;
+    int    pi;
 
-    y = 0;
-    while (y < RES_Y)
-    {
-        x = 0;
-        while (x < RES_X)
-        {
-            pixels_to_image(img, x, y, 0x000000);
-            x++;
-        }
-        y++;
-    }
+    pi = y * (image->line_s / 4) + x;
+    return (((int *)image->addr)[pi]);
 }
+
 void    draw_ceiling(t_data *data, t_game *game, int x, int color)
 {
     int i;
@@ -55,6 +46,7 @@ void    draw_floor(t_data *data, t_game *game, int x, int color)
     }
     
 }
+
 void    draw_verline(t_data *data, t_game *game, int x, int color)
 {
     int i;
@@ -84,22 +76,20 @@ int    key_handler(int key, t_data *data)
 
     if ((key == XK_w || key == XK_Up))
     {
-        printf("up\n");
-        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == '0')
+        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
             data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == '0')
+        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] != '1')
             data->map->player->y += data->map->player->dirY * data->game->moveSpeed;
     }
     if ((key == XK_s || key == XK_Down))
     {
-        if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == '0')
+        if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
             data->map->player->x -= data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed)] == '0')
+        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed)] != '1')
             data->map->player->y -= data->map->player->dirY * data->game->moveSpeed;
     }
     if ((key == XK_d || key == XK_Right))
     {
-        printf("droite\n");
         oldDirX = data->map->player->dirX;
         data->map->player->dirX = data->map->player->dirX * cos(-data->game->rotSpeed) - data->map->player->dirY * sin(-data->game->rotSpeed);
         data->map->player->dirY = oldDirX * sin(-data->game->rotSpeed) + data->map->player->dirY * cos(-data->game->rotSpeed);
@@ -126,6 +116,12 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
     double deltaDistY;
     int color;
     double  frameTime;
+    double wallX;
+    int texX;
+    int texY;
+    double step;
+    double texPos;
+    int i;
     
     color = 0xeeeeee;
     
@@ -206,17 +202,52 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
             game->lineHeight = RES_Y / game->perpWallDist;
             
             /* */
-            
             game->drawStart = -game->lineHeight / 2 + RES_Y / 2;
             
             if (game->drawStart < 0)
                 game->drawStart = 0;
             game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
             //asm("int $3");
-            //printf("%d ======== %d ---- %d\n", game->lineHeight, game->drawStart, game->drawEnd);
+            /* TEST TEXTURING */
+            if (game->side == 0)
+            {
+                wallX = player->y + game->perpWallDist * game->rayDir_y;
+            }
+            else
+            {
+                wallX = player->x + game->perpWallDist * game->rayDir_x;
+            }
+            wallX -= floor(wallX);
+            texX = (int)(wallX * (double)(32));
+            if (game->side == 0 && game->rayDir_x > 0)
+            {
+                texX = 32 - texX -1;
+            }
+            if ( game->side == 1 && game->rayDir_y < 0)
+            {
+                texX = 32 - texX -1;
+            }
+            
+            step = 1.0 * 32 / game->lineHeight;
+            texPos = (game->drawStart - RES_Y / 2 + game->lineHeight / 2) * step;
+            
+            i = game->drawStart;
             if (game->drawEnd >= RES_Y)
                 game->drawEnd = RES_Y - 1;
-            
+            while (i < game->drawEnd)
+            {
+                texY = (int)texPos & (32 - 1);
+                texPos += step;
+                color = get_pixel(data->map->textdata->img, texX, texY);
+                if (game->side == 1)
+                    color = (color >> 1) & 8355711;
+               // printf(" x = %d, i = %d, color = %d", x , i, color);
+                pixels_to_image(data->mlx->img, x, i, color);
+                i++;
+            }
+            /**/
+            //printf("%d ======== %d ---- %d\n", game->lineHeight, game->drawStart, game->drawEnd);
+            /*
             if (game->side == 0)
             {
                 if (game->rayDir_x > 0)
@@ -230,9 +261,9 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                     color = 0xeeeeee / 2;
                 else
                     color = 0xeeeeee / 2;
-            }
+            }*/
             
-            draw_verline(data, game, x, color);
+            
             draw_ceiling(data, game, x, 0x21c6e5);
             draw_floor(data, game, x, 0x6aa84f);
             x++;

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 02:59:39 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 13:59:59 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@
 # define RES_X 1920
 # define RES_Y 1080
 
-typedef struct s_textdata
-{
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-}	t_textdata;
-
 typedef struct s_img
 {
 	void		*ptr;
@@ -43,6 +35,18 @@ typedef struct s_img
 	int			bpp;
 	int			endian;
 }				t_img;
+
+typedef struct s_textdata
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	t_img	*img;
+	char	*imgbuffer;
+}	t_textdata;
+
+
 
 typedef struct s_player
 {
