@@ -6,164 +6,11 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 16:36:30 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 17:03:45 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-int    get_pixel(t_img *image, int x, int y)
-{
-    int    pi;
-
-    pi = y * (image->line_s / 4) + x;
-    return (((int *)image->addr)[pi]);
-}
-
-void    draw_ceiling(t_data *data, t_game *game, int x, int color)
-{
-    int i;
-
-    i = 0;
-    
-    while (i < game->drawStart)
-    {
-        pixels_to_image(data->mlx->img, x, i, color);
-        i++;
-    }
-    
-}
-void    draw_floor(t_data *data, t_game *game, int x, int color)
-{
-    int i;
-
-    i = game->drawEnd;
-    
-    while (i < RES_Y)
-    {
-        pixels_to_image(data->mlx->img, x, i, color);
-        i++;
-    }
-    
-}
-
-void    draw_verline(t_data *data, t_game *game, int x, int color)
-{
-    int i;
-
-    i = game->drawStart;
-    
-    while (i < game->drawEnd)
-    {
-        pixels_to_image(data->mlx->img, x, i, color);
-        i++;
-    }
-    
-}
-
-long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
-}
-int     key_press(int key, t_data *data)
-{
-    if(key == XK_a)
-        data->game->keyTab[key_A] = 1;
-    if(key == XK_d)
-        data->game->keyTab[key_D] = 1;
-    if(key == XK_w)
-        data->game->keyTab[key_W] = 1;
-    if(key == XK_s)
-        data->game->keyTab[key_S] = 1;
-    if(key == XK_Up)
-        data->game->keyTab[key_Up] = 1;
-    if(key == XK_Down)
-        data->game->keyTab[key_Down] = 1;
-    if(key == XK_Right)
-        data->game->keyTab[key_Right] = 1;
-    if(key == XK_Left)
-        data->game->keyTab[key_Left] = 1;
-    
-    return (0);
-}
-
-int     key_release(int key, t_data *data)
-{
-     if(key == XK_a)
-        data->game->keyTab[key_A] = 0;
-    if(key == XK_d)
-        data->game->keyTab[key_D] = 0;
-    if(key == XK_w)
-        data->game->keyTab[key_W] = 0;
-    if(key == XK_s)
-        data->game->keyTab[key_S] = 0;
-    if(key == XK_Up)
-        data->game->keyTab[key_Up] = 0;
-    if(key == XK_Down)
-        data->game->keyTab[key_Down] = 0;
-    if(key == XK_Right)
-        data->game->keyTab[key_Right] = 0;
-    if(key == XK_Left)
-        data->game->keyTab[key_Left] = 0;
-    return (0);
-}
-
-int    key_handler(t_data *data)
-{
-    double oldDirX;
-    double oldPlaneX;
-
-    if (data->game->keyTab[key_W] == 1)
-    {
-        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
-            data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] != '1')
-            data->map->player->y += data->map->player->dirY * data->game->moveSpeed;
-    }
-    if (data->game->keyTab[key_S] == 1)
-    {
-        if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
-            data->map->player->x -= data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed)] != '1')
-            data->map->player->y -= data->map->player->dirY * data->game->moveSpeed;
-    }
-    if (data->game->keyTab[key_D] == 1)
-    {
-        if (data->map->map_tab[(int)(data->map->player->x + data->game->planeX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
-            data->map->player->x += data->game->planeX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->game->planeY * data->game->moveSpeed)] != '1')
-            data->map->player->y += data->game->planeY * data->game->moveSpeed;
-    }
-    if (data->game->keyTab[key_A] == 1)
-    {
-        if (data->map->map_tab[(int)(data->map->player->x - data->game->planeX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
-            data->map->player->x -= data->game->planeX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->game->planeY * data->game->moveSpeed)] != '1')
-            data->map->player->y -= data->game->planeY * data->game->moveSpeed;
-    }
-    if (data->game->keyTab[key_Right] == 1)
-    {
-        oldDirX = data->map->player->dirX;
-        data->map->player->dirX = data->map->player->dirX * cos(-data->game->rotSpeed) - data->map->player->dirY * sin(-data->game->rotSpeed);
-        data->map->player->dirY = oldDirX * sin(-data->game->rotSpeed) + data->map->player->dirY * cos(-data->game->rotSpeed);
-        oldPlaneX = data->game->planeX;
-        data->game->planeX = data->game->planeX * cos(-data->game->rotSpeed) - data->game->planeY * sin(-data->game->rotSpeed);
-        data->game->planeY = oldPlaneX * sin(-data->game->rotSpeed) + data->game->planeY * cos(-data->game->rotSpeed);
-    }
-    if (data->game->keyTab[key_Left] == 1)
-    {
-        oldDirX = data->map->player->dirX;
-        data->map->player->dirX = data->map->player->dirX * cos(data->game->rotSpeed) - data->map->player->dirY * sin(data->game->rotSpeed);
-        data->map->player->dirY = oldDirX * sin(data->game->rotSpeed) + data->map->player->dirY * cos(data->game->rotSpeed);
-        oldPlaneX = data->game->planeX;
-        data->game->planeX = data->game->planeX * cos(data->game->rotSpeed) - data->game->planeY * sin(data->game->rotSpeed);
-        data->game->planeY = oldPlaneX * sin(data->game->rotSpeed) + data->game->planeY * cos(data->game->rotSpeed);
-    }
-    return (0);
-}
 
 void    render_raycast(t_data *data, t_game *game, t_player *player)
 {
@@ -274,17 +121,17 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 wallX = player->x + game->perpWallDist * game->rayDir_x;
             }
             wallX -= floor(wallX);
-            texX = (int)(wallX * (double)(32));
+            texX = (int)(wallX * (double)(TEXT_SIZE));
             if (game->side == 0 && game->rayDir_x > 0)
             {
-                texX = 32 - texX -1;
+                texX = TEXT_SIZE - texX -1;
             }
             if ( game->side == 1 && game->rayDir_y < 0)
             {
-                texX = 32 - texX -1;
+                texX = TEXT_SIZE - texX -1;
             }
             
-            step = 1.0 * 32 / game->lineHeight;
+            step = 1.0 * TEXT_SIZE / game->lineHeight;
             texPos = (game->drawStart - RES_Y / 2 + game->lineHeight / 2) * step;
             
             i = game->drawStart;
@@ -292,7 +139,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 game->drawEnd = RES_Y - 1;
             while (i < game->drawEnd)
             {
-                texY = (int)texPos & (32 - 1);
+                texY = (int)texPos & (TEXT_SIZE - 1);
                 texPos += step;
                 color = get_pixel(data->map->textdata->img, texX, texY);
                 if (game->side == 1)
