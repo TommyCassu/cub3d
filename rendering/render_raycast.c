@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 14:36:50 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 16:36:30 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,83 @@ long	get_time(void)
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
 }
+int     key_press(int key, t_data *data)
+{
+    if(key == XK_a)
+        data->game->keyTab[key_A] = 1;
+    if(key == XK_d)
+        data->game->keyTab[key_D] = 1;
+    if(key == XK_w)
+        data->game->keyTab[key_W] = 1;
+    if(key == XK_s)
+        data->game->keyTab[key_S] = 1;
+    if(key == XK_Up)
+        data->game->keyTab[key_Up] = 1;
+    if(key == XK_Down)
+        data->game->keyTab[key_Down] = 1;
+    if(key == XK_Right)
+        data->game->keyTab[key_Right] = 1;
+    if(key == XK_Left)
+        data->game->keyTab[key_Left] = 1;
+    
+    return (0);
+}
 
-int    key_handler(int key, t_data *data)
+int     key_release(int key, t_data *data)
+{
+     if(key == XK_a)
+        data->game->keyTab[key_A] = 0;
+    if(key == XK_d)
+        data->game->keyTab[key_D] = 0;
+    if(key == XK_w)
+        data->game->keyTab[key_W] = 0;
+    if(key == XK_s)
+        data->game->keyTab[key_S] = 0;
+    if(key == XK_Up)
+        data->game->keyTab[key_Up] = 0;
+    if(key == XK_Down)
+        data->game->keyTab[key_Down] = 0;
+    if(key == XK_Right)
+        data->game->keyTab[key_Right] = 0;
+    if(key == XK_Left)
+        data->game->keyTab[key_Left] = 0;
+    return (0);
+}
+
+int    key_handler(t_data *data)
 {
     double oldDirX;
     double oldPlaneX;
 
-    if ((key == XK_w || key == XK_Up))
+    if (data->game->keyTab[key_W] == 1)
     {
         if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
             data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
         if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] != '1')
             data->map->player->y += data->map->player->dirY * data->game->moveSpeed;
     }
-    if ((key == XK_s || key == XK_Down))
+    if (data->game->keyTab[key_S] == 1)
     {
         if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
             data->map->player->x -= data->map->player->dirX * data->game->moveSpeed;
         if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed)] != '1')
             data->map->player->y -= data->map->player->dirY * data->game->moveSpeed;
     }
-    if ((key == XK_d || key == XK_Right))
+    if (data->game->keyTab[key_D] == 1)
+    {
+        if (data->map->map_tab[(int)(data->map->player->x + data->game->planeX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
+            data->map->player->x += data->game->planeX * data->game->moveSpeed;
+        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->game->planeY * data->game->moveSpeed)] != '1')
+            data->map->player->y += data->game->planeY * data->game->moveSpeed;
+    }
+    if (data->game->keyTab[key_A] == 1)
+    {
+        if (data->map->map_tab[(int)(data->map->player->x - data->game->planeX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
+            data->map->player->x -= data->game->planeX * data->game->moveSpeed;
+        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->game->planeY * data->game->moveSpeed)] != '1')
+            data->map->player->y -= data->game->planeY * data->game->moveSpeed;
+    }
+    if (data->game->keyTab[key_Right] == 1)
     {
         oldDirX = data->map->player->dirX;
         data->map->player->dirX = data->map->player->dirX * cos(-data->game->rotSpeed) - data->map->player->dirY * sin(-data->game->rotSpeed);
@@ -97,7 +153,7 @@ int    key_handler(int key, t_data *data)
         data->game->planeX = data->game->planeX * cos(-data->game->rotSpeed) - data->game->planeY * sin(-data->game->rotSpeed);
         data->game->planeY = oldPlaneX * sin(-data->game->rotSpeed) + data->game->planeY * cos(-data->game->rotSpeed);
     }
-    if ((key == XK_a || key == XK_Left))
+    if (data->game->keyTab[key_Left] == 1)
     {
         oldDirX = data->map->player->dirX;
         data->map->player->dirX = data->map->player->dirX * cos(data->game->rotSpeed) - data->map->player->dirY * sin(data->game->rotSpeed);
@@ -187,7 +243,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                     game->mapY += game->stepY;
                     game->side = 1;
                 }
-                //printf("[%c]\n", data->map->map_tab[game->mapX][game->mapY]);
+
                 if (data->map->map_tab[game->mapX][game->mapY] == '1')
                     game->hit = 1;
             }
@@ -197,7 +253,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 game->perpWallDist = game->sideDistX - deltaDistX;
             else
                 game->perpWallDist = game->sideDistY - deltaDistY;
-             //printf("%F oooo %F ---- %F\n", game->perpWallDist, game->sideDistX, deltaDistY);
+
             /* Calcul height of line to draw colone wall */
             game->lineHeight = RES_Y / game->perpWallDist;
             
@@ -241,41 +297,23 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 color = get_pixel(data->map->textdata->img, texX, texY);
                 if (game->side == 1)
                     color = (color >> 1) & 8355711;
-               // printf(" x = %d, i = %d, color = %d", x , i, color);
                 pixels_to_image(data->mlx->img, x, i, color);
                 i++;
-            }
-            /**/
-            //printf("%d ======== %d ---- %d\n", game->lineHeight, game->drawStart, game->drawEnd);
-            /*
-            if (game->side == 0)
-            {
-                if (game->rayDir_x > 0)
-                    color = 0xeeeeee;
-                else
-                    color = 0xeeeeee;
-            }
-            else
-            {
-                if (game->rayDir_y > 0)
-                    color = 0xeeeeee / 2;
-                else
-                    color = 0xeeeeee / 2;
-            }*/
-            
-            
+            }            
             draw_ceiling(data, game, x, 0x21c6e5);
             draw_floor(data, game, x, 0x6aa84f);
             x++;
         }
+        mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
         game->oldTime = game->time;
         game->time = get_time();
         frameTime = (game->time - game->oldTime) / 1000.0;
-        /* temporaire (clear l'ancienne affichage, affiche celle actuelle, clear memoire de l'img pour la suivante)*/
-        mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
+        /* Temporaire */
+        char fpsbuffer[32];
+        sprintf(fpsbuffer, "FPS %F", 1.0/frameTime);
+        mlx_string_put(data->mlx->ptr, data->mlx->win, 10, 20, 0x000000, fpsbuffer);
         /* */
-
-        game->moveSpeed = frameTime * 5.0;
+        game->moveSpeed = frameTime * 8.0;
         game->rotSpeed = frameTime * 3.0;
         break;
     }

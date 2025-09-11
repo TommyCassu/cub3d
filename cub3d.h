@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 13:59:59 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 16:33:21 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@
 
 # define RES_X 1920
 # define RES_Y 1080
+# define key_Up 1
+# define key_Down 2
+# define key_Left 3
+# define key_Right 4
+# define key_W 5
+# define key_S 6
+# define key_A 7
+# define key_D 8
+
 
 typedef struct s_img
 {
@@ -81,6 +90,7 @@ typedef struct s_game
 	int lineHeight;
 	int drawStart;
 	int drawEnd;
+	int	keyTab[32];
 }	t_game;
 
 typedef struct s_map
@@ -138,10 +148,11 @@ void	draw_player(t_mlx *mlx, int px, int py, int color);
 int		handler_player(int key, void *param);
 void	move_player(t_data *data, char key);
 //raycast
-void    clear_img(t_img *img);
 void    draw_verline(t_data *data, t_game *game, int x, int color);
 long	get_time(void);
-int		key_handler(int key, t_data *data);
+int		key_handler(t_data *data);
+int     key_release(int key, t_data *data);
+int     key_press(int key, t_data *data);
 void    render_raycast(t_data *data, t_game *game, t_player *player);
 
 
