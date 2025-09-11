@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 18:31:37 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/11 02:59:39 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 # include <fcntl.h>
 # include "libft/libft.h"
 # include <stdio.h>
+# include <math.h>
+#	include <stdio.h>          
+#	include <stdlib.h>
+# include <sys/time.h>
+
+# define RES_X 1920
+# define RES_Y 1080
 
 typedef struct s_textdata
 {
@@ -39,11 +46,38 @@ typedef struct s_img
 
 typedef struct s_player
 {
-	int x;
-	int y;
-	int	start_x;
-	int	start_y;
+	double x;
+	double y;
+	double	start_x;
+	double	start_y;
+	double dirX;
+	double dirY;
 }			t_player;
+
+typedef struct s_game
+{
+	double time; //time of current frame
+	double oldTime; //time of previous frame
+	double planeX; 
+	double planeY;
+	double rayDir_x;
+	double rayDir_y;
+	double cameraX;
+	double moveSpeed;
+	double rotSpeed;
+	int mapY;
+	int mapX;
+	double sideDistY;
+    double sideDistX;
+    double perpWallDist;
+	int stepX;
+    int stepY;
+	int hit;
+    int side;
+	int lineHeight;
+	int drawStart;
+	int drawEnd;
+}	t_game;
 
 typedef struct s_map
 {
@@ -67,12 +101,14 @@ typedef struct s_data
 {
 	t_map	*map;
 	t_mlx	*mlx;
+	t_game	*game;
 	int		error_status;
 }	t_data;
 
 /* initialisation */
 void	init_data(t_data *data);
 void	init_mlx(t_mlx *mlx, t_data *data);
+void	init_raycast(t_data *data);
 
 /* Parsing */
 void	read_data(t_data *data, char *filename);
@@ -97,6 +133,12 @@ void    pixels_to_image(t_img *image, int x, int y, int pixcolor);
 void	draw_player(t_mlx *mlx, int px, int py, int color);
 int		handler_player(int key, void *param);
 void	move_player(t_data *data, char key);
+//raycast
+void    clear_img(t_img *img);
+void    draw_verline(t_data *data, t_game *game, int x, int color);
+long	get_time(void);
+int		key_handler(int key, t_data *data);
+void    render_raycast(t_data *data, t_game *game, t_player *player);
 
 
 

@@ -1,4 +1,4 @@
-FILES			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c init.c minimap/mlx_put_pixel.c player/movement.c
+FILES			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c initialisation/init.c initialisation/init_raycasting.c minimap/mlx_put_pixel.c player/movement.c rendering/render_raycast.c
 
 SRCS		= ${SRC}
 
@@ -28,7 +28,7 @@ RANLIB		= ranlib
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 all:		${NAME}
 

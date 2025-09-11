@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/09 18:42:24 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/11 02:56:32 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	init_data(t_data *data)
 {
@@ -27,17 +27,18 @@ void	init_data(t_data *data)
     ft_memset(data->map->player, 0, sizeof(t_player));
 	data->map->floor_rgb = -1;
 	data->map->ceilling_rgb = -1;
+    data->map->player->dirX = -1;
+    data->map->player->dirY = 0;
 }
 void	init_mlx(t_mlx *mlx, t_data *data)
 {
     
     mlx->ptr = mlx_init();
 	data->mlx->ptr = mlx->ptr;
-	data->mlx->win = mlx_new_window(data->mlx->ptr, 1920,
-	        1080, "CUB3D NxT");
-    mlx->img->ptr = mlx_new_image(mlx->ptr, 1920, 1080);
+	data->mlx->win = mlx_new_window(data->mlx->ptr, RES_X,
+	        RES_Y, "CUB3D NxT");
+    mlx->img->ptr = mlx_new_image(mlx->ptr, RES_X, RES_Y);
     mlx->img->addr = (int *)mlx_get_data_addr(mlx->img->ptr, &mlx->img->bpp,
             &mlx->img->line_s, &mlx->img->endian);
-    //mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
     
 }
