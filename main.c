@@ -6,14 +6,13 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/10 22:07:51 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 03:00:22 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
-
 
 void    print_map(t_map *map)
 {
@@ -57,7 +56,7 @@ int    main(int ac, char **av)
         {
             print_map(data->map);
             mlx_loop_hook(data->mlx->ptr, test_rend, data);
-            mlx_hook(data->mlx->win, 2, 1L << 0, key_handler, data);
+            mlx_hook(data->mlx->win, KeyPress, KeyPressMask, key_handler, data);
 			mlx_loop(data->mlx->ptr);
         }
         ft_free_cub3d(data);

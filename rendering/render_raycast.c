@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/10 22:07:11 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 02:59:30 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,32 @@ void    clear_img(t_img *img)
         y++;
     }
 }
+void    draw_ceiling(t_data *data, t_game *game, int x, int color)
+{
+    int i;
 
+    i = 0;
+    
+    while (i < game->drawStart)
+    {
+        pixels_to_image(data->mlx->img, x, i, color);
+        i++;
+    }
+    
+}
+void    draw_floor(t_data *data, t_game *game, int x, int color)
+{
+    int i;
+
+    i = game->drawEnd;
+    
+    while (i < RES_Y)
+    {
+        pixels_to_image(data->mlx->img, x, i, color);
+        i++;
+    }
+    
+}
 void    draw_verline(t_data *data, t_game *game, int x, int color)
 {
     int i;
@@ -59,20 +84,22 @@ int    key_handler(int key, t_data *data)
 
     if ((key == XK_w || key == XK_Up))
     {
-        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == 0)
+        printf("up\n");
+        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == '0')
             data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == 0)
+        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == '0')
             data->map->player->y += data->map->player->dirY * data->game->moveSpeed;
     }
     if ((key == XK_s || key == XK_Down))
     {
-        if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == 0)
+        if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == '0')
             data->map->player->x -= data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed)] == 0)
+        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed)] == '0')
             data->map->player->y -= data->map->player->dirY * data->game->moveSpeed;
     }
     if ((key == XK_d || key == XK_Right))
     {
+        printf("droite\n");
         oldDirX = data->map->player->dirX;
         data->map->player->dirX = data->map->player->dirX * cos(-data->game->rotSpeed) - data->map->player->dirY * sin(-data->game->rotSpeed);
         data->map->player->dirY = oldDirX * sin(-data->game->rotSpeed) + data->map->player->dirY * cos(-data->game->rotSpeed);
@@ -100,7 +127,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
     int color;
     double  frameTime;
     
-    color = 2883328;
+    color = 0xeeeeee;
     
     while (1)
     {
@@ -190,22 +217,34 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
             if (game->drawEnd >= RES_Y)
                 game->drawEnd = RES_Y - 1;
             
-            if (game->side == 1)
-                color = 2883328 / 2;
+            if (game->side == 0)
+            {
+                if (game->rayDir_x > 0)
+                    color = 0xeeeeee;
+                else
+                    color = 0xeeeeee;
+            }
+            else
+            {
+                if (game->rayDir_y > 0)
+                    color = 0xeeeeee / 2;
+                else
+                    color = 0xeeeeee / 2;
+            }
             
             draw_verline(data, game, x, color);
+            draw_ceiling(data, game, x, 0x21c6e5);
+            draw_floor(data, game, x, 0x6aa84f);
             x++;
         }
         game->oldTime = game->time;
         game->time = get_time();
         frameTime = (game->time - game->oldTime) / 1000.0;
         /* temporaire (clear l'ancienne affichage, affiche celle actuelle, clear memoire de l'img pour la suivante)*/
-        //mlx_clear_window(data->mlx->ptr, data->mlx->win);
         mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
-        //clear_img(data->mlx->img);
         /* */
-        //printf("ewqeqweqweqweqweqweqweqweqwe");
-        game->moveSpeed = 1;
+
+        game->moveSpeed = frameTime * 5.0;
         game->rotSpeed = frameTime * 3.0;
         break;
     }
