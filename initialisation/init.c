@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 02:56:32 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 14:14:55 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_data(t_data *data)
     ft_memset(data->mlx->img, 0, sizeof(t_img));
 	data->map->textdata = malloc(sizeof(t_textdata));
     ft_memset(data->map->textdata, 0, sizeof(t_textdata));
+    data->map->textdata->img = malloc(sizeof(t_img));
+    ft_memset(data->map->textdata->img, 0, sizeof(t_img));
     data->map->player = malloc(sizeof(t_player));
     ft_memset(data->map->player, 0, sizeof(t_player));
 	data->map->floor_rgb = -1;

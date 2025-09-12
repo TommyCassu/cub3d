@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 02:59:39 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 17:07:02 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@
 
 # define RES_X 1920
 # define RES_Y 1080
+# define key_Up 1
+# define key_Down 2
+# define key_Left 3
+# define key_Right 4
+# define key_W 5
+# define key_S 6
+# define key_A 7
+# define key_D 8
+# define TEXT_SIZE 128
 
-typedef struct s_textdata
-{
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-}	t_textdata;
 
 typedef struct s_img
 {
@@ -43,6 +45,18 @@ typedef struct s_img
 	int			bpp;
 	int			endian;
 }				t_img;
+
+typedef struct s_textdata
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	t_img	*img;
+	char	*imgbuffer;
+}	t_textdata;
+
+
 
 typedef struct s_player
 {
@@ -77,6 +91,7 @@ typedef struct s_game
 	int lineHeight;
 	int drawStart;
 	int drawEnd;
+	int	keyTab[32];
 }	t_game;
 
 typedef struct s_map
@@ -129,17 +144,27 @@ void	ft_free_cub3d(t_data *data);
 void    pixels_to_image(t_img *image, int x, int y, int pixcolor);
 
 
-//player
+
+
+/* --- Player --- */
+	/* Movement */
 void	draw_player(t_mlx *mlx, int px, int py, int color);
-int		handler_player(int key, void *param);
-void	move_player(t_data *data, char key);
-//raycast
-void    clear_img(t_img *img);
-void    draw_verline(t_data *data, t_game *game, int x, int color);
-long	get_time(void);
-int		key_handler(int key, t_data *data);
+	/* Key events */
+int     key_press(int key, t_data *data);
+int     key_release(int key, t_data *data);
+int		key_handler(t_data *data);
+
+/* --- Rendering --- */
+	/* render_raycast */
 void    render_raycast(t_data *data, t_game *game, t_player *player);
+	/* drawing_func */
+void    draw_verline(t_data *data, t_game *game, int x, int color);
+void    draw_ceiling(t_data *data, t_game *game, int x, int color);
+void    draw_floor(t_data *data, t_game *game, int x, int color);
+	/* Utils_raycasting */
+int		get_pixel(t_img *image, int x, int y);
+long	get_time(void);
 
 
-
+void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 #endif

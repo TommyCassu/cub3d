@@ -6,118 +6,11 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 02:59:30 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/11 17:03:45 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-void    clear_img(t_img *img)
-{
-    int y;
-    int x;
-
-    y = 0;
-    while (y < RES_Y)
-    {
-        x = 0;
-        while (x < RES_X)
-        {
-            pixels_to_image(img, x, y, 0x000000);
-            x++;
-        }
-        y++;
-    }
-}
-void    draw_ceiling(t_data *data, t_game *game, int x, int color)
-{
-    int i;
-
-    i = 0;
-    
-    while (i < game->drawStart)
-    {
-        pixels_to_image(data->mlx->img, x, i, color);
-        i++;
-    }
-    
-}
-void    draw_floor(t_data *data, t_game *game, int x, int color)
-{
-    int i;
-
-    i = game->drawEnd;
-    
-    while (i < RES_Y)
-    {
-        pixels_to_image(data->mlx->img, x, i, color);
-        i++;
-    }
-    
-}
-void    draw_verline(t_data *data, t_game *game, int x, int color)
-{
-    int i;
-
-    i = game->drawStart;
-    
-    while (i < game->drawEnd)
-    {
-        pixels_to_image(data->mlx->img, x, i, color);
-        i++;
-    }
-    
-}
-
-long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
-}
-
-int    key_handler(int key, t_data *data)
-{
-    double oldDirX;
-    double oldPlaneX;
-
-    if ((key == XK_w || key == XK_Up))
-    {
-        printf("up\n");
-        if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == '0')
-            data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed)] == '0')
-            data->map->player->y += data->map->player->dirY * data->game->moveSpeed;
-    }
-    if ((key == XK_s || key == XK_Down))
-    {
-        if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] == '0')
-            data->map->player->x -= data->map->player->dirX * data->game->moveSpeed;
-        if (data->map->map_tab[(int)data->map->player->x][(int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed)] == '0')
-            data->map->player->y -= data->map->player->dirY * data->game->moveSpeed;
-    }
-    if ((key == XK_d || key == XK_Right))
-    {
-        printf("droite\n");
-        oldDirX = data->map->player->dirX;
-        data->map->player->dirX = data->map->player->dirX * cos(-data->game->rotSpeed) - data->map->player->dirY * sin(-data->game->rotSpeed);
-        data->map->player->dirY = oldDirX * sin(-data->game->rotSpeed) + data->map->player->dirY * cos(-data->game->rotSpeed);
-        oldPlaneX = data->game->planeX;
-        data->game->planeX = data->game->planeX * cos(-data->game->rotSpeed) - data->game->planeY * sin(-data->game->rotSpeed);
-        data->game->planeY = oldPlaneX * sin(-data->game->rotSpeed) + data->game->planeY * cos(-data->game->rotSpeed);
-    }
-    if ((key == XK_a || key == XK_Left))
-    {
-        oldDirX = data->map->player->dirX;
-        data->map->player->dirX = data->map->player->dirX * cos(data->game->rotSpeed) - data->map->player->dirY * sin(data->game->rotSpeed);
-        data->map->player->dirY = oldDirX * sin(data->game->rotSpeed) + data->map->player->dirY * cos(data->game->rotSpeed);
-        oldPlaneX = data->game->planeX;
-        data->game->planeX = data->game->planeX * cos(data->game->rotSpeed) - data->game->planeY * sin(data->game->rotSpeed);
-        data->game->planeY = oldPlaneX * sin(data->game->rotSpeed) + data->game->planeY * cos(data->game->rotSpeed);
-    }
-    return (0);
-}
 
 void    render_raycast(t_data *data, t_game *game, t_player *player)
 {
@@ -126,6 +19,12 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
     double deltaDistY;
     int color;
     double  frameTime;
+    double wallX;
+    int texX;
+    int texY;
+    double step;
+    double texPos;
+    int i;
     
     color = 0xeeeeee;
     
@@ -191,7 +90,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                     game->mapY += game->stepY;
                     game->side = 1;
                 }
-                //printf("[%c]\n", data->map->map_tab[game->mapX][game->mapY]);
+
                 if (data->map->map_tab[game->mapX][game->mapY] == '1')
                     game->hit = 1;
             }
@@ -201,50 +100,67 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 game->perpWallDist = game->sideDistX - deltaDistX;
             else
                 game->perpWallDist = game->sideDistY - deltaDistY;
-             //printf("%F oooo %F ---- %F\n", game->perpWallDist, game->sideDistX, deltaDistY);
+
             /* Calcul height of line to draw colone wall */
             game->lineHeight = RES_Y / game->perpWallDist;
             
             /* */
-            
             game->drawStart = -game->lineHeight / 2 + RES_Y / 2;
             
             if (game->drawStart < 0)
                 game->drawStart = 0;
             game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
             //asm("int $3");
-            //printf("%d ======== %d ---- %d\n", game->lineHeight, game->drawStart, game->drawEnd);
-            if (game->drawEnd >= RES_Y)
-                game->drawEnd = RES_Y - 1;
-            
+            /* TEST TEXTURING */
             if (game->side == 0)
             {
-                if (game->rayDir_x > 0)
-                    color = 0xeeeeee;
-                else
-                    color = 0xeeeeee;
+                wallX = player->y + game->perpWallDist * game->rayDir_y;
             }
             else
             {
-                if (game->rayDir_y > 0)
-                    color = 0xeeeeee / 2;
-                else
-                    color = 0xeeeeee / 2;
+                wallX = player->x + game->perpWallDist * game->rayDir_x;
+            }
+            wallX -= floor(wallX);
+            texX = (int)(wallX * (double)(TEXT_SIZE));
+            if (game->side == 0 && game->rayDir_x > 0)
+            {
+                texX = TEXT_SIZE - texX -1;
+            }
+            if ( game->side == 1 && game->rayDir_y < 0)
+            {
+                texX = TEXT_SIZE - texX -1;
             }
             
-            draw_verline(data, game, x, color);
+            step = 1.0 * TEXT_SIZE / game->lineHeight;
+            texPos = (game->drawStart - RES_Y / 2 + game->lineHeight / 2) * step;
+            
+            i = game->drawStart;
+            if (game->drawEnd >= RES_Y)
+                game->drawEnd = RES_Y - 1;
+            while (i < game->drawEnd)
+            {
+                texY = (int)texPos & (TEXT_SIZE - 1);
+                texPos += step;
+                color = get_pixel(data->map->textdata->img, texX, texY);
+                if (game->side == 1)
+                    color = (color >> 1) & 8355711;
+                pixels_to_image(data->mlx->img, x, i, color);
+                i++;
+            }            
             draw_ceiling(data, game, x, 0x21c6e5);
             draw_floor(data, game, x, 0x6aa84f);
             x++;
         }
+        mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
         game->oldTime = game->time;
         game->time = get_time();
         frameTime = (game->time - game->oldTime) / 1000.0;
-        /* temporaire (clear l'ancienne affichage, affiche celle actuelle, clear memoire de l'img pour la suivante)*/
-        mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
+        /* Temporaire */
+        char fpsbuffer[32];
+        sprintf(fpsbuffer, "FPS %F", 1.0/frameTime);
+        mlx_string_put(data->mlx->ptr, data->mlx->win, 10, 20, 0x000000, fpsbuffer);
         /* */
-
-        game->moveSpeed = frameTime * 5.0;
+        game->moveSpeed = frameTime * 8.0;
         game->rotSpeed = frameTime * 3.0;
         break;
     }
