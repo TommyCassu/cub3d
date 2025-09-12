@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 16:41:17 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/12 17:58:14 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 int     key_press(int key, t_data *data)
 {
-    if(key == XK_a)
+    if(key == XK_a || key == XK_q)
         data->game->keyTab[key_A] = 1;
     if(key == XK_d)
         data->game->keyTab[key_D] = 1;
-    if(key == XK_w)
+    if(key == XK_w || key == XK_z)
         data->game->keyTab[key_W] = 1;
     if(key == XK_s)
         data->game->keyTab[key_S] = 1;
@@ -37,11 +37,11 @@ int     key_press(int key, t_data *data)
 
 int     key_release(int key, t_data *data)
 {
-     if(key == XK_a)
+     if(key == XK_a || key == XK_q)
         data->game->keyTab[key_A] = 0;
     if(key == XK_d)
         data->game->keyTab[key_D] = 0;
-    if(key == XK_w)
+    if(key == XK_w || key == XK_z)
         data->game->keyTab[key_W] = 0;
     if(key == XK_s)
         data->game->keyTab[key_S] = 0;
