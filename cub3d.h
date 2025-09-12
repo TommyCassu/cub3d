@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 17:07:02 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/13 00:12:58 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # define key_D 8
 # define TEXT_SIZE 128
 
-
 typedef struct s_img
 {
 	void		*ptr;
@@ -52,8 +51,7 @@ typedef struct s_textdata
 	char	*south;
 	char	*west;
 	char	*east;
-	t_img	*img;
-	char	*imgbuffer;
+	t_img	*img[4];
 }	t_textdata;
 
 
@@ -124,6 +122,7 @@ typedef struct s_data
 void	init_data(t_data *data);
 void	init_mlx(t_mlx *mlx, t_data *data);
 void	init_raycast(t_data *data);
+void    setup_text_img(t_data *data);
 
 /* Parsing */
 void	read_data(t_data *data, char *filename);

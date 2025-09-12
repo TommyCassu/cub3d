@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 17:00:07 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/12 23:56:24 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,7 @@ int    test_rend(t_data *data)
 int    main(int ac, char **av)
 {
     t_data    *data;
-    int w;
-    int h;
 
-    h = 32;
-    w = 32;
     if (ac == 2)
     {
         data = malloc(sizeof(t_data));   
@@ -63,10 +59,8 @@ int    main(int ac, char **av)
         if (parsing(data))
         {
             print_map(data->map);
-            /* Temporaire -> ajouter un tab d'img pour stocker toute les textures */
-            data->map->textdata->img->ptr = mlx_xpm_file_to_image(data->mlx->ptr, data->map->textdata->north, &w, &h);
-            data->map->textdata->img->addr = (int *)mlx_get_data_addr(data->map->textdata->img->ptr, &data->map->textdata->img->bpp, &data->map->textdata->img->line_s, &data->map->textdata->img->endian);
-            transpose_test(data->mlx, data->map->textdata->img,w , h);
+            setup_text_img(data);
+            //transpose_test(data->mlx, data->map->textdata->img,w , h);
             mlx_hook(data->mlx->win, KeyPress, KeyPressMask, key_press, data);
             mlx_hook(data->mlx->win, KeyRelease, KeyReleaseMask, key_release, data);
             mlx_loop_hook(data->mlx->ptr, test_rend, data);
