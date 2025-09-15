@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 13:43:11 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/15 14:04:05 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_game
 	int lineHeight;
 	int drawStart;
 	int drawEnd;
+	int	headView;
 	int	keyTab[32];
 	t_img	*img_miniMap;
 	t_img	*img_miniMap_contour;
