@@ -6,11 +6,34 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/12 23:53:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/15 13:45:24 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	init_tab_contour(t_data *data)
+{
+	int x;
+	int	y;
+
+	y = 0;
+	while (y < RES_MMAP_Y)
+	{
+		x = 0;
+		while (x < RES_MMAP_X)
+		{
+			if (get_pixel(data->game->img_miniMap_contour, x, y) == 0xdd00fe )
+				data->game->tab_contour[y][x] = 0;
+			else if (get_pixel(data->game->img_miniMap_contour, x, y) == 0xfe00dd)
+				data->game->tab_contour[y][x] = 1;
+			else
+				data->game->tab_contour[y][x] = 2;
+			x++;
+		}
+		y++;
+	}
+}
 
 void	init_data(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/12 23:50:42 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/13 01:16:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void    init_raycast(t_data *data)
 {
     data->game = malloc(sizeof(t_game));
     ft_memset(data->game, 0, sizeof(t_game));
+    data->game->img_miniMap = malloc(sizeof(t_img));
+    data->game->img_miniMap_contour = malloc(sizeof(t_img));
     data->game->cameraX = 0;
     data->game->planeX = 0;
     data->game->planeY = 0.66;
@@ -40,3 +42,5 @@ void    setup_text_img(t_data *data)
     data->map->textdata->img[3]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[3]->ptr, &data->map->textdata->img[3]->bpp, &data->map->textdata->img[3]->line_s, &data->map->textdata->img[3]->endian);
 
 }
+
+

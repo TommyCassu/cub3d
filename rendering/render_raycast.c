@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/13 00:11:43 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/15 13:40:51 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 game->perpWallDist = game->sideDistY - deltaDistY;
 
             /* Calcul height of line to draw colone wall */
-            game->lineHeight = RES_Y / game->perpWallDist;
+            game->lineHeight = (RES_Y / game->perpWallDist);
             
             /* */
             game->drawStart = -game->lineHeight / 2 + RES_Y / 2;
@@ -111,7 +111,6 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
             if (game->drawStart < 0)
                 game->drawStart = 0;
             game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
-            //asm("int $3");
             /* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
             if (game->side == 0)
             {
@@ -160,7 +159,8 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 color = get_pixel(data->map->textdata->img[textNum], texX, texY);
                 if (game->side == 1)
                     color = (color >> 1) & 8355711;
-                pixels_to_image(data->mlx->img, x, i, color);
+                if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0 ) || (i >= 256 || x >= 256))
+                    pixels_to_image(data->mlx->img, x, i, color);
                 i++;
             }             
             draw_ceiling(data, game, x, 0x21c6e5);
@@ -174,8 +174,8 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
         /* Temporaire */
         char fpsbuffer[32];
         sprintf(fpsbuffer, "FPS %F", 1.0/frameTime);
-        mlx_string_put(data->mlx->ptr, data->mlx->win, 10, 20, 0x000000, fpsbuffer);
-        /* */
+        mlx_string_put(data->mlx->ptr, data->mlx->win, 500, 20, 0x000000, fpsbuffer);
+        //printf("%s\n", fpsbuffer);
         game->moveSpeed = frameTime * 8.0;
         game->rotSpeed = frameTime * 3.0;
         break;
