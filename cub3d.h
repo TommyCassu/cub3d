@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 17:07:02 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/15 13:43:11 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 # define RES_X 1920
 # define RES_Y 1080
+# define RES_MMAP_X 256
+# define RES_MMAP_Y 256
 # define key_Up 1
 # define key_Down 2
 # define key_Left 3
@@ -35,7 +37,6 @@
 # define key_A 7
 # define key_D 8
 # define TEXT_SIZE 128
-
 
 typedef struct s_img
 {
@@ -52,8 +53,7 @@ typedef struct s_textdata
 	char	*south;
 	char	*west;
 	char	*east;
-	t_img	*img;
-	char	*imgbuffer;
+	t_img	*img[4];
 }	t_textdata;
 
 
@@ -92,6 +92,9 @@ typedef struct s_game
 	int drawStart;
 	int drawEnd;
 	int	keyTab[32];
+	t_img	*img_miniMap;
+	t_img	*img_miniMap_contour;
+	int		tab_contour[256][256];
 }	t_game;
 
 typedef struct s_map
@@ -124,6 +127,8 @@ typedef struct s_data
 void	init_data(t_data *data);
 void	init_mlx(t_mlx *mlx, t_data *data);
 void	init_raycast(t_data *data);
+void    setup_text_img(t_data *data);
+
 
 /* Parsing */
 void	read_data(t_data *data, char *filename);
@@ -137,14 +142,12 @@ int		parsing_map(t_map	*map);
 void	print_map(t_map *map);
 
 /* draw map */
-void    draw_map(t_data *data);
+void    draw_miniMap(t_data *data);
 /* Free / error*/
 void	ft_free_cub3d(t_data *data);
-//minimap
-void    pixels_to_image(t_img *image, int x, int y, int pixcolor);
-
-
-
+/* Minimap */
+void    draw_miniMap(t_data *data);
+void    setup_minimap(t_data *data);
 
 /* --- Player --- */
 	/* Movement */
@@ -158,13 +161,16 @@ int		key_handler(t_data *data);
 	/* render_raycast */
 void    render_raycast(t_data *data, t_game *game, t_player *player);
 	/* drawing_func */
-void    draw_verline(t_data *data, t_game *game, int x, int color);
 void    draw_ceiling(t_data *data, t_game *game, int x, int color);
 void    draw_floor(t_data *data, t_game *game, int x, int color);
+void    pixels_to_image(t_img *image, int x, int y, int pixcolor);
 	/* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);
 
+void	init_tab_contour(t_data *data);
+int		is_minimap_status(t_data *data, int x, int y);
+void	write_contour_minimap(t_data *data);
 
 void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 #endif
