@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 17:17:48 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/16 12:58:29 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int     key_press(int key, t_data *data)
 		data->game->keyTab[key_Right] = 1;
 	if (key == XK_Left)
 		data->game->keyTab[key_Left] = 1;
-	
+	if (key == XK_space)
+		data->game->keyTab[key_Jump] = 1;
 	return (0);
 }
 
@@ -53,6 +54,8 @@ int     key_release(int key, t_data *data)
 		data->game->keyTab[key_Right] = 0;
 	if (key == XK_Left)
 		data->game->keyTab[key_Left] = 0;
+	if (key == XK_space)
+		data->game->keyTab[key_Jump] = 0;
 	return (0);
 }
 
@@ -116,6 +119,11 @@ int    key_handler(t_data *data)
 		oldPlaneX = data->game->planeX;
 		data->game->planeX = data->game->planeX * cos(data->game->rotSpeed) - data->game->planeY * sin(data->game->rotSpeed);
 		data->game->planeY = oldPlaneX * sin(data->game->rotSpeed) + data->game->planeY * cos(data->game->rotSpeed);
+	}
+	if (data->game->keyTab[key_Jump] == 1 && data->map->player->isjumping == 0)
+	{
+		data->map->player->isjumping = 1;
+		data->map->player->jumpspeed = 0.15;
 	}
 	return (0);
 }

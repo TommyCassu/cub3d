@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 13:45:24 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/16 13:07:01 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	init_data(t_data *data)
     data->map->textdata->img[3] = malloc(sizeof(t_img));
     data->map->player = malloc(sizeof(t_player));
     ft_memset(data->map->player, 0, sizeof(t_player));
+	data->map->player->jumpoffset = 0;
+	data->map->player->jumpspeed = 0;
 	data->map->floor_rgb = -1;
 	data->map->ceilling_rgb = -1;
     data->map->player->dirX = -1;

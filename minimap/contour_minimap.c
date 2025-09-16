@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contour_minimap.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 00:29:19 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 13:47:40 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/16 13:18:04 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	write_contour_minimap(t_data *data)
 			if (is_minimap_status(data, x, y) != 0)
 			{
 				color = get_pixel(data->game->img_miniMap_contour, x, y);
-				pixels_to_image(data->mlx->img, x , y, color);
+				pixels_to_image(data, x , y, color);
 			}
 			x++;
 		}

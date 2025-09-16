@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 13:43:11 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/16 13:17:52 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define key_S 6
 # define key_A 7
 # define key_D 8
+# define key_Jump 9
 # define TEXT_SIZE 128
 
 typedef struct s_img
@@ -66,6 +67,9 @@ typedef struct s_player
 	double	start_y;
 	double dirX;
 	double dirY;
+	int isjumping;
+	double jumpspeed;
+	double jumpoffset;
 }			t_player;
 
 typedef struct s_game
@@ -163,7 +167,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player);
 	/* drawing_func */
 void    draw_ceiling(t_data *data, t_game *game, int x, int color);
 void    draw_floor(t_data *data, t_game *game, int x, int color);
-void    pixels_to_image(t_img *image, int x, int y, int pixcolor);
+void    pixels_to_image(t_data *data, int x, int y, int pixcolor);
 	/* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);

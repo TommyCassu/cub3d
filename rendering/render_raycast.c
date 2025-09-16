@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 17:27:23 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:16:47 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 	while (1)
 	{
 		x = 0;
+
+		if (data->map->player->isjumping)
+		{
+			data->map->player->jumpoffset += data->map->player->jumpspeed;
+		
+			data->map->player->jumpspeed -= 0.01;
+		
+			if (data->map->player->jumpoffset <= 0)
+			{
+				data->map->player->jumpoffset = 0;
+				data->map->player->isjumping = 0;
+			}
+		}
 		while (x < RES_X)
 		{
 			/* Setup ray */
@@ -111,6 +124,9 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 			if (game->drawStart < 0)
 				game->drawStart = 0;
 			game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
+			/*apply jump offset*/
+			game->drawStart -= (int)(data->map->player->jumpoffset * RES_Y);
+			game->drawEnd -= (int)(data->map->player->jumpoffset * RES_Y);
 			/* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
 			if (game->side == 0)
 			{
@@ -160,9 +176,9 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 				if (game->side == 1)
 					color = (color >> 1) & 8355711;
 				if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0 ) || (i >= 256 || x >= 256))
-					pixels_to_image(data->mlx->img, x, i, color);
+					pixels_to_image(data, x, i, color);
 				i++;
-			}             
+			}
 			draw_ceiling(data, game, x, 0x21c6e5);
 			draw_floor(data, game, x, 0x6aa84f);
 			x++;

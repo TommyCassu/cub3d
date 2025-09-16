@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:23:55 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 17:29:50 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:18:16 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void    draw_miniMap(t_data *data)
 						color = data->map->ceilling_rgb;
 					else
 						color = data->map->floor_rgb;
-					pixels_to_image(data->mlx->img, y , x, color);
+					pixels_to_image(data, y , x, color);
 				}
 			}
 			x++;
