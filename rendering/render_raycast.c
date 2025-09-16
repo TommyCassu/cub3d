@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 13:40:51 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/15 15:34:38 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,15 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
                 game->perpWallDist = game->sideDistY - deltaDistY;
 
             /* Calcul height of line to draw colone wall */
-            game->lineHeight = (RES_Y / game->perpWallDist);
+            game->lineHeight = RES_Y / game->perpWallDist;
             
             /* */
-            game->drawStart = -game->lineHeight / 2 + RES_Y / 2;
+            game->drawStart = -game->lineHeight / 2 + RES_Y / 2 + game->headView;
             
             if (game->drawStart < 0)
                 game->drawStart = 0;
-            game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
+            game->drawEnd = game->lineHeight / 2 + RES_Y / 2 + game->headView;
+
             /* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
             if (game->side == 0)
             {
@@ -147,7 +148,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
             }
             
             step = 1.0 * TEXT_SIZE / game->lineHeight;
-            texPos = (game->drawStart - RES_Y / 2 + game->lineHeight / 2) * step;
+            texPos = (game->drawStart - RES_Y / 2 + game->lineHeight / 2 - game->headView) * step;
             
             i = game->drawStart;
             if (game->drawEnd >= RES_Y)

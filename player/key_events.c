@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   key_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
 /*   Updated: 2025/09/15 17:11:31 by npederen         ###   ########.fr       */
@@ -116,6 +116,16 @@ int    key_handler(t_data *data)
         oldPlaneX = data->game->planeX;
         data->game->planeX = data->game->planeX * cos(data->game->rotSpeed) - data->game->planeY * sin(data->game->rotSpeed);
         data->game->planeY = oldPlaneX * sin(data->game->rotSpeed) + data->game->planeY * cos(data->game->rotSpeed);
+    }
+    if (data->game->keyTab[key_Up] == 1)
+    {
+        if (data->game->headView < 100)
+            data->game->headView +=4;
+    }
+    if (data->game->keyTab[key_Down] == 1)
+    {
+        if (data->game->headView > -100)
+            data->game->headView -=4;
     }
     return (0);
 }

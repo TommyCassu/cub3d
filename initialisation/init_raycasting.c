@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/13 01:16:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/15 14:04:53 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void    init_raycast(t_data *data)
     data->game->cameraX = 0;
     data->game->planeX = 0;
     data->game->planeY = 0.66;
+    data->game->headView = 0;
 }
 
 void    setup_text_img(t_data *data)
