@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/16 13:16:47 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:57:12 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 		{
 			data->map->player->jumpoffset += data->map->player->jumpspeed;
 		
-			data->map->player->jumpspeed -= 0.01;
+			data->map->player->jumpspeed -= 0.001;
 		
 			if (data->map->player->jumpoffset <= 0)
 			{
@@ -121,12 +121,12 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 			/* */
 			game->drawStart = -game->lineHeight / 2 + RES_Y / 2;
 			
-			if (game->drawStart < 0)
-				game->drawStart = 0;
 			game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
 			/*apply jump offset*/
-			game->drawStart -= (int)(data->map->player->jumpoffset * RES_Y);
-			game->drawEnd -= (int)(data->map->player->jumpoffset * RES_Y);
+			game->drawStart += (int)(data->map->player->jumpoffset * RES_Y);
+			game->drawEnd += (int)(data->map->player->jumpoffset * RES_Y);
+			if (game->drawStart < 0)
+				game->drawStart = 0;
 			/* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
 			if (game->side == 0)
 			{
@@ -163,7 +163,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 			}
 			
 			step = 1.0 * TEXT_SIZE / game->lineHeight;
-			texPos = (game->drawStart - RES_Y / 2 + game->lineHeight / 2) * step;
+			texPos = ((game->drawStart - RES_Y / 2 + game->lineHeight / 2 - (int)(data->map->player->jumpoffset * RES_Y))) * step;
 			
 			i = game->drawStart;
 			if (game->drawEnd >= RES_Y)

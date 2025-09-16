@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:39:21 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/16 14:30:59 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:50:53 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void    pixels_to_image(t_data *data, int x, int y, int pixcolor)
 {
 	int    pi;
-	if (x < 0 || x >= data->map->width_map || y < 0 || y >= data->map->height_map)
+	if (x < 0 || x >= RES_X || y < 0 || y >= RES_Y)
 		return;
 	pi = y * (data->mlx->img->line_s / 4) + x;
 	((int *)data->mlx->img->addr)[pi] = pixcolor;

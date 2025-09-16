@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/16 12:58:29 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:48:12 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int    key_handler(t_data *data)
 	if (data->game->keyTab[key_Jump] == 1 && data->map->player->isjumping == 0)
 	{
 		data->map->player->isjumping = 1;
-		data->map->player->jumpspeed = 0.15;
+		data->map->player->jumpspeed = 0.02;
 	}
 	return (0);
 }
