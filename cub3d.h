@@ -95,6 +95,7 @@ typedef struct s_game
 	int lineHeight;
 	int drawStart;
 	int drawEnd;
+	int	headView;
 	int	keyTab[32];
 	t_img	*img_miniMap;
 	t_img	*img_miniMap_contour;

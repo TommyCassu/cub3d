@@ -119,9 +119,9 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 			game->lineHeight = (RES_Y / game->perpWallDist);
 			
 			/* */
-			game->drawStart = -game->lineHeight / 2 + RES_Y / 2;
+			game->drawStart = -game->lineHeight / 2 + RES_Y / 2 + game->headView;
 			
-			game->drawEnd = game->lineHeight / 2 + RES_Y / 2;
+			game->drawEnd = game->lineHeight / 2 + RES_Y / 2 + game->headView;
 			/*apply jump offset*/
 			game->drawStart += (int)(data->map->player->jumpoffset * RES_Y);
 			game->drawEnd += (int)(data->map->player->jumpoffset * RES_Y);
@@ -163,7 +163,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 			}
 			
 			step = 1.0 * TEXT_SIZE / game->lineHeight;
-			texPos = ((game->drawStart - RES_Y / 2 + game->lineHeight / 2 - (int)(data->map->player->jumpoffset * RES_Y))) * step;
+			texPos = ((game->drawStart - RES_Y / 2 + game->lineHeight / 2 - (int)(data->map->player->jumpoffset * RES_Y) - game->headView)) * step;
 			
 			i = game->drawStart;
 			if (game->drawEnd >= RES_Y)

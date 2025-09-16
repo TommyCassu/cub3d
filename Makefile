@@ -28,7 +28,7 @@ RANLIB		= ranlib
 
 CC			= cc
 
-CFLAGS		=  -g
+CFLAGS		= -Wall -Werror -Wextra -Wshadow 
 
 all:		${NAME}
 
