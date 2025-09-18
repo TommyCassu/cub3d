@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/16 16:48:12 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/19 01:47:57 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ int    key_handler(t_data *data)
 	double oldDirX;
 	double oldPlaneX;
 
-	if ((int)data->map->player->y < 0 || (int)data->map->player->y >= data->map->height_map || (int)data->map->player->x >= data->map->width_map || (int)data->map->player->x < 0)
+	if ((int)data->map->player->y < 0 || (int)data->map->player->y >= data->map->width_map || (int)data->map->player->x >= data->map->height_map || (int)data->map->player->x < 0)
 			return (1);
 	if (data->game->keyTab[key_W] == 1)
 	{
-		if ((int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed) < 0 || (int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed) >= data->map->width_map || (int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed) < 0 || (int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed) >= data->map->height_map)
+		if ((int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed) < 0 || (int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed) >= data->map->height_map || (int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed) < 0 || (int)(data->map->player->y + data->map->player->dirY * data->game->moveSpeed) >= data->map->width_map)
 			return (1);
 		if (data->map->map_tab[(int)(data->map->player->x + data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
 			data->map->player->x += data->map->player->dirX * data->game->moveSpeed;
@@ -77,7 +77,7 @@ int    key_handler(t_data *data)
 	}
 	if (data->game->keyTab[key_S] == 1)
 	{
-		if ((int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed) < 0 || (int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed) >= data->map->width_map || (int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed) < 0 || (int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed) >= data->map->height_map)
+		if ((int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed) < 0 || (int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed) >= data->map->height_map || (int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed) < 0 || (int)(data->map->player->y - data->map->player->dirY * data->game->moveSpeed) >= data->map->width_map)
 			return (1);
 		if (data->map->map_tab[(int)(data->map->player->x - data->map->player->dirX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
 			data->map->player->x -= data->map->player->dirX * data->game->moveSpeed;
@@ -86,7 +86,7 @@ int    key_handler(t_data *data)
 	}
 	if (data->game->keyTab[key_D] == 1)
 	{
-		if ((int)(data->map->player->x + data->game->planeX * data->game->moveSpeed) < 0 || (int)(data->map->player->x + data->game->planeX * data->game->moveSpeed) >= data->map->width_map || (int)(data->map->player->y + data->game->planeY * data->game->moveSpeed) < 0 || (int)(data->map->player->y + data->game->planeY * data->game->moveSpeed) >= data->map->height_map)
+		if ((int)(data->map->player->x + data->game->planeX * data->game->moveSpeed) < 0 || (int)(data->map->player->x + data->game->planeX * data->game->moveSpeed) >= data->map->height_map || (int)(data->map->player->y + data->game->planeY * data->game->moveSpeed) < 0 || (int)(data->map->player->y + data->game->planeY * data->game->moveSpeed) >= data->map->width_map)
 			return (1);
 		if (data->map->map_tab[(int)(data->map->player->x + data->game->planeX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
 			data->map->player->x += data->game->planeX * data->game->moveSpeed;
@@ -95,7 +95,7 @@ int    key_handler(t_data *data)
 	}
 	if (data->game->keyTab[key_A] == 1)
 	{
-		if ((int)(data->map->player->x - data->game->planeX * data->game->moveSpeed) < 0 || (int)(data->map->player->x - data->game->planeX * data->game->moveSpeed) >= data->map->width_map || (int)(data->map->player->y - data->game->planeY * data->game->moveSpeed) < 0 || (int)(data->map->player->y - data->game->planeY * data->game->moveSpeed) >= data->map->height_map)
+		if ((int)(data->map->player->x - data->game->planeX * data->game->moveSpeed) < 0 || (int)(data->map->player->x - data->game->planeX * data->game->moveSpeed) >= data->map->height_map || (int)(data->map->player->y - data->game->planeY * data->game->moveSpeed) < 0 || (int)(data->map->player->y - data->game->planeY * data->game->moveSpeed) >= data->map->width_map)
 			return (1);
 		if (data->map->map_tab[(int)(data->map->player->x - data->game->planeX * data->game->moveSpeed)][(int)data->map->player->y] != '1')
 			data->map->player->x -= data->game->planeX * data->game->moveSpeed;
