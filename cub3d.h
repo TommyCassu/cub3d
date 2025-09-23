@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 19:30:07 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:00:45 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,22 @@ typedef struct s_game
 	int drawEnd;
 	int	headView;
 	int	keyTab[32];
+	double	ray_dir_x0;
+	double	ray_dir_y0;
+	double	ray_dir_x1;
+	double	ray_dir_y1;
+	double	pos_z;
+	int		p;
+	int		color;
+	float	row_distance;
+	double	floor_x;
+	double	floor_y;
+	double	floor_step_y;
+	double	floor_step_x;
+	int		cell_x;
+	int		cell_y;
+	int		tx;
+	int		ty;
 	t_img	*img_miniMap;
 	t_img	*img_miniMap_contour;
 	int		tab_contour[256][256];
@@ -184,5 +200,5 @@ void	init_tab_contour(t_data *data);
 int		is_minimap_status(t_data *data, int x, int y);
 void	write_contour_minimap(t_data *data);
 void init_ray(t_data *data, int x);
-void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
+//void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 #endif

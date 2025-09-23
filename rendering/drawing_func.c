@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:39:21 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 16:35:54 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 21:00:41 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,60 +29,52 @@ void	draw_ceiling(t_data *data, t_game *game, int x, int color)
 	i = 0;
 	while (i < game->drawStart)
 	{
-		if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0) || (i >= 256 || x >= 256))
+		if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0)
+			|| (i >= 256 || x >= 256))
 			pixels_to_image(data, x, i, color);
 		i++;
 	}
-	
 }
-void    draw_floor(t_data *data, t_game *game)
+
+void	draw_floor(t_data *data, t_game *game)
 {
-	double rayDirX0;
-	double rayDirY0;
-	double rayDirX1;
-	double rayDirY1;
-	double posZ;
-	int p;
-	int y;
-	int color;
-	float rowDistance;
-		
+	int		y;
+	int		x;
+
 	y = (RES_Y / 2) + (int)(data->map->player->jumpoffset * RES_Y) + game->headView;
 	while (y < RES_Y)
 	{
-		rayDirX0 = data->map->player->dirX - game->planeX;
-		rayDirY0 = data->map->player->dirY - game->planeY;
-		rayDirX1 = data->map->player->dirX + game->planeX;
-		rayDirY1 = data->map->player->dirY + game->planeY;
+		game->ray_dir_x0 = data->map->player->dirX - game->planeX;
+		game->ray_dir_y0 = data->map->player->dirY - game->planeY;
+		game->ray_dir_x1 = data->map->player->dirX + game->planeX;
+		game->ray_dir_y1 = data->map->player->dirY + game->planeY;
 
-		p = y - RES_Y / 2 - (int)(data->map->player->jumpoffset * RES_Y) - game->headView ;
+		game->p = y - RES_Y / 2 - (int)(data->map->player->jumpoffset * RES_Y) - game->headView ;
 		
-		posZ = 0.5 * RES_Y;
-		rowDistance = posZ / p;
+		game->pos_z = 0.5 * RES_Y;
+		game->row_distance = game->pos_z / game->p;
 
-		double floorStepX = rowDistance * (rayDirX1 - rayDirX0) / RES_X;
-		double floorStepY = rowDistance * (rayDirY1 - rayDirY0) / RES_X;
+		game->floor_step_x = game->row_distance * (game->ray_dir_x1 - game->ray_dir_x0) / RES_X;
+		game->floor_step_y = game->row_distance * (game->ray_dir_y1 - game->ray_dir_y0) / RES_X;
 
 	  // real world coordinates of the leftmost column. This will be updated as we step to the right.
-		double floorX = data->map->player->x + rowDistance * rayDirX0 ;
-		double floorY = data->map->player->y + rowDistance * rayDirY0 ;
-
-		for(int x = 0; x < RES_X; ++x)
+		game->floor_x = data->map->player->x + game->row_distance * game->ray_dir_x0 ;
+		game->floor_y = data->map->player->y + game->row_distance * game->ray_dir_y0 ;
+		x = 0;
+		while (++x < RES_X)
 		{
-			// the cell coord is simply got from the integer parts of floorX and floorY
-			int cellX = (int)(floorX);
-			int cellY = (int)(floorY);
+			// the cell coord is simply got from the integer parts of floor_x and floor_y
+			game->cell_x = (int)(game->floor_x);
+			game->cell_y = (int)(game->floor_y);
 
 			// get the texture coordinate from the fractional part
-			int tx = (int)(TEXT_SIZE * (floorX - cellX)) & (TEXT_SIZE - 1);
-			int ty = (int)(TEXT_SIZE * (floorY - cellY)) & (TEXT_SIZE - 1);
-
-			floorX += floorStepX;
-			floorY += floorStepY;
-			
-			color = get_pixel(data->map->textdata->img[4], tx, ty);
+			game->tx = (int)(TEXT_SIZE * (game->floor_x - game->cell_x)) & (TEXT_SIZE - 1);
+			game->ty = (int)(TEXT_SIZE * (game->floor_y - game->cell_y)) & (TEXT_SIZE - 1);
+			game->floor_x += game->floor_step_x;
+			game->floor_y += game->floor_step_y;
+			game->color = get_pixel(data->map->textdata->img[4], game->tx, game->ty);
 			if ((y < 256 && x < 256 && is_minimap_status(data, x, y) == 0 ) || (y >= 256 || x >= 256))
-					pixels_to_image(data, x, y, color);
+					pixels_to_image(data, x, y, game->color);
 		}
 		y++;
 	}
