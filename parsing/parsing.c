@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/28 00:37:38 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 21:36:47 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ int	check_valid_file(char *line)
 
 int	parsing_texture(t_textdata *textures)
 {
-	if (check_valid_file(textures->north) || check_valid_file(textures->south)
-		|| check_valid_file(textures->east) || check_valid_file(textures->west))
+	if (check_valid_file(textures->n) || check_valid_file(textures->s)
+		|| check_valid_file(textures->e) || check_valid_file(textures->w))
 	{
-		free(textures->north);
-		free(textures->south);
-		free(textures->west);
-		free(textures->east);
-		textures->north = NULL;
-		textures->south = NULL;
-		textures->east = NULL;
-		textures->west = NULL;
+		free(textures->n);
+		free(textures->s);
+		free(textures->w);
+		free(textures->e);
+		textures->n = NULL;
+		textures->s = NULL;
+		textures->e = NULL;
+		textures->w = NULL;
 		printf("wqewqewqeqwe");
 		return (0);
 	}

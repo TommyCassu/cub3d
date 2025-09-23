@@ -6,22 +6,22 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:17:23 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:39:33 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void    init_raycast(t_data *data)
+void	init_raycast(t_data *data)
 {
-    data->game = malloc(sizeof(t_game));
-    ft_memset(data->game, 0, sizeof(t_game));
-    data->game->img_miniMap = malloc(sizeof(t_img));
-    data->game->img_miniMap_contour = malloc(sizeof(t_img));
-    data->game->cameraX = 0.0;
-    data->game->planeX = 0.0;
-    data->game->planeY = 0.66;
-    data->game->headView = 0;
+	data->game = malloc(sizeof(t_game));
+	ft_memset(data->game, 0, sizeof(t_game));
+	data->game->img_miniMap = malloc(sizeof(t_img));
+	data->game->img_miniMap_contour = malloc(sizeof(t_img));
+	data->game->cameraX = 0.0;
+	data->game->planeX = 0.0;
+	data->game->planeY = 0.66;
+	data->game->headView = 0;
 	data->game->ray_dir_x0 = 0.0;
 	data->game->ray_dir_y0 = 0.0;
 	data->game->ray_dir_x1 = 0.0;
@@ -35,27 +35,29 @@ void    init_raycast(t_data *data)
 	data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
 }
 
-void    setup_text_img(t_data *data)
+void	setup_text_img(t_data *data, t_textdata *t)
 {
-    int w;
-    int h;
+	int	w;
+	int	h;
 
-    /* NORTH */
-    data->map->textdata->img[0]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, data->map->textdata->north, &w, &h);
-    data->map->textdata->img[0]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[0]->ptr, &data->map->textdata->img[0]->bpp, &data->map->textdata->img[0]->line_s, &data->map->textdata->img[0]->endian);
-    /* SOUTH */
-    data->map->textdata->img[1]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, data->map->textdata->south, &w, &h);
-    data->map->textdata->img[1]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[1]->ptr, &data->map->textdata->img[1]->bpp, &data->map->textdata->img[1]->line_s, &data->map->textdata->img[1]->endian);
-    /* EST*/
-    data->map->textdata->img[2]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, data->map->textdata->east, &w, &h);
-    data->map->textdata->img[2]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[2]->ptr, &data->map->textdata->img[2]->bpp, &data->map->textdata->img[2]->line_s, &data->map->textdata->img[2]->endian);
-    /* WEST */
-    data->map->textdata->img[3]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, data->map->textdata->west, &w, &h);
-    data->map->textdata->img[3]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[3]->ptr, &data->map->textdata->img[3]->bpp, &data->map->textdata->img[3]->line_s, &data->map->textdata->img[3]->endian);
-
-    data->map->textdata->img[4]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, "./textures/floor.xpm", &w, &h);
-    data->map->textdata->img[4]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[4]->ptr, &data->map->textdata->img[4]->bpp, &data->map->textdata->img[4]->line_s, &data->map->textdata->img[4]->endian);
-
+	/* NORTH */
+	t->img[0]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, t->n, &w, &h);
+	t->img[0]->addr = (int *)mlx_get_data_addr(t->img[0]->ptr, &t->img[0]->bpp,
+			&t->img[0]->line_s, &t->img[0]->endian);
+	/* SOUTH */
+	t->img[1]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, t->s, &w, &h);
+	t->img[1]->addr = (int *)mlx_get_data_addr(t->img[1]->ptr, &t->img[1]->bpp,
+			&t->img[1]->line_s, &t->img[1]->endian);
+	/* EST*/
+	t->img[2]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, t->e, &w, &h);
+	t->img[2]->addr = (int *)mlx_get_data_addr(t->img[2]->ptr, &t->img[2]->bpp,
+			&t->img[2]->line_s, &t->img[2]->endian);
+	/* WEST */
+	t->img[3]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, t->w, &w, &h);
+	t->img[3]->addr = (int *)mlx_get_data_addr(t->img[3]->ptr, &t->img[3]->bpp,
+			&t->img[3]->line_s, &t->img[3]->endian);
+	t->img[4]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
+			"./textures/floor.xpm", &w, &h);
+	t->img[4]->addr = (int *)mlx_get_data_addr(t->img[4]->ptr, &t->img[4]->bpp,
+			&t->img[4]->line_s, &t->img[4]->endian);
 }
-
-

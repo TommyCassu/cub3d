@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 14:42:08 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/27 14:57:23 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 21:35:16 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void	ft_free_cub3d(t_data *data)
 	{
 		if (data->map->textdata)
 		{
-			if (data->map->textdata->north)
-				free(data->map->textdata->north);
-			if (data->map->textdata->south)
-				free(data->map->textdata->south);
-			if (data->map->textdata->east)
-				free(data->map->textdata->east);
-			if (data->map->textdata->west)
-				free(data->map->textdata->west);
+			if (data->map->textdata->n)
+				free(data->map->textdata->n);
+			if (data->map->textdata->s)
+				free(data->map->textdata->s);
+			if (data->map->textdata->e)
+				free(data->map->textdata->e);
+			if (data->map->textdata->w)
+				free(data->map->textdata->w);
 			free(data->map->textdata);
 		}
 		free_map(data->map);

@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:25:46 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:34:45 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ typedef struct s_img
 
 typedef struct s_textdata
 {
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
+	char	*n;
+	char	*s;
+	char	*w;
+	char	*e;
 	t_img	*img[5];
 }	t_textdata;
 
@@ -157,7 +157,7 @@ typedef struct s_data
 void	init_data(t_data *data);
 void	init_mlx(t_mlx *mlx, t_data *data);
 void	init_raycast(t_data *data);
-void    setup_text_img(t_data *data);
+void    setup_text_img(t_data *data, t_textdata *textdata);
 
 
 /* Parsing */

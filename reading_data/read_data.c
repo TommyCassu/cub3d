@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/27 14:36:37 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 21:35:58 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	config_memory(t_data *data, char *line, char *direction)
 
 	new_line = ft_strtrim(line + 2, " \t\n");
 	if (direction[0] == 'N' && direction[1] == 'O')
-		data->map->textdata->north = ft_strdup(new_line);
+		data->map->textdata->n = ft_strdup(new_line);
 	else if (direction[0] == 'S' && direction[1] == 'O')
-		data->map->textdata->south = ft_strdup(new_line);
+		data->map->textdata->s = ft_strdup(new_line);
 	else if (direction[0] == 'W' && direction[1] == 'E')
-		data->map->textdata->west = ft_strdup(new_line);
+		data->map->textdata->w = ft_strdup(new_line);
 	else if (direction[0] == 'E' && direction[1] == 'A')
-		data->map->textdata->east = ft_strdup(new_line);
+		data->map->textdata->e = ft_strdup(new_line);
 	else if (direction[0] == 'F')
 		parsing_rgb(data, line, direction);
 	else if (direction[0] == 'C')
@@ -36,10 +36,10 @@ void	config_memory(t_data *data, char *line, char *direction)
 
 int	add_data(t_data *data, char *line)
 {
-	if ((ft_strncmp(line, "NO", 2) == 0 && !data->map->textdata->north)
-		|| (ft_strncmp(line, "SO", 2) == 0 && data->map->textdata->south == NULL)
-		|| (ft_strncmp(line, "EA", 2) == 0 && data->map->textdata->east == NULL)
-		|| (ft_strncmp(line, "WE", 2) == 0 && data->map->textdata->west == NULL)
+	if ((ft_strncmp(line, "NO", 2) == 0 && !data->map->textdata->n)
+		|| (ft_strncmp(line, "SO", 2) == 0 && data->map->textdata->s == NULL)
+		|| (ft_strncmp(line, "EA", 2) == 0 && data->map->textdata->e == NULL)
+		|| (ft_strncmp(line, "WE", 2) == 0 && data->map->textdata->w == NULL)
 		|| (ft_strncmp(line, "F", 1) == 0 && data->map->floor_rgb == -1)
 		|| (ft_strncmp(line, "C", 1) == 0 && data->map->ceilling_rgb == -1))
 	{

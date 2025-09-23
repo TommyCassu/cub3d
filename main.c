@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 18:49:31 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:34:59 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void    print_map(t_map *map)
 		printf("%s\n", map->map_tab[i]);
 		i++;
 	}
-	if (map->textdata->north)
-		printf("%s\n", map->textdata->north);
-	if (map->textdata->south)
-		printf("%s\n", map->textdata->south);
+	if (map->textdata->n)
+		printf("%s\n", map->textdata->n);
+	if (map->textdata->s)
+		printf("%s\n", map->textdata->s);
 }
 
 int    test_rend(t_data *data)
@@ -73,7 +73,7 @@ int    main(int ac, char **av)
 		if (parsing(data))
 		{
 			print_map(data->map);
-			setup_text_img(data);
+			setup_text_img(data, data->map->textdata);
 			setup_minimap(data);
 			init_tab_contour(data);
 			write_contour_minimap(data);
