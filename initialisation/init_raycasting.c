@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 18:15:09 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 20:58:34 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,20 @@ void    init_raycast(t_data *data)
     ft_memset(data->game, 0, sizeof(t_game));
     data->game->img_miniMap = malloc(sizeof(t_img));
     data->game->img_miniMap_contour = malloc(sizeof(t_img));
-    data->game->cameraX = 0;
-    data->game->planeX = 0;
+    data->game->cameraX = 0.0;
+    data->game->planeX = 0.0;
     data->game->planeY = 0.66;
     data->game->headView = 0;
+	data->game->ray_dir_x0 = 0.0;
+	data->game->ray_dir_y0 = 0.0;
+	data->game->ray_dir_x1 = 0.0;
+	data->game->ray_dir_y1 = 0.0;
+	data->game->pos_z = 0.0;
+	data->game->row_distance = 0.0;
+	data->game->floor_x = 0.0;
+	data->game->floor_y = 0.0;
+	data->game->floor_step_y = 0.0;
+	data->game->floor_step_x = 0.0;
 }
 
 void    setup_text_img(t_data *data)
