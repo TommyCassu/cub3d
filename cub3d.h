@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/16 13:17:52 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/19 01:00:38 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_textdata
 	char	*south;
 	char	*west;
 	char	*east;
-	t_img	*img[4];
+	t_img	*img[5];
 }	t_textdata;
 
 
@@ -167,7 +167,7 @@ int		key_handler(t_data *data);
 void    render_raycast(t_data *data, t_game *game, t_player *player);
 	/* drawing_func */
 void    draw_ceiling(t_data *data, t_game *game, int x, int color);
-void    draw_floor(t_data *data, t_game *game, int x, int color);
+void    draw_floor(t_data *data, t_game *game);
 void    pixels_to_image(t_data *data, int x, int y, int pixcolor);
 	/* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);

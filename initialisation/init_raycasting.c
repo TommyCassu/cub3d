@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/15 14:04:53 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/19 01:00:02 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ void    setup_text_img(t_data *data)
     /* WEST */
     data->map->textdata->img[3]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, data->map->textdata->west, &w, &h);
     data->map->textdata->img[3]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[3]->ptr, &data->map->textdata->img[3]->bpp, &data->map->textdata->img[3]->line_s, &data->map->textdata->img[3]->endian);
+
+    data->map->textdata->img[4]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, "./textures/floor.xpm", &w, &h);
+    data->map->textdata->img[4]->addr = (int *)mlx_get_data_addr(data->map->textdata->img[4]->ptr, &data->map->textdata->img[4]->bpp, &data->map->textdata->img[4]->line_s, &data->map->textdata->img[4]->endian);
 
 }
 

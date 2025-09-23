@@ -1,4 +1,4 @@
-FILES			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c initialisation/init.c initialisation/init_raycasting.c minimap/drawing_onMinimap.c player/movement.c player/key_events.c rendering/render_raycast.c rendering/utils_raycasting.c rendering/drawing_func.c minimap/contour_minimap.c
+FILES			= main.c parsing/parsing.c reading_data/read_data.c reading_data/read_map.c parsing/parsing_map.c error/free.c initialisation/init.c initialisation/init_raycasting.c minimap/drawing_onMinimap.c player/key_events.c rendering/render_raycast.c rendering/utils_raycasting.c rendering/drawing_func.c minimap/contour_minimap.c
 
 SRCS		= ${SRC}
 
@@ -28,7 +28,7 @@ RANLIB		= ranlib
 
 CC			= cc
 
-CFLAGS		= -Wall -Werror -Wextra -Wshadow 
+CFLAGS		= -Wall -Wextra -Werror
 
 all:		${NAME}
 
