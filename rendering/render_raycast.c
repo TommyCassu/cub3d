@@ -3,197 +3,210 @@
 /*                                                        :::      ::::::::   */
 /*   render_raycast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 14:42:32 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 19:30:38 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void    render_raycast(t_data *data, t_game *game, t_player *player)
+void init_ray(t_data *data, int x)
+{
+	/* Setup ray */
+	data->game->cameraX = 2 * x / (double)RES_X - 1;
+	data->game->rayDir_x = data->map->player->dirX + data->game->planeX * data->game->cameraX;
+	data->game->rayDir_y = data->map->player->dirY + data->game->planeY * data->game->cameraX;
+
+	data->game->mapX = (int)data->map->player->x;
+	data->game->mapY = (int)data->map->player->y;
+	data->game->hit = 0;
+
+	/* calcul length of ray */
+	if (data->game->rayDir_x == 0)
+		data->game->deltaDistX = 1e30;
+	else
+		data->game->deltaDistX = fabs(1 / data->game->rayDir_x);
+
+	if (data->game->rayDir_y == 0)
+		data->game->deltaDistY = 1e30;
+	else
+		data->game->deltaDistY = fabs(1 / data->game->rayDir_y);
+}
+
+void	setup_angle_rayon(t_data *data)
+{
+	/* Algo DDA ( Setup angle rayon ) */
+	if (data->game->rayDir_x < 0)
+	{
+		data->game->stepX = -1;
+		data->game->sideDistX = (data->map->player->x - data->game->mapX) * data->game->deltaDistX;
+	}
+	else
+	{
+		data->game->stepX = 1;
+		data->game->sideDistX = (data->game->mapX + 1.0 - data->map->player->x) * data->game->deltaDistX;
+	}
+	if (data->game->rayDir_y < 0)
+	{
+		data->game->stepY = -1;
+		data->game->sideDistY = (data->map->player->y - data->game->mapY) * data->game->deltaDistY;
+	}
+	else
+	{
+		data->game->stepY = 1;
+		data->game->sideDistY = (data->game->mapY + 1.0 - data->map->player->y) * data->game->deltaDistY;
+	}
+}
+void	dda_loop(t_data *data)
+{
+	/* ALgo DDA Loop */
+	while (data->game->hit == 0)
+	{
+		if (data->game->sideDistX < data->game->sideDistY)
+		{
+			data->game->sideDistX += data->game->deltaDistX;
+			data->game->mapX += data->game->stepX;
+			data->game->side = 0;
+		}
+		else
+		{
+			data->game->sideDistY += data->game->deltaDistY;
+			data->game->mapY += data->game->stepY;
+			data->game->side = 1;
+		}
+
+		if (data->map->map_tab[data->game->mapX][data->game->mapY] == '1')
+			data->game->hit = 1;
+	}
+}
+
+void	manage_draw_limits(t_data *data)
+{
+	/* Calculate the distance of the rayon from the cam position in the cam direction*/
+	if (data->game->side == 0)
+		data->game->perpWallDist = data->game->sideDistX - data->game->deltaDistX;
+	else
+		data->game->perpWallDist = data->game->sideDistY - data->game->deltaDistY;
+	/* Calcul height of line to draw colone wall */
+	data->game->lineHeight = (RES_Y / data->game->perpWallDist);
+	data->game->drawStart = -data->game->lineHeight / 2 + RES_Y / 2 + data->game->headView;
+	data->game->drawEnd = data->game->lineHeight / 2 + RES_Y / 2 + data->game->headView;
+	/*apply jump offset*/
+	data->game->drawStart += (int)(data->map->player->jumpoffset * RES_Y);
+	data->game->drawEnd += (int)(data->map->player->jumpoffset * RES_Y);
+	if (data->game->drawStart < 0)
+		data->game->drawStart = 0;
+}
+
+void select_texture_side(t_game *game)
+{
+	/* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
+	if (game->side == 0)
+	{
+		if (game->rayDir_x > 0)
+			game->textNum = 0;
+		else
+			game->textNum = 1;
+	}
+	else
+	{
+		if (game->rayDir_y > 0)
+			game->textNum = 2;
+		else
+			game->textNum = 3;
+	}
+}
+void	get_texture_pos(t_data *data)
+{
+	double wallX;
+	
+	if (data->game->side == 0)
+		wallX = data->map->player->y + data->game->perpWallDist * data->game->rayDir_y;
+	else
+		wallX = data->map->player->x + data->game->perpWallDist * data->game->rayDir_x;
+	wallX -= floor(wallX);
+	data->game->texX = (int)(wallX * (double)(TEXT_SIZE));
+	if (data->game->side == 0 && data->game->rayDir_x > 0)
+		data->game->texX = TEXT_SIZE - data->game->texX - 1;
+	if (data->game->side == 1 && data->game->rayDir_y < 0)
+		data->game->texX = TEXT_SIZE - data->game->texX - 1;
+	data->game->step = 1.0 * TEXT_SIZE / data->game->lineHeight;
+	data->game->texPos = ((data->game->drawStart - RES_Y / 2 + data->game->lineHeight / 2 - (int)(data->map->player->jumpoffset * RES_Y) - data->game->headView)) * data->game->step;
+
+}
+void draw_wall_col(t_data *data, int x)
+{
+	int i;
+	int color;
+
+	color = 0xeeeeee;
+	i = data->game->drawStart;
+	if (data->game->drawEnd >= RES_Y)
+		data->game->drawEnd = RES_Y - 1;
+	while (i < data->game->drawEnd)
+	{
+		data->game->texY = (int)data->game->texPos & (TEXT_SIZE - 1);
+		data->game->texPos += data->game->step;
+		color = get_pixel(data->map->textdata->img[data->game->textNum], data->game->texX, data->game->texY);
+		if (data->game->side == 1)
+			color = (color >> 1) & 8355711;
+		if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0) || (i >= 256 || x >= 256))
+			pixels_to_image(data, x, i, color);
+		i++;
+	}
+}
+
+void	show_fps(t_data *data)
+{
+	data->game->oldTime = data->game->time;
+	data->game->time = get_time();
+	data->game->frameTime = (data->game->time - data->game->oldTime) / 1000.0;
+	char fpsbuffer[32];
+	sprintf(fpsbuffer, "FPS %F", 1.0 / data->game->frameTime);
+	mlx_string_put(data->mlx->ptr, data->mlx->win, 500, 20, 0x000000, fpsbuffer);
+}
+void render_raycast(t_data *data, t_game *game)
 {
 	int x;
-	double deltaDistX;
-	double deltaDistY;
-	int color;
-	double  frameTime;
-	double wallX;
-	int texX;
-	int texY;
-	double step;
-	double texPos;
-	int i;
-	int textNum;
-	
-	color = 0xeeeeee;
-	
+
 	while (1)
 	{
+		x = -1;
 		draw_floor(data, game);
-		x = 0;
-		if (data->map->player->isjumping)
+		calcul_jump_offset(data);
+		while (++x < RES_X)
 		{
-			data->map->player->jumpoffset += data->map->player->jumpspeed;
-		
-			data->map->player->jumpspeed -= 0.001;
-		
-			if (data->map->player->jumpoffset <= 0)
-			{
-				data->map->player->jumpoffset = 0;
-				data->map->player->isjumping = 0;
-			}
-		}
-		while (x < RES_X)
-		{
-			/* Setup ray */
-			game->cameraX =  2 * x / (double)RES_X - 1;
-			game->rayDir_x = player->dirX + game->planeX * game->cameraX;
-			game->rayDir_y = player->dirY + game->planeY * game->cameraX;
-	
-			game->mapX = (int)player->x;
-			game->mapY = (int)player->y;
-			game->hit = 0;
-			
-			/* calcul length of ray */
-			if (game->rayDir_x == 0)
-				deltaDistX = 1e30;
-			else
-				deltaDistX = fabs(1 / game->rayDir_x);
-			
-			if (game->rayDir_y == 0)
-				deltaDistY = 1e30;
-			else
-				deltaDistY = fabs(1 / game->rayDir_y);
-			
-			/* Algo DDA ( Setup angle rayon ) */
-			if (game->rayDir_x < 0)
-			{
-				game->stepX = -1;
-				game->sideDistX = (player->x - game->mapX) * deltaDistX;
-			}
-			else
-			{
-				game->stepX = 1;
-				game->sideDistX = (game->mapX + 1.0 - player->x) * deltaDistX;
-			}
-			if (game->rayDir_y < 0)
-			{
-				game->stepY = -1;
-				game->sideDistY = (player->y - game->mapY) * deltaDistY;
-			}
-			else
-			{
-				game->stepY = 1;
-				game->sideDistY = (game->mapY + 1.0 - player->y) * deltaDistY;
-			}
-	
-			/* ALgo DDA Loop */
-			while (game->hit == 0)
-			{
-				if (game->sideDistX < game->sideDistY)
-				{
-					game->sideDistX += deltaDistX;
-					game->mapX += game->stepX;
-					game->side = 0;
-				}
-				else
-				{
-					game->sideDistY += deltaDistY;
-					game->mapY += game->stepY;
-					game->side = 1;
-				}
-
-				if (data->map->map_tab[game->mapX][game->mapY] == '1')
-					game->hit = 1;
-			}
-	
-			/* Calculate the distance of the rayon from the cam position in the cam direction*/
-			if (game->side == 0)
-				game->perpWallDist = game->sideDistX - deltaDistX;
-			else
-				game->perpWallDist = game->sideDistY - deltaDistY;
-
-			/* Calcul height of line to draw colone wall */
-			game->lineHeight = (RES_Y / game->perpWallDist);
-			
-			/* */
-			game->drawStart = -game->lineHeight / 2 + RES_Y / 2 + game->headView;
-			
-			game->drawEnd = game->lineHeight / 2 + RES_Y / 2 + game->headView;
-			/*apply jump offset*/
-			game->drawStart += (int)(data->map->player->jumpoffset * RES_Y);
-			game->drawEnd += (int)(data->map->player->jumpoffset * RES_Y);
-			if (game->drawStart < 0)
-				game->drawStart = 0;
-			/* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
-			if (game->side == 0)
-			{
-				if (game->rayDir_x > 0)
-					textNum = 0;
-				else
-					textNum = 1;
-			}
-			else
-			{
-				if (game->rayDir_y > 0)
-					textNum = 2;
-				else
-					textNum = 3;
-			}
-			/* TEST TEXTURING */
-			if (game->side == 0)
-			{
-				wallX = player->y + game->perpWallDist * game->rayDir_y;
-			}
-			else
-			{
-				wallX = player->x + game->perpWallDist * game->rayDir_x;
-			}
-			wallX -= floor(wallX);
-			texX = (int)(wallX * (double)(TEXT_SIZE));
-			if (game->side == 0 && game->rayDir_x > 0)
-			{
-				texX = TEXT_SIZE - texX -1;
-			}
-			if ( game->side == 1 && game->rayDir_y < 0)
-			{
-				texX = TEXT_SIZE - texX -1;
-			}
-			
-			step = 1.0 * TEXT_SIZE / game->lineHeight;
-			texPos = ((game->drawStart - RES_Y / 2 + game->lineHeight / 2 - (int)(data->map->player->jumpoffset * RES_Y) - game->headView)) * step;
-			
-			i = game->drawStart;
-			if (game->drawEnd >= RES_Y)
-				game->drawEnd = RES_Y - 1;
-			while (i < game->drawEnd)
-			{
-				texY = (int)texPos & (TEXT_SIZE - 1);
-				texPos += step;
-				color = get_pixel(data->map->textdata->img[textNum], texX, texY);
-				if (game->side == 1)
-					color = (color >> 1) & 8355711;
-				if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0 ) || (i >= 256 || x >= 256))
-					pixels_to_image(data, x, i, color);
-				i++;
-			}
-			draw_ceiling(data, game, x, 0x21c6e5);
-			//draw_floor(data, game, x, 0x6aa84f);
-			x++;
+			init_ray(data, x);
+			setup_angle_rayon(data);
+			dda_loop(data);
+			manage_draw_limits(data);
+			select_texture_side(game);
+			get_texture_pos(data);
+			draw_wall_col(data, x);
+			draw_ceiling(data, game, x, data->map->ceilling_rgb);
 		}
 		mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
-		game->oldTime = game->time;
-		game->time = get_time();
-		frameTime = (game->time - game->oldTime) / 1000.0;
-		/* Temporaire */
-		char fpsbuffer[32];
-		sprintf(fpsbuffer, "FPS %F", 1.0/frameTime);
-		mlx_string_put(data->mlx->ptr, data->mlx->win, 500, 20, 0x000000, fpsbuffer);
-		//printf("%s\n", fpsbuffer);
-		game->moveSpeed = frameTime * 8.0;
-		game->rotSpeed = frameTime * 3.0;
+		show_fps(data);
+		game->moveSpeed = game->frameTime * 8.0;
+		game->rotSpeed = game->frameTime * 3.0;
 		break;
+	}
+}
+
+void calcul_jump_offset(t_data *data)
+{
+	if (data->map->player->isjumping)
+	{
+		data->map->player->jumpoffset += data->map->player->jumpspeed;
+
+		data->map->player->jumpspeed -= 0.001;
+
+		if (data->map->player->jumpoffset <= 0)
+		{
+			data->map->player->jumpoffset = 0;
+			data->map->player->isjumping = 0;
+		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 15:48:36 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 19:30:07 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,13 @@ typedef struct s_game
 	double sideDistY;
     double sideDistX;
     double perpWallDist;
+	double deltaDistY;
+	double deltaDistX;
+	int textNum;
+	int texX;
+	int texY;
+	double texPos;
+	double step;
 	int stepX;
     int stepY;
 	int hit;
@@ -100,6 +107,7 @@ typedef struct s_game
 	t_img	*img_miniMap;
 	t_img	*img_miniMap_contour;
 	int		tab_contour[256][256];
+	double frameTime;
 }	t_game;
 
 typedef struct s_map
@@ -163,7 +171,7 @@ int		key_handler(t_data *data);
 
 /* --- Rendering --- */
 	/* render_raycast */
-void    render_raycast(t_data *data, t_game *game, t_player *player);
+void    render_raycast(t_data *data, t_game *game);
 	/* drawing_func */
 void    draw_ceiling(t_data *data, t_game *game, int x, int color);
 void    draw_floor(t_data *data, t_game *game);
@@ -171,10 +179,10 @@ void    pixels_to_image(t_data *data, int x, int y, int pixcolor);
 	/* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);
-
+void calcul_jump_offset(t_data *data);
 void	init_tab_contour(t_data *data);
 int		is_minimap_status(t_data *data, int x, int y);
 void	write_contour_minimap(t_data *data);
-
+void init_ray(t_data *data, int x);
 void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 #endif
