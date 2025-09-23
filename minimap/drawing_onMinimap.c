@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:23:55 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 16:20:41 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 17:32:44 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	draw_cube_wall(t_data *data, int x, int y)
 		j = 0;
 		while (j < 10)
 		{
-			if (center_x + i > 0 && j + center_y > 0 && j + center_y <= RES_MMAP_X &&
-				center_x + i <= RES_MMAP_Y && is_minimap_status(data, center_x + i, j + center_y) == 1)
+			if (center_x + i > 0 && j + center_y > 0 && j + center_y < RES_MMAP_X &&
+				center_x + i < RES_MMAP_Y && is_minimap_status(data, j + center_y,center_x + i) == 1)
 			{
 				if (j == 0 || i == 0 || j == 10 || i == 10)
 					pixels_to_image(data, j + center_y,center_x + i, 0x9b8568);
@@ -90,7 +90,7 @@ void	draw_cube_floor(t_data *data, int x, int y)
 		j = 0;
 		while (j < 10)
 		{
-			if (center_x + i > 0 && j + center_y > 0 && j + center_y <= RES_MMAP_X && center_x + i <= RES_MMAP_Y && is_minimap_status(data,center_x + i, j + center_y) == 1)
+			if (center_x + i > 0 && j + center_y > 0 && j + center_y < RES_MMAP_X && center_x + i < RES_MMAP_Y && is_minimap_status(data,j + center_y,center_x + i) == 1)
 			{
 				pixels_to_image(data, j + center_y,center_x + i, 0xFFFFFF);
 			}
