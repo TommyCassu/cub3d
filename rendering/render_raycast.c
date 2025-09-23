@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 20:31:32 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:25:26 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,8 @@ void	select_texture_side(t_game *game)
 void	get_texture_pos(t_data *data)
 {
 	double	wall_x;
-	int		jumpoffsetresy;
 
-	jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
+	data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
 	if (data->game->side == 0)
 		wall_x = data->map->player->y + data->game->perpWallDist
 			* data->game->rayDir_y;
@@ -146,7 +145,7 @@ void	get_texture_pos(t_data *data)
 		data->game->texX = TEXT_SIZE - data->game->texX - 1;
 	data->game->step = 1.0 * TEXT_SIZE / data->game->lineHeight;
 	data->game->texPos = ((data->game->drawStart - RES_Y / 2
-				+ data->game->lineHeight / 2 - jumpoffsetresy
+				+ data->game->lineHeight / 2 - data->game->jumpoffsetresy
 				- data->game->headView)) * data->game->step;
 }
 
@@ -193,7 +192,7 @@ void	render_raycast(t_data *data, t_game *game)
 	while (1)
 	{
 		x = -1;
-		draw_floor(data, game);
+		draw_floor(data, game, data->map);
 		calcul_jump_offset(data);
 		while (++x < RES_X)
 		{

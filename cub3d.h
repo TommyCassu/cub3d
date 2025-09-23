@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:00:45 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:25:46 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct s_game
 	int		cell_y;
 	int		tx;
 	int		ty;
+	int		jumpoffsetresy;
 	t_img	*img_miniMap;
 	t_img	*img_miniMap_contour;
 	int		tab_contour[256][256];
@@ -190,7 +191,7 @@ int		key_handler(t_data *data);
 void    render_raycast(t_data *data, t_game *game);
 	/* drawing_func */
 void    draw_ceiling(t_data *data, t_game *game, int x, int color);
-void    draw_floor(t_data *data, t_game *game);
+void    draw_floor(t_data *data, t_game *game, t_map* map);
 void    pixels_to_image(t_data *data, int x, int y, int pixcolor);
 	/* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
