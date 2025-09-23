@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_raycast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/16 16:57:12 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:42:32 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 	
 	while (1)
 	{
+		draw_floor(data, game);
 		x = 0;
-
 		if (data->map->player->isjumping)
 		{
 			data->map->player->jumpoffset += data->map->player->jumpspeed;
@@ -48,7 +48,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 		while (x < RES_X)
 		{
 			/* Setup ray */
-			game->cameraX = 2 * x / (double)RES_X - 1;
+			game->cameraX =  2 * x / (double)RES_X - 1;
 			game->rayDir_x = player->dirX + game->planeX * game->cameraX;
 			game->rayDir_y = player->dirY + game->planeY * game->cameraX;
 	
@@ -180,7 +180,7 @@ void    render_raycast(t_data *data, t_game *game, t_player *player)
 				i++;
 			}
 			draw_ceiling(data, game, x, 0x21c6e5);
-			draw_floor(data, game, x, 0x6aa84f);
+			//draw_floor(data, game, x, 0x6aa84f);
 			x++;
 		}
 		mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
