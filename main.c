@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/19 01:00:35 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:02:14 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int    test_rend(t_data *data)
 {
 	key_handler(data);
 	render_raycast(data, data->game, data->map->player);
-	//draw_miniMap(data);
+	draw_miniMap(data);
 	return (0);
 }
 void    setup_minimap(t_data *data)

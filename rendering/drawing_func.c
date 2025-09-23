@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:39:21 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 14:39:13 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 16:35:54 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void    draw_floor(t_data *data, t_game *game)
 	int color;
 	float rowDistance;
 		
-	y = RES_Y / 2;
+	y = (RES_Y / 2) + (int)(data->map->player->jumpoffset * RES_Y) + game->headView;
 	while (y < RES_Y)
 	{
 		rayDirX0 = data->map->player->dirX - game->planeX;
@@ -55,7 +55,7 @@ void    draw_floor(t_data *data, t_game *game)
 		rayDirX1 = data->map->player->dirX + game->planeX;
 		rayDirY1 = data->map->player->dirY + game->planeY;
 
-		p = y - RES_Y / 2;
+		p = y - RES_Y / 2 - (int)(data->map->player->jumpoffset * RES_Y) - game->headView ;
 		
 		posZ = 0.5 * RES_Y;
 		rowDistance = posZ / p;
@@ -64,8 +64,8 @@ void    draw_floor(t_data *data, t_game *game)
 		double floorStepY = rowDistance * (rayDirY1 - rayDirY0) / RES_X;
 
 	  // real world coordinates of the leftmost column. This will be updated as we step to the right.
-		double floorX = data->map->player->x + rowDistance * rayDirX0;
-		double floorY = data->map->player->y + rowDistance * rayDirY0;
+		double floorX = data->map->player->x + rowDistance * rayDirX0 ;
+		double floorY = data->map->player->y + rowDistance * rayDirY0 ;
 
 		for(int x = 0; x < RES_X; ++x)
 		{
