@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/19 01:49:22 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:48:36 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ void    setup_minimap(t_data *data);
 
 /* --- Player --- */
 	/* Movement */
-//void	draw_player(t_mlx *mlx, int px, int py, int color);
 	/* Key events */
 int     key_press(int key, t_data *data);
 int     key_release(int key, t_data *data);
