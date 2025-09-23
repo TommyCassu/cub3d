@@ -6,12 +6,11 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 14:42:08 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:35:16 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 22:37:18 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 
 void	free_map(t_map *map)
 {

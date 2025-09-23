@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:34:45 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 23:03:39 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ typedef struct s_game
 	int mapY;
 	int mapX;
 	double sideDistY;
-    double sideDistX;
-    double perpWallDist;
+	double sideDistX;
+	double perpWallDist;
 	double deltaDistY;
 	double deltaDistX;
 	int textNum;
@@ -96,9 +96,9 @@ typedef struct s_game
 	double texPos;
 	double step;
 	int stepX;
-    int stepY;
+	int stepY;
 	int hit;
-    int side;
+	int side;
 	int lineHeight;
 	int drawStart;
 	int drawEnd;
@@ -153,53 +153,85 @@ typedef struct s_data
 	int		error_status;
 }	t_data;
 
-/* initialisation */
+/* --- error --- */
+	/* free.c */
+void	ft_free(char **result);
+void	ft_free_cub3d(t_data *data);
+/* --- initialisation --- */
+	/* init_raycasting.c */
+void	init_raycast(t_data *data);
+void	setup_text_img(t_data *data, t_textdata *textdata);
+	/* init.c */
+void	init_tab_contour(t_data *data);
 void	init_data(t_data *data);
 void	init_mlx(t_mlx *mlx, t_data *data);
-void	init_raycast(t_data *data);
-void    setup_text_img(t_data *data, t_textdata *textdata);
-
-
-/* Parsing */
-void	read_data(t_data *data, char *filename);
-void	read_map(t_map *map, char *line);
-int		is_map_line(char *line);
-void	write_map(t_map *map, char	*filename);
-int		parsing(t_data *data);
-void	ft_free(char **result);
-void	parsing_rgb(t_data *data, char *line, char *direction);
+/* --- Parsing --- */
+	/* parsing_map.c */
+int		spawn_count_is_1(int spawn_count);
+int		check_spawn(t_map *map, int height, int width);
+int		is_map_closed(char **map, int height, int width);
 int		parsing_map(t_map	*map);
-void	print_map(t_map *map);
-
-/* draw map */
-void    draw_miniMap(t_data *data);
-/* Free / error*/
-void	ft_free_cub3d(t_data *data);
-/* Minimap */
-void    draw_miniMap(t_data *data);
-void    setup_minimap(t_data *data);
-
+	/* parsing_utils.c */
+int		is_player(char c);
+int		is_valid(char c);
+int		ft_verif_digit(char	*str);
+	/* parsing.c */
+int		check_valid_file(char *line);
+int		parsing_texture(t_textdata *textures);
+void	attribute_rgb(t_data *data, char **tab_value, char *direction);
+void	parsing_rgb(t_data *data, char *line, char *direction);
+int		parsing(t_data *data);
 /* --- Player --- */
-	/* Movement */
-	/* Key events */
-int     key_press(int key, t_data *data);
-int     key_release(int key, t_data *data);
-int		key_handler(t_data *data);
-
+	/* key_events.c */
+int		key_press(int key, t_data *data);
+int		key_release(int key, t_data *data);
+int	key_handler(t_data *data, t_game *game, t_player *player, char **map_tab);
+/* --- reading_data --- */
+	/* read_data.c */
+void	config_memory(t_data *data, char *line, char *direction);
+int		add_data(t_data *data, char *line);
+void	malloc_map(t_map *map);
+void	read_data(t_data *data, char *filename);
+	/* read_map.c */
+int		is_map_line(char *line);
+void	read_map(t_map *map, char *line);
+void	write_line(t_map *map, char	*line, int *i);
+void	write_map(t_map *map, char	*filename);
 /* --- Rendering --- */
-	/* render_raycast */
-void    render_raycast(t_data *data, t_game *game);
 	/* drawing_func */
-void    draw_ceiling(t_data *data, t_game *game, int x, int color);
-void    draw_floor(t_data *data, t_game *game, t_map* map);
-void    pixels_to_image(t_data *data, int x, int y, int pixcolor);
+void	pixels_to_image(t_data *data, int x, int y, int pixcolor);
+void	draw_ceiling(t_data *data, t_game *game, int x, int color);
+void	init_floor_params(t_data *data, t_game *game, int y);
+void	draw_floor(t_data *data, t_game *game, t_map* map);
+	/* render_raycast */
+void	init_ray(t_data *data, int x);
+void	setup_angle_rayon(t_data *data);
+void	dda_loop(t_data *data);
+void	manage_draw_limits(t_data *data);
+void	select_texture_side(t_game *game);
+void	get_texture_pos(t_data *data);
+void	draw_wall_col(t_data *data, int x);
+void	show_fps(t_data *data);
+void	render_raycast(t_data *data, t_game *game);
+void	calcul_jump_offset(t_data *data);
 	/* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);
-void calcul_jump_offset(t_data *data);
-void	init_tab_contour(t_data *data);
+/* --- Minimap --- */
+	/* contour_minimap.c */
 int		is_minimap_status(t_data *data, int x, int y);
+void	pixels_to_image_minimap_player(t_data *data, int x, int y, int pixcolor);
 void	write_contour_minimap(t_data *data);
-void init_ray(t_data *data, int x);
+	/* drawing_onMinimap.c */
+void	draw_player_minmap(t_data *data);
+void	draw_cube_wall(t_data *data, int x, int y);
+void	draw_cube_floor(t_data *data, int x, int y);
+void	draw_cube_outside(t_data *data);
+void	draw_mini_map(t_data *data);
+/* --- Main.c --- */
+void	print_map(t_map *map);
+int		test_rend(t_data *data);
+void	setup_minimap(t_data *data);
+
 //void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 #endif

@@ -3,50 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:47:27 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/11 12:40:07 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 21:51:14 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	is_player(char c)
+int	spawn_count_is_1(int spawn_count)
 {
-	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
-}
-
-int	is_valid(char c)
-{
-	return (c == '0' || c == '1' || is_player(c));
-}
-
-int	check_spawn(t_map *map, int height, int width)
-{
-	int	i;
-	int	j;
-	int	spawn_count;
-
-	spawn_count = 0;
-	i = 0;
-	while (i < height)
-	{
-		j = 0;
-		while (j < width)
-		{
-			if (is_player(map->map_tab[i][j]))
-			{
-				map->player->start_x = j;
-				map->player->start_y = i;
-				map->player->x = i;
-				map->player->y = j;
-				spawn_count++;
-			}
-			j++;
-		}
-		i++;
-	}
 	if (spawn_count == 0)
 	{
 		printf("Error: No spawn point found.\n");
@@ -57,6 +24,34 @@ int	check_spawn(t_map *map, int height, int width)
 		printf("Error: Multiple spawn points found (%d).\n", spawn_count);
 		return (1);
 	}
+	return (0);
+}
+
+int	check_spawn(t_map *map, int height, int width)
+{
+	int	i;
+	int	j;
+	int	spawn_count;
+
+	spawn_count = 0;
+	i = -1;
+	while (++i < height)
+	{
+		j = -1;
+		while (++j < width)
+		{
+			if (is_player(map->map_tab[i][j]))
+			{
+				map->player->start_x = j;
+				map->player->start_y = i;
+				map->player->x = i;
+				map->player->y = j;
+				spawn_count++;
+			}
+		}
+	}
+	if (spawn_count_is_1(spawn_count))
+		return (1);
 	return (0);
 }
 

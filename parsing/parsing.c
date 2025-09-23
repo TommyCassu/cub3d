@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:36:47 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:51:44 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,6 @@ int	parsing_texture(t_textdata *textures)
 		textures->w = NULL;
 		printf("wqewqewqeqwe");
 		return (0);
-	}
-	return (1);
-}
-
-int	ft_verif_digit(char	*str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
 	}
 	return (1);
 }

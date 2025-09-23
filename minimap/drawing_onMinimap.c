@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_onMinimap.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:23:55 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 17:32:44 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/23 22:46:01 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-void	pixels_to_image_minimap_player(t_data *data, int x, int y, int pixcolor)
-{
-	int	pi;
-
-	pi = y * (data->mlx->img->line_s / 4) + x;
-	if (x < 0 || y < 0 || x >= 256 || y >= 256)
-		return ;
-	((int *)data->mlx->img->addr)[pi] = pixcolor;
-}
 
 void	draw_player_minmap(t_data *data)
 {
@@ -53,25 +43,24 @@ void	draw_cube_wall(t_data *data, int x, int y)
 	int	center_x;
 	int	center_y;
 
-	center_x =  (x - data->map->player->x) * 10 + RES_MMAP_X / 2;
+	center_x = (x - data->map->player->x) * 10 + RES_MMAP_X / 2;
 	center_y = (y - data->map->player->y) * 10 + RES_MMAP_Y / 2;
-	i = 0;
-	while (i < 10)
+	i = -1;
+	while (++i < 10)
 	{
-		j = 0;
-		while (j < 10)
+		j = -1;
+		while (++j < 10)
 		{
-			if (center_x + i > 0 && j + center_y > 0 && j + center_y < RES_MMAP_X &&
-				center_x + i < RES_MMAP_Y && is_minimap_status(data, j + center_y,center_x + i) == 1)
+			if (center_x + i > 0 && j + center_y > 0 && j + center_y
+				< RES_MMAP_X && center_x + i < RES_MMAP_Y
+				&& is_minimap_status(data, j + center_y, center_x + i) == 1)
 			{
 				if (j == 0 || i == 0 || j == 10 || i == 10)
-					pixels_to_image(data, j + center_y,center_x + i, 0x9b8568);
+					pixels_to_image(data, j + center_y, center_x + i, 0x9b8568);
 				else
-					pixels_to_image(data,  j + center_y , center_x + i,0x968e7c);
+					pixels_to_image(data, j + center_y, center_x + i, 0x968e7c);
 			}
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -82,7 +71,7 @@ void	draw_cube_floor(t_data *data, int x, int y)
 	int	center_x;
 	int	center_y;
 
-	center_x =  (x - data->map->player->x) * 10 + RES_MMAP_X / 2;
+	center_x = (x - data->map->player->x) * 10 + RES_MMAP_X / 2;
 	center_y = (y - data->map->player->y) * 10 + RES_MMAP_Y / 2;
 	i = 0;
 	while (i < 10)
@@ -90,10 +79,10 @@ void	draw_cube_floor(t_data *data, int x, int y)
 		j = 0;
 		while (j < 10)
 		{
-			if (center_x + i > 0 && j + center_y > 0 && j + center_y < RES_MMAP_X && center_x + i < RES_MMAP_Y && is_minimap_status(data,j + center_y,center_x + i) == 1)
-			{
-				pixels_to_image(data, j + center_y,center_x + i, 0xFFFFFF);
-			}
+			if (center_x + i > 0 && j + center_y > 0 && j + center_y
+				< RES_MMAP_X && center_x + i < RES_MMAP_Y
+				&& is_minimap_status(data, j + center_y, center_x + i) == 1)
+				pixels_to_image(data, j + center_y, center_x + i, 0xFFFFFF);
 			j++;
 		}
 		i++;
@@ -119,7 +108,7 @@ void	draw_cube_outside(t_data *data)
 	}
 }
 
-void	draw_miniMap(t_data *data)
+void	draw_mini_map(t_data *data)
 {
 	int	x;
 	int	y;
@@ -131,8 +120,9 @@ void	draw_miniMap(t_data *data)
 		x = data->map->width_map - 1;
 		while (x >= 0)
 		{
-			if (data->map->map_tab[y][x] == '1' || data->map->map_tab[y][x] == '#')
-				draw_cube_wall(data, y,x);
+			if (data->map->map_tab[y][x] == '1'
+				|| data->map->map_tab[y][x] == '#')
+				draw_cube_wall(data, y, x);
 			else
 				draw_cube_floor(data, y, x);
 			x--;
