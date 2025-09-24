@@ -1,9 +1,9 @@
-NO ./textures/north_face.xpm
-EA ./textures/east_face.xpm
-WE ./textures/west_face.xpm
-SO ./textures/south_face.xpm
+NO ./bonus/textures/north_face.xpm
+EA ./bonus/textures/east_face.xpm
+WE ./bonus/textures/west_face.xpm
+SO ./bonus/textures/south_face.xpm
 
-F 247,248,250
+F 0,128,0
 
 
 C 0,196,255
