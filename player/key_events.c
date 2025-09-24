@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 23:06:54 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:46:03 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,85 +58,55 @@ int	key_release(int key, t_data *data)
 	return (0);
 }
 
-int	key_handler(t_data *data, t_game *game, t_player *player, char **map_tab)
+void	turn_right(t_game *game, t_player *player)
 {
-	double	old_dir_x;
-	double	old_plane_x;
-	double	msdirx = data->map->player->dirX * game->moveSpeed;
-	double	msdiry = data->map->player->dirY * game->moveSpeed;
-	double	msplany = game->planeY * game->moveSpeed;
-	double	msplanx = game->planeX * game->moveSpeed;
-	
-	if ((int)player->y < 0 || (int)player->y >= data->map->width_map || (int)player->x >= data->map->height_map || (int)player->x < 0)
+	game->old_dir_x = player->dirX;
+	player->dirX = player->dirX * cos(-game->rotSpeed)
+		- player->dirY * sin(-game->rotSpeed);
+	player->dirY = game->old_dir_x * sin(-game->rotSpeed)
+		+ player->dirY * cos(-game->rotSpeed);
+	game->old_plane_x = game->planeX;
+	game->planeX = game->planeX * cos(-game->rotSpeed)
+		- game->planeY * sin(-game->rotSpeed);
+	game->planeY = game->old_plane_x * sin(-game->rotSpeed)
+		+ game->planeY * cos(-game->rotSpeed);
+}
+
+void	turn_left(t_game *game, t_player *player)
+{
+	game->old_dir_x = player->dirX;
+	player->dirX = player->dirX * cos(game->rotSpeed)
+		- player->dirY * sin(game->rotSpeed);
+	player->dirY = game->old_dir_x * sin(game->rotSpeed)
+		+ player->dirY * cos(game->rotSpeed);
+	game->old_plane_x = game->planeX;
+	game->planeX = game->planeX * cos(game->rotSpeed)
+		- game->planeY * sin(game->rotSpeed);
+	game->planeY = game->old_plane_x * sin(game->rotSpeed)
+		+ game->planeY * cos(game->rotSpeed);
+}
+
+int	key_handler(t_data *data, t_game *game, t_player *player)
+{
+	if ((int)player->y < 0 || (int)player->y >= data->map->width_map
+		|| (int)player->x >= data->map->height_map || (int)player->x < 0)
 		return (1);
 	if (game->keyTab[key_W] == 1)
-	{
-		if ((int)(player->x + msdirx) < 0 || (int)(player->x + msdirx) >= data->map->height_map || (int)(player->y + msdiry) < 0 || (int)(player->y + msdiry) >= data->map->width_map)
+		if (go_forward(data, player))
 			return (1);
-		if (map_tab[(int)(player->x + msdirx)][(int)player->y] != '1')
-			player->x += msdirx;
-		if (map_tab[(int)player->x][(int)(player->y + msdiry)] != '1')
-			player->y += msdiry;
-	}
 	if (game->keyTab[key_S] == 1)
-	{
-		if ((int)(player->x - msdirx) < 0 || (int)(player->x - msdirx) >= data->map->height_map || (int)(player->y - msdiry) < 0 || (int)(player->y - msdiry) >= data->map->width_map)
+		if (go_backward(data, player))
 			return (1);
-		if (map_tab[(int)(player->x - msdirx)][(int)player->y] != '1')
-			player->x -= msdirx;
-		if (map_tab[(int)player->x][(int)(player->y - msdiry)] != '1')
-			player->y -= msdiry;
-	}
 	if (game->keyTab[key_D] == 1)
-	{
-		if ((int)(player->x + msplanx) < 0 || (int)(player->x + msplanx) >= data->map->height_map || (int)(player->y + msplany) < 0 || (int)(player->y + msplany) >= data->map->width_map)
+		if (go_right(data, player))
 			return (1);
-		if (map_tab[(int)(player->x + msplanx)][(int)player->y] != '1')
-			player->x += msplanx;
-		if (map_tab[(int)player->x][(int)(player->y + msplany)] != '1')
-			player->y += msplany;
-	}
 	if (game->keyTab[key_A] == 1)
-	{
-		if ((int)(player->x - msplanx) < 0 || (int)(player->x - msplanx) >= data->map->height_map || (int)(player->y - msplany) < 0 || (int)(player->y - msplany) >= data->map->width_map)
+		if (go_left(data, player))
 			return (1);
-		if (map_tab[(int)(player->x - msplanx)][(int)player->y] != '1')
-			player->x -= msplanx;
-		if (map_tab[(int)player->x][(int)(player->y - msplany)] != '1')
-			player->y -= msplany;
-	}
 	if (game->keyTab[key_Right] == 1)
-	{
-		old_dir_x = player->dirX;
-		player->dirX = player->dirX * cos(-game->rotSpeed) - player->dirY * sin(-game->rotSpeed);
-		player->dirY = old_dir_x * sin(-game->rotSpeed) + player->dirY * cos(-game->rotSpeed);
-		old_plane_x = game->planeX;
-		game->planeX = game->planeX * cos(-game->rotSpeed) - game->planeY * sin(-game->rotSpeed);
-		game->planeY = old_plane_x * sin(-game->rotSpeed) + game->planeY * cos(-game->rotSpeed);
-	}
+		turn_right(game, player);
 	if (game->keyTab[key_Left] == 1)
-	{
-		old_dir_x = player->dirX;
-		player->dirX = player->dirX * cos(game->rotSpeed) - player->dirY * sin(game->rotSpeed);
-		player->dirY = old_dir_x * sin(game->rotSpeed) + player->dirY * cos(game->rotSpeed);
-		old_plane_x = game->planeX;
-		game->planeX = game->planeX * cos(game->rotSpeed) - game->planeY * sin(game->rotSpeed);
-		game->planeY = old_plane_x * sin(game->rotSpeed) + game->planeY * cos(game->rotSpeed);
-	}
-	if (game->keyTab[key_Jump] == 1 && player->isjumping == 0)
-	{
-		player->isjumping = 1;
-		player->jumpspeed = 0.02;
-	}
-	if (game->keyTab[key_Up] == 1)
-	{
-		if (game->headView < 100)
-			game->headView += 4;
-	}
-	if (game->keyTab[key_Down] == 1)
-	{
-		if (game->headView > -100)
-			game->headView -= 4;
-	}
+		turn_left(game, player);
+	move_head(game, player);
 	return (0);
 }

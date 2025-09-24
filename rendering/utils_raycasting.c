@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:38:59 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 20:38:23 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:52:30 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
+}
+
+void	show_fps(t_data *data)
+{
+	char	fpsbuffer[32];
+
+	data->game->oldTime = data->game->time;
+	data->game->time = get_time();
+	data->game->frameTime = (data->game->time - data->game->oldTime) / 1000.0;
+	sprintf(fpsbuffer, "FPS %F", 1.0 / data->game->frameTime);
+	mlx_string_put(data->mlx->ptr, data->mlx->win,
+		500, 20, 0x000000, fpsbuffer);
 }
 
 //void	transpose_test(t_mlx *mlx, t_img *img, int w, int h)

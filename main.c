@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 23:04:22 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 13:56:03 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    print_map(t_map *map)
 
 int    test_rend(t_data *data)
 {
-	key_handler(data, data->game, data->map->player, data->map->map_tab);
+	key_handler(data, data->game, data->map->player);
 	render_raycast(data, data->game);
 	draw_mini_map(data);
 	return (0);

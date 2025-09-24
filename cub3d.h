@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 23:03:39 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:00:10 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ typedef struct s_player
 
 typedef struct s_game
 {
-	double time; //time of current frame
-	double oldTime; //time of previous frame
+	double time;
+	double oldTime;
 	double planeX; 
 	double planeY;
 	double rayDir_x;
@@ -116,6 +116,8 @@ typedef struct s_game
 	double	floor_y;
 	double	floor_step_y;
 	double	floor_step_x;
+	double	old_dir_x;
+	double	old_plane_x;
 	int		cell_x;
 	int		cell_y;
 	int		tx;
@@ -182,10 +184,18 @@ void	attribute_rgb(t_data *data, char **tab_value, char *direction);
 void	parsing_rgb(t_data *data, char *line, char *direction);
 int		parsing(t_data *data);
 /* --- Player --- */
-	/* key_events.c */
+/* key_events.c */
 int		key_press(int key, t_data *data);
 int		key_release(int key, t_data *data);
-int	key_handler(t_data *data, t_game *game, t_player *player, char **map_tab);
+void	turn_right(t_game *game, t_player *player);
+void	turn_left(t_game *game, t_player *player);
+int		key_handler(t_data *data, t_game *game, t_player *player);
+/* movement.c */
+int		go_forward(t_data *data, t_player *player);
+int		go_backward(t_data *data, t_player *player);
+int		go_right(t_data *data, t_player *player);
+int		go_left(t_data *data, t_player *player);
+void	move_head(t_game *game, t_player *player);
 /* --- reading_data --- */
 	/* read_data.c */
 void	config_memory(t_data *data, char *line, char *direction);
@@ -203,20 +213,21 @@ void	pixels_to_image(t_data *data, int x, int y, int pixcolor);
 void	draw_ceiling(t_data *data, t_game *game, int x, int color);
 void	init_floor_params(t_data *data, t_game *game, int y);
 void	draw_floor(t_data *data, t_game *game, t_map* map);
-	/* render_raycast */
+	/* init_render_raycast */
 void	init_ray(t_data *data, int x);
 void	setup_angle_rayon(t_data *data);
 void	dda_loop(t_data *data);
 void	manage_draw_limits(t_data *data);
-void	select_texture_side(t_game *game);
+	/* render_raycast */
 void	get_texture_pos(t_data *data);
 void	draw_wall_col(t_data *data, int x);
-void	show_fps(t_data *data);
+void	select_texture_side(t_game *game);
 void	render_raycast(t_data *data, t_game *game);
 void	calcul_jump_offset(t_data *data);
 	/* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);
+void	show_fps(t_data *data);
 /* --- Minimap --- */
 	/* contour_minimap.c */
 int		is_minimap_status(t_data *data, int x, int y);
