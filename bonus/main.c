@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:48:33 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/25 01:44:52 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void setup_minimap(t_data *data)
 	int		h;
 	int		w;
 
-	mini = "./textures/minimap.xpm";
+	mini = "./bonus/textures/minimap.xpm";
 	data->game->img_minimap_contour->ptr = mlx_xpm_file_to_image(data->mlx->ptr, mini, &w, &h);
 	// data->game->img_minimap->ptr = mlx_new_image(data->mlx->ptr, RES_MMAP_X, RES_MMAP_Y);
 	data->game->img_minimap_contour->addr = (int *)mlx_get_data_addr(data->game->img_minimap_contour->ptr, &data->game->img_minimap_contour->bpp,
