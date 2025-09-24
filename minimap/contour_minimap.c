@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 00:29:19 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 22:46:22 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:37:36 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	write_contour_minimap(t_data *data)
 		{
 			if (is_minimap_status(data, x, y) != 0)
 			{
-				color = get_pixel(data->game->img_miniMap_contour, x, y);
+				color = get_pixel(data->game->img_minimap_contour, x, y);
 				pixels_to_image(data, x, y, color);
 			}
 			x++;

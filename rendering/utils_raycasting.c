@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:38:59 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 14:52:30 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:17:09 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ void	show_fps(t_data *data)
 {
 	char	fpsbuffer[32];
 
-	data->game->oldTime = data->game->time;
+	data->game->oldtime = data->game->time;
 	data->game->time = get_time();
-	data->game->frameTime = (data->game->time - data->game->oldTime) / 1000.0;
-	sprintf(fpsbuffer, "FPS %F", 1.0 / data->game->frameTime);
+	data->game->frametime = (data->game->time - data->game->oldtime) / 1000.0;
+	sprintf(fpsbuffer, "FPS %F", 1.0 / data->game->frametime);
 	mlx_string_put(data->mlx->ptr, data->mlx->win,
 		500, 20, 0x000000, fpsbuffer);
 }
 
-//void	transpose_test(t_mlx *mlx, t_img *img, int w, int h)
+// void	transpose_test(t_mlx *mlx, t_img *img, int w, int h)
 //{
 //	int		bpp, sl, endian;
 //	char	*src_data = mlx_get_data_addr(img->ptr, &bpp, &sl, &endian);
@@ -52,10 +52,10 @@ void	show_fps(t_data *data)
 //	int		src_offset;
 //	int		dst_offset;
 //	int		bytes_per_pixel = bpp / 8;
-//	
+//
 //	img_dst = malloc(sizeof(t_img));
 //	x = 0;
-//	
+//
 //	while (x < w)
 //	{
 //		y = 0;
@@ -74,4 +74,4 @@ void	show_fps(t_data *data)
 //		x++;
 //	}
 //	img = img_dst;
-//}
+// }

@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 14:58:08 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:22:17 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ void	select_texture_side(t_game *game)
 	/* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
 	if (game->side == 0)
 	{
-		if (game->rayDir_x > 0)
-			game->textNum = 0;
+		if (game->raydir_x > 0)
+			game->text_num = 0;
 		else
-			game->textNum = 1;
+			game->text_num = 1;
 	}
 	else
 	{
-		if (game->rayDir_y > 0)
-			game->textNum = 2;
+		if (game->raydir_y > 0)
+			game->text_num = 2;
 		else
-			game->textNum = 3;
+			game->text_num = 3;
 	}
 }
 
@@ -37,21 +37,21 @@ void	get_texture_pos(t_data *data)
 
 	data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
 	if (data->game->side == 0)
-		wall_x = data->map->player->y + data->game->perpWallDist
-			* data->game->rayDir_y;
+		wall_x = data->map->player->y + data->game->perp_wall_dist
+			* data->game->raydir_y;
 	else
-		wall_x = data->map->player->x + data->game->perpWallDist
-			* data->game->rayDir_x;
+		wall_x = data->map->player->x + data->game->perp_wall_dist
+			* data->game->raydir_x;
 	wall_x -= floor(wall_x);
-	data->game->texX = (int)(wall_x * (double)(TEXT_SIZE));
-	if (data->game->side == 0 && data->game->rayDir_x > 0)
-		data->game->texX = TEXT_SIZE - data->game->texX - 1;
-	if (data->game->side == 1 && data->game->rayDir_y < 0)
-		data->game->texX = TEXT_SIZE - data->game->texX - 1;
-	data->game->step = 1.0 * TEXT_SIZE / data->game->lineHeight;
-	data->game->texPos = ((data->game->drawStart - RES_Y / 2
-				+ data->game->lineHeight / 2 - data->game->jumpoffsetresy
-				- data->game->headView)) * data->game->step;
+	data->game->tex_x = (int)(wall_x * (double)(TEXT_SIZE));
+	if (data->game->side == 0 && data->game->raydir_x > 0)
+		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
+	if (data->game->side == 1 && data->game->raydir_y < 0)
+		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
+	data->game->step = 1.0 * TEXT_SIZE / data->game->line_height;
+	data->game->tex_pos = ((data->game->draw_start - RES_Y / 2
+				+ data->game->line_height / 2 - data->game->jumpoffsetresy
+				- data->game->head_view)) * data->game->step;
 }
 
 void	draw_wall_col(t_data *data, int x)
@@ -60,15 +60,15 @@ void	draw_wall_col(t_data *data, int x)
 	int	color;
 
 	color = 0xeeeeee;
-	i = data->game->drawStart;
-	if (data->game->drawEnd >= RES_Y)
-		data->game->drawEnd = RES_Y - 1;
-	while (i < data->game->drawEnd)
+	i = data->game->draw_start;
+	if (data->game->draw_end >= RES_Y)
+		data->game->draw_end = RES_Y - 1;
+	while (i < data->game->draw_end)
 	{
-		data->game->texY = (int)data->game->texPos & (TEXT_SIZE - 1);
-		data->game->texPos += data->game->step;
-		color = get_pixel(data->map->textdata->img[data->game->textNum],
-				data->game->texX, data->game->texY);
+		data->game->tex_y = (int)data->game->tex_pos & (TEXT_SIZE - 1);
+		data->game->tex_pos += data->game->step;
+		color = get_pixel(data->map->textdata->img[data->game->text_num],
+				data->game->tex_x, data->game->tex_y);
 		if (data->game->side == 1)
 			color = (color >> 1) & 8355711;
 		if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0)
@@ -101,8 +101,8 @@ void	render_raycast(t_data *data, t_game *game)
 		mlx_put_image_to_window(data->mlx->ptr, data->mlx->win,
 			data->mlx->img->ptr, 0, 0);
 		show_fps(data);
-		game->moveSpeed = game->frameTime * 8.0;
-		game->rotSpeed = game->frameTime * 3.0;
+		game->movespeed = game->frametime * 8.0;
+		game->rotspeed = game->frametime * 3.0;
 		break ;
 	}
 }

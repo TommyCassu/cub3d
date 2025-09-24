@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:41:31 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:36:22 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	init_tab_contour(t_data *data)
 		x = 0;
 		while (x < RES_MMAP_X)
 		{
-			if (get_pixel(data->game->img_miniMap_contour, x, y) == 0xdd00fe)
+			if (get_pixel(data->game->img_minimap_contour, x, y) == 0xdd00fe)
 				data->game->tab_contour[y][x] = 0;
-			else if (get_pixel(data->game->img_miniMap_contour,
+			else if (get_pixel(data->game->img_minimap_contour,
 					x, y) == 0xfe00dd)
 				data->game->tab_contour[y][x] = 1;
 			else
@@ -58,8 +58,8 @@ void	init_data(t_data *data)
 	data->map->player->jumpspeed = 0;
 	data->map->floor_rgb = -1;
 	data->map->ceilling_rgb = -1;
-	data->map->player->dirX = -1;
-	data->map->player->dirY = 0;
+	data->map->player->dir_x = -1;
+	data->map->player->dir_y = 0;
 }
 
 void	init_mlx(t_mlx *mlx, t_data *data)
