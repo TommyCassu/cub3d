@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 18:27:50 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/27 01:11:03 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,13 @@ typedef struct s_data
 
 /* --- error --- */
 /* free.c */
+int		ft_exit(void *param);
 void	ft_free(char **result);
 void	ft_free_cub3d(t_data *data);
+void	ft_free_map(t_data *data);
+void	free_map(t_map *map);
+void	ft_free_imgs(t_data *data);
+void	ft_free_mlx(t_data *data);
 /* --- initialisation --- */
 /* init_raycasting.c */
 void	init_raycast(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 18:22:06 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/27 01:06:32 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	key_press(int key, t_data *data)
 		data->game->key_tab[KEY_LEFT] = 1;
 	if (key == XK_space)
 		data->game->key_tab[KEY_JUMP] = 1;
+	if (key == XK_Escape)
+		ft_exit(data);
 	return (0);
 }
 

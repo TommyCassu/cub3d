@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 18:12:42 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/09/27 00:31:15 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,9 @@ int	main(int ac, char **av)
 		{
 			print_map(data->map);
 			setup_text_img(data, data->map->textdata);
-			// mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->img->ptr, 0, 0);
-			// transpose_test(data->mlx, data->map->textdata->img,w , h);
 			mlx_hook(data->mlx->win, KeyPress, KeyPressMask, key_press, data);
 			mlx_hook(data->mlx->win, KeyRelease, KeyReleaseMask, key_release, data);
+			mlx_hook(data->mlx->win, DestroyNotify, NoEventMask, ft_exit, data);
 			mlx_loop_hook(data->mlx->ptr, test_rend, data);
 			mlx_loop(data->mlx->ptr);
 		}
