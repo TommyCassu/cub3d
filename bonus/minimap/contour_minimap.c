@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contour_minimap.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 00:29:19 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:37:36 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 22:31:02 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	pixels_to_image_minimap_player(t_data *data, int x, int y, int pixcolor)
 	int	pi;
 
 	pi = y * (data->mlx->img->line_s / 4) + x;
-	if (x < 0 || y < 0 || x >= 256 || y >= 256)
+	if (x < 0 || y < 0 || x >= RES_MMAP_X || y >= RES_MMAP_Y)
 		return ;
 	((int *)data->mlx->img->addr)[pi] = pixcolor;
 }
@@ -34,10 +34,10 @@ void	write_contour_minimap(t_data *data)
 	unsigned int	color;
 
 	y = 0;
-	while (y < 256)
+	while (y < RES_MMAP_Y)
 	{
 		x = 0;
-		while (x < 256)
+		while (x < RES_MMAP_X)
 		{
 			if (is_minimap_status(data, x, y) != 0)
 			{

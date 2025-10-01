@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 16:53:19 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 22:35:30 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define RES_Y 1080
 # define RES_MMAP_X 256
 # define RES_MMAP_Y 256
+# define TILES_MINIMAP_SIZE 8
 # define KEY_UP 1
 # define KEY_DOWN 2
 # define KEY_LEFT 3

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_raycast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 18:14:40 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 22:29:32 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,14 @@ void	render_raycast(t_data *data, t_game *game)
 		//calculate height of the sprite on screen
 		int spriteHeight = abs((int)(RES_Y / (transform_y))) / vDiv; //using "transform_y" instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawstart_y = -spriteHeight / 2 + RES_Y / 2 + vmove_screen;
+		int drawstart_y = -spriteHeight / 2 + RES_Y / 2 + vmove_screen + data->game->head_view + (int)(data->map->player->jumpoffset * RES_Y);
 		if(drawstart_y < 0)
 			drawstart_y = 0;
-		int drawend_y = spriteHeight / 2 + RES_Y / 2 + vmove_screen;
+		int drawend_y = spriteHeight / 2 + RES_Y / 2 + vmove_screen + data->game->head_view + (int)(data->map->player->jumpoffset * RES_Y);
 		if(drawend_y >= RES_Y)
 			drawend_y = RES_Y - 1;
 		//calculate width of the sprite
 		int spriteWidth = abs((int) (RES_Y / (transform_y))) / uDiv; 
-		//printf("%d -> %d | %f -> %f\n", spriteWidth, spriteHeight, sprite_x, sprite_y);// same as height of sprite, given that it's square
 		int drawstart_x = -spriteWidth / 2 + spritescreen_x;
 		if(drawstart_x < 0)
 			drawstart_x = 0;
@@ -141,12 +140,11 @@ void	render_raycast(t_data *data, t_game *game)
 			if(transform_y > 0 && transform_y < zbuffer[stripe])
 			{
 				int y = drawstart_y;
-				while( y < drawend_y) //for every pixel of the current stripe
+				while(y < drawend_y) //for every pixel of the current stripe
 				{
-					int d = (y - vmove_screen) * 256 - RES_Y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = ((d * 64) / spriteHeight) / 256;
-					unsigned int color = get_pixel(data->map->textdata->img[5], texX , texY); //get current color from the texture
-					//printf("%i\n", color);
+					int d = (y - data->game->head_view - (int)(data->map->player->jumpoffset * RES_Y) - vmove_screen) * 256 - RES_Y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int texY = (((d  * 64) / spriteHeight) / 256);
+					unsigned int color = get_pixel(data->map->textdata->img[5], texX , texY ); //get current color from the texture
 					if((color & 0x00FFFFFF) != 0)
 					{
 						pixels_to_image(data, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
