@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:36:22 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:46:50 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	init_data(t_data *data)
 	data->map->textdata->img[2] = malloc(sizeof(t_img));
 	data->map->textdata->img[3] = malloc(sizeof(t_img));
 	data->map->textdata->img[4] = malloc(sizeof(t_img));
+	data->map->textdata->img[5] = malloc(sizeof(t_img));
 	data->map->player = malloc(sizeof(t_player));
 	ft_memset(data->map->player, 0, sizeof(t_player));
 	data->map->player->jumpoffset = 0;

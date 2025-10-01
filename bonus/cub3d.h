@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 13:44:11 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:53:19 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define KEY_D 8
 # define KEY_JUMP 9
 # define TEXT_SIZE 128
+# define numSprites 19
 
 typedef struct s_img
 {
@@ -54,7 +55,7 @@ typedef struct s_textdata
 	char	*s;
 	char	*w;
 	char	*e;
-	t_img	*img[5];
+	t_img	*img[6];
 }			t_textdata;
 
 typedef struct s_player
@@ -69,6 +70,13 @@ typedef struct s_player
 	double	jumpspeed;
 	double	jumpoffset;
 }			t_player;
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	int		texture;
+}			t_sprite;
 
 typedef struct s_game
 {
@@ -123,6 +131,7 @@ typedef struct s_game
 	int		jumpoffsetresy;
 	t_img	*img_minimap;
 	t_img	*img_minimap_contour;
+	t_sprite sprite[numSprites];
 	int		tab_contour[256][256];
 	double	frametime;
 }			t_game;

@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:22:17 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 18:14:40 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ void	draw_wall_col(t_data *data, int x)
 
 void	render_raycast(t_data *data, t_game *game)
 {
-	int	x;
-
+	int		x;
+	double	zbuffer[RES_X];
+	//int		spriteOrder[numSprites];
+	//double	spriteDistance[numSprites];
 	while (1)
 	{
 		x = -1;
@@ -96,7 +98,63 @@ void	render_raycast(t_data *data, t_game *game)
 			select_texture_side(game);
 			get_texture_pos(data);
 			draw_wall_col(data, x);
+			zbuffer[x] = game->perp_wall_dist;
 			draw_ceiling(data, game, x, data->map->ceilling_rgb);
+		}
+		
+		double sprite_x = game->sprite[0].x - data->map->player->x;
+		//printf("data->map->player->x: %f	\n", data->map->player->x);
+		double sprite_y = game->sprite[0].y - data->map->player->y;
+		double inv_det = 1.0 / (game->plane_x * data->map->player->dir_y - data->map->player->dir_x * game->plane_y); //required for correct matrix multiplication
+		double transform_x = inv_det * (data->map->player->dir_y * sprite_x - data->map->player->dir_x * sprite_y);
+		double transform_y = inv_det * (-game->plane_y * sprite_x + game->plane_x * sprite_y); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
+		//printf("transform_x: %f | transform_y: %f\n", transform_x, transform_y);
+		int spritescreen_x = (int)((RES_X / 2) * (1 + transform_x / transform_y));
+		//printf("spritescreen_x: %d\n", spritescreen_x);
+		#define uDiv 1
+		#define vDiv 1
+		#define vMove 0.0
+		int vmove_screen = (int)(vMove / transform_y);
+
+		//calculate height of the sprite on screen
+		int spriteHeight = abs((int)(RES_Y / (transform_y))) / vDiv; //using "transform_y" instead of the real distance prevents fisheye
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawstart_y = -spriteHeight / 2 + RES_Y / 2 + vmove_screen;
+		if(drawstart_y < 0)
+			drawstart_y = 0;
+		int drawend_y = spriteHeight / 2 + RES_Y / 2 + vmove_screen;
+		if(drawend_y >= RES_Y)
+			drawend_y = RES_Y - 1;
+		//calculate width of the sprite
+		int spriteWidth = abs((int) (RES_Y / (transform_y))) / uDiv; 
+		//printf("%d -> %d | %f -> %f\n", spriteWidth, spriteHeight, sprite_x, sprite_y);// same as height of sprite, given that it's square
+		int drawstart_x = -spriteWidth / 2 + spritescreen_x;
+		if(drawstart_x < 0)
+			drawstart_x = 0;
+		int drawend_x = spriteWidth / 2 + spritescreen_x;
+		if(drawend_x > RES_X)
+			drawend_x = RES_X;
+		int stripe = drawstart_x;
+		while (stripe < drawend_x)
+		{
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spritescreen_x)) * 64 / spriteWidth) / 256;
+			if(transform_y > 0 && transform_y < zbuffer[stripe])
+			{
+				int y = drawstart_y;
+				while( y < drawend_y) //for every pixel of the current stripe
+				{
+					int d = (y - vmove_screen) * 256 - RES_Y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int texY = ((d * 64) / spriteHeight) / 256;
+					unsigned int color = get_pixel(data->map->textdata->img[5], texX , texY); //get current color from the texture
+					//printf("%i\n", color);
+					if((color & 0x00FFFFFF) != 0)
+					{
+						pixels_to_image(data, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
+					}
+					y++;
+				}
+			}
+			stripe++;
 		}
 		mlx_put_image_to_window(data->mlx->ptr, data->mlx->win,
 			data->mlx->img->ptr, 0, 0);
