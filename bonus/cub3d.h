@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 19:17:02 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/01 13:44:11 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,15 @@ typedef struct s_data
 }			t_data;
 
 /* --- error --- */
+/* free_utils.c */
+void	free_map(t_map *map);
+void	ft_free_map(t_data *data);
+void	ft_free_imgs(t_data *data);
+void	ft_free_mlx(t_data *data);
 /* free.c */
-void	ft_free(char **result);
+int		ft_exit(void *param);
 void	ft_free_cub3d(t_data *data);
+void	ft_free(char **result);
 /* --- initialisation --- */
 /* init_raycasting.c */
 void	init_raycast(t_data *data);
