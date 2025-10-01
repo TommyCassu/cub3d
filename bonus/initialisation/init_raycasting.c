@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:35:21 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/25 01:44:11 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	setup_text_img(t_data *data, t_textdata *t)
 	t->img[3]->addr = (int *)mlx_get_data_addr(t->img[3]->ptr, &t->img[3]->bpp,
 			&t->img[3]->line_s, &t->img[3]->endian);
 	t->img[4]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
-			"./textures/floor.xpm", &w, &h);
+			"./bonus/textures/floor.xpm", &w, &h);
 	t->img[4]->addr = (int *)mlx_get_data_addr(t->img[4]->ptr, &t->img[4]->bpp,
 			&t->img[4]->line_s, &t->img[4]->endian);
 }

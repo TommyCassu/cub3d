@@ -3,27 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 14:42:08 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 22:37:18 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/27 01:09:51 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	free_map(t_map *map)
+int	ft_exit(void *param)
 {
-	int	i;
+	t_data	*data;
 
-	i = 0;
-	while (i < map->height_map)
-	{
-		free(map->map_tab[i]);
-		i++;
-	}
-	free(map->map_tab);
-	free(map);
+	data = (t_data *)param;
+	ft_free_cub3d(data);
+	exit(0);
 }
 
 void	ft_free_cub3d(t_data *data)
@@ -31,20 +26,10 @@ void	ft_free_cub3d(t_data *data)
 	if (!data)
 		return ;
 	if (data->map)
-	{
-		if (data->map->textdata)
-		{
-			if (data->map->textdata->n)
-				free(data->map->textdata->n);
-			if (data->map->textdata->s)
-				free(data->map->textdata->s);
-			if (data->map->textdata->e)
-				free(data->map->textdata->e);
-			if (data->map->textdata->w)
-				free(data->map->textdata->w);
-			free(data->map->textdata);
-		}
-		free_map(data->map);
-	}
+		ft_free_map(data);
+	if (data->game)
+		free(data->game);
+	if (data->mlx)
+		ft_free_mlx(data);
 	free(data);
 }

@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:31:03 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:24:58 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	key_press(int key, t_data *data)
 		data->game->key_tab[KEY_LEFT] = 1;
 	if (key == XK_space)
 		data->game->key_tab[KEY_JUMP] = 1;
+	if (key == XK_Escape)
+		ft_exit(data);
 	return (0);
 }
 

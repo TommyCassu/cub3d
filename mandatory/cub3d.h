@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:13:36 by npederen         ###   ########.fr       */
+/*   Updated: 2025/09/27 01:11:03 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <math.h>
 # include <stdio.h>
@@ -121,9 +121,6 @@ typedef struct s_game
 	int		tx;
 	int		ty;
 	int		jumpoffsetresy;
-	t_img	*img_minimap;
-	t_img	*img_minimap_contour;
-	int		tab_contour[256][256];
 	double	frametime;
 }			t_game;
 
@@ -155,8 +152,13 @@ typedef struct s_data
 
 /* --- error --- */
 /* free.c */
+int		ft_exit(void *param);
 void	ft_free(char **result);
 void	ft_free_cub3d(t_data *data);
+void	ft_free_map(t_data *data);
+void	free_map(t_map *map);
+void	ft_free_imgs(t_data *data);
+void	ft_free_mlx(t_data *data);
 /* --- initialisation --- */
 /* init_raycasting.c */
 void	init_raycast(t_data *data);
@@ -209,8 +211,7 @@ void	write_map(t_map *map, char *filename);
 /* drawing_func */
 void	pixels_to_image(t_data *data, int x, int y, int pixcolor);
 void	draw_ceiling(t_data *data, t_game *game, int x, int color);
-void	init_floor_params(t_data *data, t_game *game, int y);
-void	draw_floor(t_data *data, t_game *game, t_map *map);
+void	draw_floor(t_data *data, t_game *game, int x, int color);
 /* init_render_raycast */
 void	init_ray(t_data *data, int x);
 void	setup_angle_rayon(t_data *data);
