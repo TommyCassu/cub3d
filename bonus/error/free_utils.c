@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:08:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 13:58:19 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:18:10 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	ft_free_map(t_data *data)
 	}
 	if (data->map->player)
 		free(data->map->player);
+	if (data->game->sprite)
+		free(data->game->sprite);
 	free_map(data->map);
 }
 
@@ -76,16 +78,22 @@ void	ft_free_imgs(t_data *data)
 		mlx_destroy_image(data->mlx->ptr, data->game->img_minimap->ptr);
 	if (data->game->img_minimap_contour)
 		mlx_destroy_image(data->mlx->ptr, data->game->img_minimap_contour->ptr);
+	if (data->game->sprite->img_sprite[0])
+		mlx_destroy_image(data->mlx->ptr, data->game->sprite->img_sprite[0]->ptr);
+	if (data->game->sprite->img_sprite[0])
+			free(data->game->sprite->img_sprite[0]);
 }
 
 void	ft_free_mlx(t_data *data)
 {
-	if (data->mlx->img)
+	if (data->mlx->img)	
 	{
 		mlx_destroy_image(data->mlx->ptr, data->mlx->img->ptr);
 		free(data->mlx->img);
 	}
 	if (data->mlx->win)
 		mlx_destroy_window(data->mlx->ptr, data->mlx->win);
+	mlx_destroy_display(data->mlx->ptr);
+	free(data->mlx->ptr);
 	free(data->mlx);
 }
