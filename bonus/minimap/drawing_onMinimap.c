@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_onMinimap.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:23:55 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 22:46:01 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 22:32:14 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,19 @@ void	draw_cube_wall(t_data *data, int x, int y)
 	int	center_x;
 	int	center_y;
 
-	center_x = (x - data->map->player->x) * 10 + RES_MMAP_X / 2;
-	center_y = (y - data->map->player->y) * 10 + RES_MMAP_Y / 2;
+	center_x = (x - data->map->player->x) * TILES_MINIMAP_SIZE + RES_MMAP_X / 2;
+	center_y = (y - data->map->player->y) * TILES_MINIMAP_SIZE + RES_MMAP_Y / 2;
 	i = -1;
-	while (++i < 10)
+	while (++i < TILES_MINIMAP_SIZE)
 	{
 		j = -1;
-		while (++j < 10)
+		while (++j < TILES_MINIMAP_SIZE)
 		{
 			if (center_x + i > 0 && j + center_y > 0 && j + center_y
 				< RES_MMAP_X && center_x + i < RES_MMAP_Y
 				&& is_minimap_status(data, j + center_y, center_x + i) == 1)
 			{
-				if (j == 0 || i == 0 || j == 10 || i == 10)
+				if (j == 0 || i == 0 || j == TILES_MINIMAP_SIZE || i == TILES_MINIMAP_SIZE)
 					pixels_to_image(data, j + center_y, center_x + i, 0x9b8568);
 				else
 					pixels_to_image(data, j + center_y, center_x + i, 0x968e7c);
@@ -71,13 +71,13 @@ void	draw_cube_floor(t_data *data, int x, int y)
 	int	center_x;
 	int	center_y;
 
-	center_x = (x - data->map->player->x) * 10 + RES_MMAP_X / 2;
-	center_y = (y - data->map->player->y) * 10 + RES_MMAP_Y / 2;
+	center_x = (x - data->map->player->x) * TILES_MINIMAP_SIZE + RES_MMAP_X / 2;
+	center_y = (y - data->map->player->y) * TILES_MINIMAP_SIZE + RES_MMAP_Y / 2;
 	i = 0;
-	while (i < 10)
+	while (i < TILES_MINIMAP_SIZE)
 	{
 		j = 0;
-		while (j < 10)
+		while (j < TILES_MINIMAP_SIZE)
 		{
 			if (center_x + i > 0 && j + center_y > 0 && j + center_y
 				< RES_MMAP_X && center_x + i < RES_MMAP_Y
