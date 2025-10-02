@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_raycast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/02 02:57:23 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/02 18:26:50 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void	render_raycast(t_data *data, t_game *game)
 			data->mlx->img->ptr, 0, 0);
 		show_fps(data);
 		game->movespeed = game->frametime * 8.0;
-		game->rotspeed = game->frametime * 3.0;
+		game->rotspeed = game->frametime * 2.0;
 		break ;
 	}
 }
@@ -172,7 +172,7 @@ void	calcul_jump_offset(t_data *data)
 	if (data->map->player->isjumping)
 	{
 		data->map->player->jumpoffset += data->map->player->jumpspeed;
-		data->map->player->jumpspeed -= 0.001;
+		data->map->player->jumpspeed -= 0.2;
 		if (data->map->player->jumpoffset <= 0)
 		{
 			data->map->player->jumpoffset = 0;
