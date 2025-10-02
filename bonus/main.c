@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 23:24:25 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/02 17:39:57 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "../minilibx-linux/mlx.h"
 #include <X11/X.h>
 #include <X11/keysym.h>
 
@@ -53,6 +54,43 @@ void setup_minimap(t_data *data)
 	data->game->img_minimap->addr = (int *)mlx_get_data_addr(data->game->img_minimap->ptr, &data->game->img_minimap->bpp,
 															 &data->game->img_minimap->line_s, &data->game->img_minimap->endian);
 }
+int	mouse_handler(int new_xpos, int new_ypos, void *param)
+{
+	t_data *data;
+	data = (t_data *)param;
+	static int old_xpos = RES_X / 2;
+	static int old_ypos = RES_Y / 2;
+	mlx_mouse_get_pos(data->mlx->ptr, data->mlx->win, &new_xpos, &new_ypos);
+	printf("new_xpos %i`\n new_ypos %i\n", new_xpos, new_ypos);
+	printf("old_xpos %i`\n old_ypos %i\n", old_xpos, old_ypos);
+	if (new_xpos < old_xpos)
+	{
+		turn_left(data->game, data->map->player);
+		old_xpos = new_xpos;
+	}
+	if (new_xpos > old_xpos)
+	{
+		turn_right(data->game, data->map->player);
+		old_xpos = new_xpos;
+	}
+	//if (new_ypos < old_ypos)
+	//{
+	//	if (data->game->head_view < 100)
+	//	data->game->head_view += 10;
+	//}
+	//if (new_ypos > old_ypos)
+	//{
+	//	if (data->game->head_view > -100)
+	//		data->game->head_view -= 10;
+	//}
+	mlx_mouse_move(data->mlx->ptr, data->mlx->win, 1920, 1080);
+	//if (new_xpos != old_xpos || new_ypos != old_ypos)
+	//	mlx_mouse_move(data->mlx->ptr, data->mlx->win, old_xpos, old_ypos);
+	//if(old_xpos > 1900 || old_xpos < 100)
+	//	mlx_mouse_move(data->mlx->ptr, data->mlx->win, RES_X / 2, RES_Y / 2);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_data *data;
@@ -78,6 +116,7 @@ int	main(int ac, char **av)
 			setup_minimap(data);
 			init_tab_contour(data);
 			write_contour_minimap(data);
+			mlx_hook(data->mlx->win, MotionNotify, PointerMotionMask, mouse_handler, data);
 			mlx_hook(data->mlx->win, KeyPress, KeyPressMask, key_press, data);
 			mlx_hook(data->mlx->win, KeyRelease, KeyReleaseMask, key_release, data);
 			mlx_hook(data->mlx->win, DestroyNotify, NoEventMask, ft_exit, data);
