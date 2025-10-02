@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_raycast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/02 18:26:50 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 00:18:26 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	render_raycast(t_data *data, t_game *game)
 		int spritescreen_x = (int)((RES_X / 2) * (1 + transform_x / transform_y));
 		#define uDiv 2
 		#define vDiv 2
-		#define vMove 128.0
+		#define vMove 200.0
 		int vmove_screen = (int)(vMove / transform_y);
 
 		//calculate height of the sprite on screen
@@ -131,6 +131,16 @@ void	render_raycast(t_data *data, t_game *game)
 		int drawend_x = spriteWidth / 2 + spritescreen_x;
 		if(drawend_x > RES_X)
 			drawend_x = RES_X;
+		/* calcul angle sprite player*/
+		double dx = data->game->sprite->x - data->map->player->y;
+		double dy = data->game->sprite->y - data->map->player->x;
+		double angleToSprite = atan2(dx, dy);
+		double pa = atan2(data->map->player->dir_y, data->map->player->dir_x);
+		double relativeAngle = angleToSprite - pa;
+		
+		while (relativeAngle < 0) relativeAngle += 2*M_PI;
+		while (relativeAngle >= 2*M_PI) relativeAngle -= 2*M_PI;
+		int dirIndex = (int)((relativeAngle + M_PI) / (2*M_PI) * 8) % 8;
 		int stripe = drawstart_x;
 		
 		while (stripe < drawend_x)
@@ -144,7 +154,7 @@ void	render_raycast(t_data *data, t_game *game)
 				while(y < drawend_y) //for every pixel of the current stripe
 				{
 					int d = (y - data->game->head_view - (int)(data->map->player->jumpoffset * RES_Y) - vmove_screen) * 256 - RES_Y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = (((d  * 128) / spriteHeight) / 256);
+					int texY = (((d  * 128) / spriteHeight) / 256) + (dirIndex * 128);
 					unsigned int color = get_pixel(data->game->sprite->img_sprite[0], texX , texY );
 					if((color & 0x00FFFFFF) != 0)
 						if ((y < 256 && stripe < 256 && is_minimap_status(data, stripe, y) == 0)
