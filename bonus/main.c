@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/02 17:39:57 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:30:23 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,32 @@ int	mouse_handler(int new_xpos, int new_ypos, void *param)
 	static int old_xpos = RES_X / 2;
 	static int old_ypos = RES_Y / 2;
 	mlx_mouse_get_pos(data->mlx->ptr, data->mlx->win, &new_xpos, &new_ypos);
-	printf("new_xpos %i`\n new_ypos %i\n", new_xpos, new_ypos);
-	printf("old_xpos %i`\n old_ypos %i\n", old_xpos, old_ypos);
 	if (new_xpos < old_xpos)
 	{
 		turn_left(data->game, data->map->player);
 		old_xpos = new_xpos;
+		old_ypos = new_ypos;
 	}
 	if (new_xpos > old_xpos)
 	{
 		turn_right(data->game, data->map->player);
 		old_xpos = new_xpos;
+		old_ypos = new_ypos;
 	}
-	//if (new_ypos < old_ypos)
+	//if (new_ypos < (RES_Y / 2 + 100))
 	//{
-	//	if (data->game->head_view < 100)
-	//	data->game->head_view += 10;
+	//	if (data->game->head_view < 200)
+	//		data->game->head_view += 4;
+	//	old_ypos = new_ypos;
 	//}
-	//if (new_ypos > old_ypos)
+	//if (new_ypos > (RES_Y / 2 - 100))
 	//{
-	//	if (data->game->head_view > -100)
-	//		data->game->head_view -= 10;
+	//	if (data->game->head_view > -200)
+	//		data->game->head_view -= 4;
+	//	old_ypos = new_ypos;
 	//}
-	mlx_mouse_move(data->mlx->ptr, data->mlx->win, 1920, 1080);
-	//if (new_xpos != old_xpos || new_ypos != old_ypos)
-	//	mlx_mouse_move(data->mlx->ptr, data->mlx->win, old_xpos, old_ypos);
-	//if(old_xpos > 1900 || old_xpos < 100)
-	//	mlx_mouse_move(data->mlx->ptr, data->mlx->win, RES_X / 2, RES_Y / 2);
+	if(old_xpos > 1900 || old_xpos < 15 || old_ypos < 15 || old_ypos > 1000)
+		mlx_mouse_move(data->mlx->ptr, data->mlx->win, RES_X / 2, RES_Y / 2);
 	return (0);
 }
 
