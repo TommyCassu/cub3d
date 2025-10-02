@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 22:29:32 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/02 02:57:23 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,15 @@ void	render_raycast(t_data *data, t_game *game)
 		}
 		
 		double sprite_x = game->sprite[0].x - data->map->player->x;
-		//printf("data->map->player->x: %f	\n", data->map->player->x);
 		double sprite_y = game->sprite[0].y - data->map->player->y;
 		double inv_det = 1.0 / (game->plane_x * data->map->player->dir_y - data->map->player->dir_x * game->plane_y); //required for correct matrix multiplication
 		double transform_x = inv_det * (data->map->player->dir_y * sprite_x - data->map->player->dir_x * sprite_y);
 		double transform_y = inv_det * (-game->plane_y * sprite_x + game->plane_x * sprite_y); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
-		//printf("transform_x: %f | transform_y: %f\n", transform_x, transform_y);
+
 		int spritescreen_x = (int)((RES_X / 2) * (1 + transform_x / transform_y));
-		//printf("spritescreen_x: %d\n", spritescreen_x);
-		#define uDiv 1
-		#define vDiv 1
-		#define vMove 0.0
+		#define uDiv 2
+		#define vDiv 2
+		#define vMove 128.0
 		int vmove_screen = (int)(vMove / transform_y);
 
 		//calculate height of the sprite on screen
@@ -134,26 +132,32 @@ void	render_raycast(t_data *data, t_game *game)
 		if(drawend_x > RES_X)
 			drawend_x = RES_X;
 		int stripe = drawstart_x;
+		
 		while (stripe < drawend_x)
 		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spritescreen_x)) * 64 / spriteWidth) / 256;
+			
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spritescreen_x)) * 128 / spriteWidth) / 256;
+			texX += floor(data->game->compteur) * 128;
 			if(transform_y > 0 && transform_y < zbuffer[stripe])
 			{
 				int y = drawstart_y;
 				while(y < drawend_y) //for every pixel of the current stripe
 				{
 					int d = (y - data->game->head_view - (int)(data->map->player->jumpoffset * RES_Y) - vmove_screen) * 256 - RES_Y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = (((d  * 64) / spriteHeight) / 256);
-					unsigned int color = get_pixel(data->map->textdata->img[5], texX , texY ); //get current color from the texture
+					int texY = (((d  * 128) / spriteHeight) / 256);
+					unsigned int color = get_pixel(data->game->sprite->img_sprite[0], texX , texY );
 					if((color & 0x00FFFFFF) != 0)
-					{
-						pixels_to_image(data, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
-					}
+						if ((y < 256 && stripe < 256 && is_minimap_status(data, stripe, y) == 0)
+							|| (y >= 256 || stripe >= 256))
+							pixels_to_image(data, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
 					y++;
 				}
 			}
 			stripe++;
 		}
+		data->game->compteur += 0.2;
+		if (data->game->compteur >= 21)
+			data->game->compteur = 0;
 		mlx_put_image_to_window(data->mlx->ptr, data->mlx->win,
 			data->mlx->img->ptr, 0, 0);
 		show_fps(data);

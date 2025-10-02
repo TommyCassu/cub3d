@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 16:57:18 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/01 23:24:25 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int ac, char **av)
 		{
 			print_map(data->map);
 			setup_text_img(data, data->map->textdata);
+			setup_text_sprites(data, data->game->sprite);
 			setup_minimap(data);
 			init_tab_contour(data);
 			write_contour_minimap(data);

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 22:35:30 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/02 02:47:08 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_sprite
 {
 	double	x;
 	double	y;
-	int		texture;
+	t_img *img_sprite[1];
 }			t_sprite;
 
 typedef struct s_game
@@ -132,9 +132,10 @@ typedef struct s_game
 	int		jumpoffsetresy;
 	t_img	*img_minimap;
 	t_img	*img_minimap_contour;
-	t_sprite sprite[numSprites];
+	t_sprite *sprite;
 	int		tab_contour[256][256];
 	double	frametime;
+	double	compteur;
 }			t_game;
 
 typedef struct s_map
@@ -260,4 +261,5 @@ int		test_rend(t_data *data);
 void	setup_minimap(t_data *data);
 
 // void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
+void	setup_text_sprites(t_data *data, t_sprite *sprite);
 #endif

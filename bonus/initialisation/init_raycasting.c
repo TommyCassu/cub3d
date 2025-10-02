@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 16:58:07 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/02 02:47:24 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ void	init_raycast(t_data *data)
 {
 	data->game = malloc(sizeof(t_game));
 	ft_memset(data->game, 0, sizeof(t_game));
+	data->game->sprite = malloc(sizeof(t_sprite));
 	ft_memset(data->game->sprite, 0, sizeof(t_sprite));
 	data->game->sprite[0].x = 21.5;
 	data->game->sprite[0].y = 12.5;
+	data->game->sprite->img_sprite[0] = malloc(sizeof(t_img));
 	data->game->img_minimap = malloc(sizeof(t_img));
 	data->game->img_minimap_contour = malloc(sizeof(t_img));
 	data->game->camera_x = 0.0;
@@ -36,6 +38,16 @@ void	init_raycast(t_data *data)
 	data->game->floor_step_y = 0.0;
 	data->game->floor_step_x = 0.0;
 	data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
+	data->game->compteur = 0;
+}
+void	setup_text_sprites(t_data *data, t_sprite *sprite)
+{
+	int	w;
+	int	h;
+
+	sprite->img_sprite[0]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, "./bonus/textures/sprites/1.xpm", &w, &h);
+	sprite->img_sprite[0]->addr = (int *)mlx_get_data_addr(sprite->img_sprite[0]->ptr, &sprite->img_sprite[0]->bpp,
+			&sprite->img_sprite[0]->line_s, &sprite->img_sprite[0]->endian);
 }
 
 void	setup_text_img(t_data *data, t_textdata *t)
