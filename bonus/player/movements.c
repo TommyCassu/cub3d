@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:29:51 by npederen          #+#    #+#             */
-/*   Updated: 2025/09/24 16:33:50 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 21:02:22 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,13 @@ int	go_left(t_data *data, t_player *player)
 	return (0);
 }
 
-void	move_head(t_game *game, t_player *player)
+void	move_head(t_data *data, t_game *game, t_player *player)
 {
 	if (game->key_tab[KEY_JUMP] == 1 && player->isjumping == 0)
 	{
 		player->isjumping = 1;
 		player->jumpspeed = 0.02;
+		door_handler(data);
 	}
 	if (game->key_tab[KEY_UP] == 1)
 		if (game->head_view < 100)

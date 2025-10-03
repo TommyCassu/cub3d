@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 13:24:58 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 20:55:21 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ int	key_handler(t_data *data, t_game *game, t_player *player)
 		turn_right(game, player);
 	if (game->key_tab[KEY_LEFT] == 1)
 		turn_left(game, player);
-	move_head(game, player);
+	move_head(data, game, player);
 	return (0);
 }

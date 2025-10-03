@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/03 19:33:37 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 21:00:51 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,17 @@ int	calc_offset(t_data *data)
 				+ (1 - data->game->step_y) / 2) / data->game->raydir_y;
 		data->game->wall_x = data->map->player->x + data->game->perp_wall_dist * data->game->raydir_x;
 		if (data->game->side_dist_y - (data->game->delta_dist_y / 2) < data->game->side_dist_x)
-			return (0);
+		return (0);
 		data->game->map_x += data->game->step_x;
 	}
 	else
 	{
 		data->game->walloffset = 0.5 * data->game->step_x;
 		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x + data->game->walloffset
-				+ (1 - data->game->step_x) / 2) / data->game->raydir_x;
+			+ (1 - data->game->step_x) / 2) / data->game->raydir_x;
 		data->game->wall_x = data->map->player->y + data->game->perp_wall_dist * data->game->raydir_y;
 		if (data->game->side_dist_x - (data->game->delta_dist_x / 2) < data->game->side_dist_y)
-			return (0);
+		return (0);
 		data->game->map_y += data->game->step_y;
 	}
 	data->game->side = data->game->side ^ 1;
@@ -91,11 +91,61 @@ int	calc_offset(t_data *data)
 	return (1);
 }	
 
+void door_handler(t_data *data)
+{
+	int x;
+	int y;
+
+	if (data->map->map_tab[data->map->player->y][data->map->player->x] == 'd')
+		return ;
+	x = data->map->player->x + data->game->raydir_x;
+	y = data->map->player->y + data->game->raydir_y;
+	if (data->map->map_tab[y][x] == 'd')
+		data->map->map_tab[y][x] = 'D';
+	else if (data->map->map_tab[y][x] == 'D')
+		data->map->map_tab[y][x] = 'd';
+}
+
+void	door_counter(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < data->map->height_map)
+	{
+		j = -1;
+		while (++j < data->map->width_map)
+		{
+			if (data->map->map_tab[i][j] > 'D')
+			{
+				if (data->map->map_tab[i][j] == 'D' + 1)
+					data->map->map_tab[i][j] = 'd';
+				else
+					data->map->map_tab[i][j] -= 1;
+			}
+			else if (data->map->map_tab[i][j] < 'd' * -1)
+			{
+				if (data->map->map_tab[i][j] == 'd' * -1 - 1)
+					data->map->map_tab[i][j] = 'D';
+				else
+					data->map->map_tab[i][j] += 1;
+			}
+		}
+	}
+}
+
 static void closed_door(t_data *data)
 {
+	int	value = data->map->map_tab[data->game->map_x][data->game->map_y];
 	if (calc_offset(data))
 		return ;
 	data->game->hit = 2;
+}
+
+void	opened_door(t_data *data)
+{
+	calc_offset(data);
 }
 
 void	dda_loop(t_data *data)
@@ -118,11 +168,13 @@ void	dda_loop(t_data *data)
 		}
 		int	value = data->map->map_tab[data->game->map_x][data->game->map_y];
 		if (value == '1')
-			data->game->hit = 1;
+		data->game->hit = 1;
 		else if (value == 'D')
 		{
 			closed_door(data);
 		}
+		else if (value == 'd')
+			opened_door(data);
 	}
 	if (data->game->side == 0 && data->game->hit != 2)
 		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x + data->game->walloffset

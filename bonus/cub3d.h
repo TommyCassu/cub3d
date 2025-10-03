@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/03 18:37:31 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 21:01:03 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int		go_forward(t_data *data, t_player *player);
 int		go_backward(t_data *data, t_player *player);
 int		go_right(t_data *data, t_player *player);
 int		go_left(t_data *data, t_player *player);
-void	move_head(t_game *game, t_player *player);
+void	move_head(t_data *data, t_game *game, t_player *player);
 /* --- reading_data --- */
 /* read_data.c */
 void	config_memory(t_data *data, char *line, char *direction);
@@ -265,4 +265,8 @@ void	setup_minimap(t_data *data);
 
 // void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 void	setup_text_sprites(t_data *data, t_sprite *sprite);
+
+void	door_handler(t_data *data);
+void	door_counter(t_data *data);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/02 18:30:23 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 21:01:40 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	test_rend(t_data *data)
 	render_raycast(data, data->game);
 	key_handler(data, data->game, data->map->player);
 	draw_mini_map(data);
+	door_counter(data);
 	return (0);
 }
 void setup_minimap(t_data *data)
