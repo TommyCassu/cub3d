@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_raycast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/03 00:18:26 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/03 19:34:50 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,23 @@ void	select_texture_side(t_game *game)
 
 void	get_texture_pos(t_data *data)
 {
-	double	wall_x;
 
-	data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
-	if (data->game->side == 0)
-		wall_x = data->map->player->y + data->game->perp_wall_dist
-			* data->game->raydir_y;
-	else
-		wall_x = data->map->player->x + data->game->perp_wall_dist
-			* data->game->raydir_x;
-	wall_x -= floor(wall_x);
-	data->game->tex_x = (int)(wall_x * (double)(TEXT_SIZE));
+	//data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
+	//if (data->game->side == 0)
+	//	data->game->wall_x = data->map->player->y + data->game->perp_wall_dist
+	//		* data->game->raydir_y;
+	//else
+	//	data->game->wall_x = data->map->player->x + data->game->perp_wall_dist
+	//		* data->game->raydir_x;
+	//data->game->wall_x -= floor(data->game->wall_x);
+	data->game->tex_x = (int)(data->game->wall_x * (double)(TEXT_SIZE));
 	if (data->game->side == 0 && data->game->raydir_x > 0)
 		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
 	if (data->game->side == 1 && data->game->raydir_y < 0)
 		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
 	data->game->step = 1.0 * TEXT_SIZE / data->game->line_height;
-	data->game->tex_pos = ((data->game->draw_start - RES_Y / 2
-				+ data->game->line_height / 2 - data->game->jumpoffsetresy
-				- data->game->head_view)) * data->game->step;
+	data->game->tex_pos = (data->game->draw_start - RES_Y / 2
+				+ data->game->line_height / 2) * data->game->step;
 }
 
 void	draw_wall_col(t_data *data, int x)
@@ -94,7 +92,7 @@ void	render_raycast(t_data *data, t_game *game)
 			init_ray(data, x);
 			setup_angle_rayon(data);
 			dda_loop(data);
-			manage_draw_limits(data);
+		//	manage_draw_limits(data);
 			select_texture_side(game);
 			get_texture_pos(data);
 			draw_wall_col(data, x);

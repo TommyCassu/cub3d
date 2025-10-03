@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/09/24 16:26:08 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 19:33:37 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,47 @@ void	setup_angle_rayon(t_data *data)
 	}
 }
 
+int	calc_offset(t_data *data)
+{
+	if (data->game->side == 1)
+	{
+		data->game->walloffset = 0.5 * data->game->step_y;
+		data->game->perp_wall_dist = (data->game->map_y - data->map->player->y + data->game->walloffset
+				+ (1 - data->game->step_y) / 2) / data->game->raydir_y;
+		data->game->wall_x = data->map->player->x + data->game->perp_wall_dist * data->game->raydir_x;
+		if (data->game->side_dist_y - (data->game->delta_dist_y / 2) < data->game->side_dist_x)
+			return (0);
+		data->game->map_x += data->game->step_x;
+	}
+	else
+	{
+		data->game->walloffset = 0.5 * data->game->step_x;
+		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x + data->game->walloffset
+				+ (1 - data->game->step_x) / 2) / data->game->raydir_x;
+		data->game->wall_x = data->map->player->y + data->game->perp_wall_dist * data->game->raydir_y;
+		if (data->game->side_dist_x - (data->game->delta_dist_x / 2) < data->game->side_dist_y)
+			return (0);
+		data->game->map_y += data->game->step_y;
+	}
+	data->game->side = data->game->side ^ 1;
+	data->game->walloffset = 0;
+	data->game->hit = 3;
+	return (1);
+}	
+
+static void closed_door(t_data *data)
+{
+	if (calc_offset(data))
+		return ;
+	data->game->hit = 2;
+}
+
 void	dda_loop(t_data *data)
 {
 	/* ALgo DDA Loop */
 	while (data->game->hit == 0)
 	{
+		data->game->walloffset = 0.0;
 		if (data->game->side_dist_x < data->game->side_dist_y)
 		{
 			data->game->side_dist_x += data->game->delta_dist_x;
@@ -80,9 +116,32 @@ void	dda_loop(t_data *data)
 			data->game->map_y += data->game->step_y;
 			data->game->side = 1;
 		}
-		if (data->map->map_tab[data->game->map_x][data->game->map_y] == '1')
+		int	value = data->map->map_tab[data->game->map_x][data->game->map_y];
+		if (value == '1')
 			data->game->hit = 1;
+		else if (value == 'D')
+		{
+			closed_door(data);
+		}
 	}
+	if (data->game->side == 0 && data->game->hit != 2)
+		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x + data->game->walloffset
+				+ (1 - data->game->step_x) / 2) / data->game->raydir_x;
+	else if (data->game->side == 1 && data->game->hit != 2)
+		data->game->perp_wall_dist = (data->game->map_y - data->map->player->y + data->game->walloffset
+				+ (1 - data->game->step_y) / 2) / data->game->raydir_y;
+	data->game->line_height = (int)(RES_Y / data->game->perp_wall_dist);
+	data->game->draw_start = -data->game->line_height / 2 + RES_Y / 2;
+	if (data->game->draw_start < 0)
+		data->game->draw_start = 0;
+	data->game->draw_end = data->game->line_height / 2 + RES_Y / 2;
+	if (data->game->draw_end >= RES_Y)
+		data->game->draw_end = RES_Y - 1;
+	if (data->game->side == 0)
+		data->game->wall_x = data->map->player->y + data->game->perp_wall_dist * data->game->raydir_y;
+	else
+		data->game->wall_x = data->map->player->x + data->game->perp_wall_dist * data->game->raydir_x;
+	data->game->wall_x -= floor(data->game->wall_x);
 }
 
 void	manage_draw_limits(t_data *data)

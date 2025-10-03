@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/02 20:47:03 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/03 18:37:31 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,14 @@ typedef struct s_sprite
 
 typedef struct s_game
 {
+	double	walloffset;
 	double	time;
 	double	oldtime;
 	double	plane_x;
 	double	plane_y;
 	double	raydir_x;
 	double	raydir_y;
+	double	wall_x;
 	double	camera_x;
 	double	movespeed;
 	double	rotspeed;

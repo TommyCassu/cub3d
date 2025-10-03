@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/27 14:35:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/03 18:45:03 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_map_line(char *line)
 	while (*line)
 	{
 		if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S'
-			|| *line == 'E' || *line == 'W' || *line == ' ')
+			|| *line == 'E' || *line == 'W' || *line == ' ' || *line == 'D')
 			status_map = 1;
 		line++;
 	}

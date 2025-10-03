@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/09/23 21:51:57 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:41:54 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_player(char c)
 
 int	is_valid(char c)
 {
-	return (c == '0' || c == '1' || is_player(c));
+	return (c == '0' || c == '1' || c =='D' || is_player(c));
 }
 
 int	ft_verif_digit(char	*str)
