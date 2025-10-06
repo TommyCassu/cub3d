@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/03 18:45:03 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/06 18:06:11 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	is_map_line(char *line)
 		return (0);
 	while (*line)
 	{
-		if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S'
-			|| *line == 'E' || *line == 'W' || *line == ' ' || *line == 'D')
+		if (*line == '0' || *line == '1' || *line == '&' || *line == 'S'
+			|| *line == 'E' || *line == 'W' || *line == ' ' || *line == 'X')
 			status_map = 1;
 		line++;
 	}

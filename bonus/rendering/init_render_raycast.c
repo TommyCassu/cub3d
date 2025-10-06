@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/03 21:00:51 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:17:37 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	calc_offset(t_data *data)
 		data->game->perp_wall_dist = (data->game->map_y - data->map->player->y + data->game->walloffset
 				+ (1 - data->game->step_y) / 2) / data->game->raydir_y;
 		data->game->wall_x = data->map->player->x + data->game->perp_wall_dist * data->game->raydir_x;
-		if (data->game->side_dist_y - (data->game->delta_dist_y / 2) < data->game->side_dist_x)
+		if (data->game->side_dist_y - (data->game->delta_dist_y * 0.5) < data->game->side_dist_x)
 		return (0);
 		data->game->map_x += data->game->step_x;
 	}
@@ -81,7 +81,7 @@ int	calc_offset(t_data *data)
 		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x + data->game->walloffset
 			+ (1 - data->game->step_x) / 2) / data->game->raydir_x;
 		data->game->wall_x = data->map->player->y + data->game->perp_wall_dist * data->game->raydir_y;
-		if (data->game->side_dist_x - (data->game->delta_dist_x / 2) < data->game->side_dist_y)
+		if (data->game->side_dist_x - (data->game->delta_dist_x * 0.5) < data->game->side_dist_y)
 		return (0);
 		data->game->map_y += data->game->step_y;
 	}
@@ -96,14 +96,25 @@ void door_handler(t_data *data)
 	int x;
 	int y;
 
-	if (data->map->map_tab[data->map->player->y][data->map->player->x] == 'd')
+	if (data->map->map_tab[(int)data->map->player->y][(int)data->map->player->x] == 'W')
 		return ;
 	x = data->map->player->x + data->game->raydir_x;
 	y = data->map->player->y + data->game->raydir_y;
-	if (data->map->map_tab[y][x] == 'd')
-		data->map->map_tab[y][x] = 'D';
-	else if (data->map->map_tab[y][x] == 'D')
-		data->map->map_tab[y][x] = 'd';
+	printf("data->map->player->x %f\n", data->map->player->x);
+	printf("data->map->player->y %f\n", data->map->player->y);
+	printf("data->game->raydir_x %f\n", data->game->raydir_x);
+	printf("data->game->raydir_y %f\n", data->game->raydir_y);
+	printf("x %i\n", x);
+	printf("y %i\n", y);
+	if (data->map->map_tab[x][y] == 'W')
+		data->map->map_tab[x][y] = 50;
+	if (data->map->map_tab[x][y] == 'X')
+		data->map->map_tab[x][y] = 127;
+	//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
+	
+	//printf("door handler %i\n",data->map->map_tab[x][y]);
+	//printf("door temoin %i\n",data->map->map_tab[6][11]);
+	//printf("TEST %i\n", (data->map->map_tab[6][11] * -1));
 }
 
 void	door_counter(t_data *data)
@@ -117,27 +128,63 @@ void	door_counter(t_data *data)
 		j = -1;
 		while (++j < data->map->width_map)
 		{
-			if (data->map->map_tab[i][j] > 'D')
+			if (data->map->map_tab[i][j] > 'X'/* && data->map->map_tab[i][j] != '&'*/)
 			{
-				if (data->map->map_tab[i][j] == 'D' + 1)
-					data->map->map_tab[i][j] = 'd';
+				if (data->map->map_tab[i][j] == 'X' + 1)
+					data->map->map_tab[i][j] = 'W';
 				else
 					data->map->map_tab[i][j] -= 1;
+				//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
 			}
-			else if (data->map->map_tab[i][j] < 'd' * -1)
+			else if (data->map->map_tab[i][j] < 'W' && data->map->map_tab[i][j] > '1')
 			{
-				if (data->map->map_tab[i][j] == 'd' * -1 - 1)
-					data->map->map_tab[i][j] = 'D';
+				if (data->map->map_tab[i][j] == ('W' - 1))
+				{
+					//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
+					data->map->map_tab[i][j] = 'X';
+					//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
+				}
 				else
 					data->map->map_tab[i][j] += 1;
+			}
+			int bolll = 0;
+			if (data->map->map_tab[6][11] != 68)
+			{
+				bolll = 1;
+				//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
+			}
+			if(data->map->map_tab[6][11] == 68 && bolll == 1)
+			{
+				//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
+				bolll = 0;
 			}
 		}
 	}
 }
 
+void	opening_door(t_data *data, int value)
+{
+	if (calc_offset(data))
+		return ;
+	data->game->wall_x -= floor(data->game->wall_x);
+	if (data->game->wall_x > ((double)(127 - value) / 38.5))
+	data->game->hit = 2;
+}
+
+void	closing_door(t_data *data, int value)
+{
+	if (calc_offset(data))
+		return ;
+	data->game->wall_x -= floor(data->game->wall_x);
+	data->game->wall_x = 1 - data->game->wall_x;
+	//printf("data->game->wall_x : %f\n",data->game->wall_x);
+	//printf("(double)(value - 'X') / 100) : %f\n", (double)(value - 'X') / 100);
+	if (data->game->wall_x <= ((double)(value - 50) / 38.5))
+		data->game->hit = 2;
+}
+
 static void closed_door(t_data *data)
 {
-	int	value = data->map->map_tab[data->game->map_x][data->game->map_y];
 	if (calc_offset(data))
 		return ;
 	data->game->hit = 2;
@@ -167,13 +214,16 @@ void	dda_loop(t_data *data)
 			data->game->side = 1;
 		}
 		int	value = data->map->map_tab[data->game->map_x][data->game->map_y];
+		
 		if (value == '1')
-		data->game->hit = 1;
-		else if (value == 'D')
-		{
+			data->game->hit = 1;
+		else if (value == 'X')
 			closed_door(data);
-		}
-		else if (value == 'd')
+		else if (value > 'X')
+			opening_door(data, value);
+		else if (value < 'W' && value > '1')
+			closing_door(data, value);
+		else if (value == 'W')
 			opened_door(data);
 	}
 	if (data->game->side == 0 && data->game->hit != 2)
