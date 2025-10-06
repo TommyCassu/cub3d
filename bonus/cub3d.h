@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/03 18:37:31 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/06 03:59:55 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define KEY_A 7
 # define KEY_D 8
 # define KEY_JUMP 9
+# define KEY_DOOR 10
 # define TEXT_SIZE 128
 # define numSprites 19
 # define M_PI		3.14159265358979323846
@@ -57,7 +58,7 @@ typedef struct s_textdata
 	char	*s;
 	char	*w;
 	char	*e;
-	t_img	*img[5];
+	t_img	*img[6];
 }			t_textdata;
 
 typedef struct s_player
@@ -139,6 +140,7 @@ typedef struct s_game
 	int		tab_contour[256][256];
 	double	frametime;
 	double	compteur;
+	double	door;
 }			t_game;
 
 typedef struct s_map
@@ -239,7 +241,7 @@ void	manage_draw_limits(t_data *data);
 /* render_raycast */
 void	get_texture_pos(t_data *data);
 void	draw_wall_col(t_data *data, int x);
-void	select_texture_side(t_game *game);
+void	select_texture_side(t_data *data, t_game *game);
 void	render_raycast(t_data *data, t_game *game);
 void	calcul_jump_offset(t_data *data);
 /* Utils_raycasting */

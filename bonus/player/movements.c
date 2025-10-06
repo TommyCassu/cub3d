@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:29:51 by npederen          #+#    #+#             */
-/*   Updated: 2025/09/24 16:33:50 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/06 04:22:32 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ int	go_forward(t_data *data, t_player *player)
 		>= data->map->height_map || (int)(player->y + msdiry) < 0
 			|| (int)(player->y + msdiry) >= data->map->width_map)
 		return (1);
-	if (data->map->map_tab[(int)(player->x + msdirx)][(int)player->y] != '1')
+	if ((data->map->map_tab[(int)(player->x + msdirx)][(int)player->y] == 'D' && data->game->door <= 0))
+		return (1);
+	if ((data->map->map_tab[(int)player->x][(int)(player->y + msdiry)] == 'D' && data->game->door <= 0))
+		return (1);	
+	if (data->map->map_tab[(int)(player->x + msdirx)][(int)player->y] != '1' )
 		player->x += msdirx;
 	if (data->map->map_tab[(int)player->x][(int)(player->y + msdiry)] != '1')
 		player->y += msdiry;

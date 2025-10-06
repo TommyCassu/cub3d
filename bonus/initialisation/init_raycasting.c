@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/03 18:14:41 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/06 04:08:43 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init_raycast(t_data *data)
 	data->game->floor_step_x = 0.0;
 	data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
 	data->game->compteur = 0;
+	data->game->door = 0.5;
 }
 void	setup_text_sprites(t_data *data, t_sprite *sprite)
 {
@@ -77,4 +78,9 @@ void	setup_text_img(t_data *data, t_textdata *t)
 			"./bonus/textures/floor.xpm", &w, &h);
 	t->img[4]->addr = (int *)mlx_get_data_addr(t->img[4]->ptr, &t->img[4]->bpp,
 			&t->img[4]->line_s, &t->img[4]->endian);
+	/* floor */
+	t->img[5]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
+			"./bonus/textures/door.xpm", &w, &h);
+	t->img[5]->addr = (int *)mlx_get_data_addr(t->img[5]->ptr, &t->img[5]->bpp,
+			&t->img[5]->line_s, &t->img[5]->endian);
 }
