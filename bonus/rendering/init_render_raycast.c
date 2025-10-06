@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/06 19:17:37 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/07 00:31:06 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,12 @@ void door_handler(t_data *data)
 
 	if (data->map->map_tab[(int)data->map->player->y][(int)data->map->player->x] == 'W')
 		return ;
-	x = data->map->player->x + data->game->raydir_x;
-	y = data->map->player->y + data->game->raydir_y;
-	printf("data->map->player->x %f\n", data->map->player->x);
-	printf("data->map->player->y %f\n", data->map->player->y);
-	printf("data->game->raydir_x %f\n", data->game->raydir_x);
-	printf("data->game->raydir_y %f\n", data->game->raydir_y);
-	printf("x %i\n", x);
-	printf("y %i\n", y);
+	x = (int)(data->map->player->x + data->map->player->dir_x);
+	y = (int)(data->map->player->y + data->map->player->dir_y);
 	if (data->map->map_tab[x][y] == 'W')
 		data->map->map_tab[x][y] = 50;
 	if (data->map->map_tab[x][y] == 'X')
 		data->map->map_tab[x][y] = 127;
-	//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
-	
-	//printf("door handler %i\n",data->map->map_tab[x][y]);
-	//printf("door temoin %i\n",data->map->map_tab[6][11]);
-	//printf("TEST %i\n", (data->map->map_tab[6][11] * -1));
 }
 
 void	door_counter(t_data *data)
@@ -134,30 +123,17 @@ void	door_counter(t_data *data)
 					data->map->map_tab[i][j] = 'W';
 				else
 					data->map->map_tab[i][j] -= 1;
-				//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
 			}
 			else if (data->map->map_tab[i][j] < 'W' && data->map->map_tab[i][j] > '1')
 			{
 				if (data->map->map_tab[i][j] == ('W' - 1))
 				{
-					//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
 					data->map->map_tab[i][j] = 'X';
-					//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
 				}
 				else
 					data->map->map_tab[i][j] += 1;
 			}
-			int bolll = 0;
-			if (data->map->map_tab[6][11] != 68)
-			{
-				bolll = 1;
-				//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
-			}
-			if(data->map->map_tab[6][11] == 68 && bolll == 1)
-			{
-				//printf("VALEUR PORTE %i\n",data->map->map_tab[6][11]);
-				bolll = 0;
-			}
+		//printf("data->game->raydir_y %f", data->game->raydir_y);
 		}
 	}
 }
@@ -177,8 +153,6 @@ void	closing_door(t_data *data, int value)
 		return ;
 	data->game->wall_x -= floor(data->game->wall_x);
 	data->game->wall_x = 1 - data->game->wall_x;
-	//printf("data->game->wall_x : %f\n",data->game->wall_x);
-	//printf("(double)(value - 'X') / 100) : %f\n", (double)(value - 'X') / 100);
 	if (data->game->wall_x <= ((double)(value - 50) / 38.5))
 		data->game->hit = 2;
 }
