@@ -12,6 +12,8 @@ FILES			=	main.c \
 					player/movements.c \
 					reading_data/read_data.c \
 					reading_data/read_map.c \
+					door/init_doors.c \
+					door/utils_doors.c \
 					rendering/drawing_func.c \
 					rendering/init_render_raycast.c \
 					rendering/render_raycast.c \
@@ -45,7 +47,7 @@ RANLIB		= ranlib
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= 
 
 all:		${NAME}
 

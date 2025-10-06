@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/03 20:58:58 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/06 16:48:16 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	print_map(t_map *map)
 
 int	test_rend(t_data *data)
 {
+	mooving_door(data);
 	render_raycast(data, data->game);
 	key_handler(data, data->game, data->map->player);
 	draw_mini_map(data);
@@ -46,7 +47,6 @@ void setup_minimap(t_data *data)
 
 	mini = "./bonus/textures/minimap.xpm";
 	data->game->img_minimap_contour->ptr = mlx_xpm_file_to_image(data->mlx->ptr, mini, &w, &h);
-	// data->game->img_minimap->ptr = mlx_new_image(data->mlx->ptr, RES_MMAP_X, RES_MMAP_Y);
 	data->game->img_minimap_contour->addr = (int *)mlx_get_data_addr(data->game->img_minimap_contour->ptr, &data->game->img_minimap_contour->bpp,
 																	 &data->game->img_minimap_contour->line_s, &data->game->img_minimap_contour->endian);
 	/* map */
@@ -73,18 +73,6 @@ int	mouse_handler(int new_xpos, int new_ypos, void *param)
 		old_xpos = new_xpos;
 		old_ypos = new_ypos;
 	}
-	//if (new_ypos < (RES_Y / 2 + 100))
-	//{
-	//	if (data->game->head_view < 200)
-	//		data->game->head_view += 4;
-	//	old_ypos = new_ypos;
-	//}
-	//if (new_ypos > (RES_Y / 2 - 100))
-	//{
-	//	if (data->game->head_view > -200)
-	//		data->game->head_view -= 4;
-	//	old_ypos = new_ypos;
-	//}
 	if(old_xpos > 1900 || old_xpos < 15 || old_ypos < 15 || old_ypos > 1000)
 		mlx_mouse_move(data->mlx->ptr, data->mlx->win, RES_X / 2, RES_Y / 2);
 	return (0);
@@ -112,6 +100,8 @@ int	main(int ac, char **av)
 			print_map(data->map);
 			setup_text_img(data, data->map->textdata);
 			setup_text_sprites(data, data->game->sprite);
+			count_door(data);
+			setup_doors(data);
 			setup_minimap(data);
 			init_tab_contour(data);
 			write_contour_minimap(data);

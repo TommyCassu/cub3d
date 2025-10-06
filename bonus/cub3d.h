@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/06 03:59:55 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/06 17:35:21 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,15 @@ typedef struct s_sprite
 	t_img *img_sprite[1];
 }			t_sprite;
 
+typedef struct s_door
+{
+	double	x;
+	double	y;
+	double	opening_state;
+	int		status;
+	t_img *img_door;
+}			t_door;
+
 typedef struct s_game
 {
 	double	walloffset;
@@ -140,7 +149,8 @@ typedef struct s_game
 	int		tab_contour[256][256];
 	double	frametime;
 	double	compteur;
-	double	door;
+	int		nbdoors;
+	t_door	*door;
 }			t_game;
 
 typedef struct s_map
@@ -267,4 +277,11 @@ void	setup_minimap(t_data *data);
 
 // void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 void	setup_text_sprites(t_data *data, t_sprite *sprite);
+int		get_door(t_data *data, int y, int x);
+void	setup_one_door(t_data *data, int y, int x, int nbdoors);
+void	setup_doors(t_data *data);
+void	count_door(t_data *data);
+void 	mooving_door(t_data *data);
+void	interaction_door(t_data *data);
+int		door_crossable(t_data *data);
 #endif

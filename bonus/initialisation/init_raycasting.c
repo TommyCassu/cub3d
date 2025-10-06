@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/06 04:08:43 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/06 15:13:09 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	init_raycast(t_data *data)
 	data->game->floor_step_x = 0.0;
 	data->game->jumpoffsetresy = (int)(data->map->player->jumpoffset * RES_Y);
 	data->game->compteur = 0;
-	data->game->door = 0.5;
 }
 void	setup_text_sprites(t_data *data, t_sprite *sprite)
 {

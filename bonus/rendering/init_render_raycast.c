@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/06 04:07:43 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/06 16:37:50 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ int	calc_offset(t_data *data)
 		}
 		else
 		{
-			data->game->walloffset = 0 * data->game->step_x;
+			data->game->walloffset = 0.5 * data->game->step_x;
 			data->game->perp_wall_dist = (data->game->map_x - data->map->player->x + data->game->walloffset
 					+ (1 - data->game->step_x) / 2) / data->game->raydir_x;
 			data->game->wall_x = data->map->player->y + data->game->perp_wall_dist * data->game->raydir_y;
-			if (data->game->side_dist_x - (data->game->delta_dist_x * 1) < data->game->side_dist_y)
+			if (data->game->side_dist_x - (data->game->delta_dist_x * 0.5) < data->game->side_dist_y)
 				return (0);
 			data->game->map_y += data->game->step_y;
 		}
@@ -107,9 +107,12 @@ int	calc_offset(t_data *data)
 
 static void closed_door(t_data *data)
 {
+	int	index_door;
+	
 	if (calc_offset(data))
-		return ;	
-	if ((data->game->wall_x - floor(data->game->wall_x)) >= data->game->door)
+		return ;
+	index_door = get_door(data, data->game->map_y, data->game->map_x);
+	if ((data->game->wall_x - floor(data->game->wall_x)) >= data->game->door[index_door].opening_state)
         data->game->hit = 2;  // rayon bloqué
     else
         data->game->hit = 0;  // rayon passe

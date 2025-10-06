@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/06 04:08:10 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/06 21:23:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ void	select_texture_side(t_data *data, t_game *game)
 
 void	get_texture_pos(t_data *data)
 {
+	int index_door;
+	
+	index_door = get_door(data, data->game->map_y, data->game->map_x);
 	if (data->map->map_tab[data->game->map_x][data->game->map_y] == 'D')
-		data->game->tex_x = (int)(data->game->wall_x * (double)(TEXT_SIZE)) + ((double)TEXT_SIZE * data->game->door);
+		data->game->tex_x = (int)(((data->game->wall_x + (1.0 - data->game->door[index_door].opening_state)) - floor(data->game->wall_x + (1.0 - data->game->door[index_door].opening_state)))* TEXT_SIZE);
 	else
 		data->game->tex_x = (int)(data->game->wall_x * (double)(TEXT_SIZE));
 	if (data->game->side == 0 && data->game->raydir_x > 0)
