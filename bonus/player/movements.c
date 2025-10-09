@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:29:51 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/09 13:47:57 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/09 14:58:05 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ void	move_head(t_game *game, t_player *player)
 	if (game->key_tab[KEY_JUMP] == 1 && player->isjumping == 0)
 	{
 		player->isjumping = 1;
-		player->jumpspeed = 0.02;
+		player->jumpspeed = 0.1;
 	}
 	if (game->key_tab[KEY_UP] == 1)
 		if (game->head_view < 100)
-			game->head_view += 4;
+			game->head_view += 8;
 	if (game->key_tab[KEY_DOWN] == 1)
 		if (game->head_view > -100)
-			game->head_view -= 4;
+			game->head_view -= 8;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:39:21 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 03:03:36 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/09 15:32:41 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void	draw_floor(t_data *data, t_game *game, t_map *map, int x)
 	  if(game->draw_end < 0)
 	  	game->draw_end = RES_Y;
 
-      for(int y = game->draw_end + 1; y < RES_Y; y++)
+      for(int y = (game->draw_end + 1); y < RES_Y; y++)
       {
-        currentDist = RES_Y / (2.0 * y - RES_Y);
+        currentDist = (RES_Y + (2 * game->jumpoffsetresy * game->perp_wall_dist)) / (2 * (y - data->game->head_view) - RES_Y);
 
         double weight = (currentDist - distPlayer) / (distWall  - distPlayer);
 
