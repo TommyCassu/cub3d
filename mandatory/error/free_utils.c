@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:08:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/27 01:10:53 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/08 21:49:16 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,7 @@ void	ft_free_mlx(t_data *data)
 	}
 	if (data->mlx->win)
 		mlx_destroy_window(data->mlx->ptr, data->mlx->win);
+	mlx_destroy_display(data->mlx->ptr);
+	free(data->mlx->ptr);
 	free(data->mlx);
 }

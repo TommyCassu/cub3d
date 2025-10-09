@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:40:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/06 17:26:40 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/08 22:03:48 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,30 +90,4 @@ void	turn_left(t_game *game, t_player *player)
 		* sin(game->rotspeed);
 	game->plane_y = game->old_plane_x * sin(game->rotspeed) + game->plane_y
 		* cos(game->rotspeed);
-}
-
-int	key_handler(t_data *data, t_game *game, t_player *player)
-{
-	if ((int)player->y < 0 || (int)player->y >= data->map->width_map
-		|| (int)player->x >= data->map->height_map || (int)player->x < 0)
-		return (1);
-	if (game->key_tab[KEY_W] == 1)
-		if (go_forward(data, player))
-			return (1);
-	if (game->key_tab[KEY_S] == 1)
-		if (go_backward(data, player))
-			return (1);
-	if (game->key_tab[KEY_D] == 1)
-		if (go_right(data, player))
-			return (1);
-	if (game->key_tab[KEY_A] == 1)
-		if (go_left(data, player))
-			return (1);
-	if (game->key_tab[KEY_RIGHT] == 1)
-		turn_right(game, player);
-	if (game->key_tab[KEY_LEFT] == 1)
-		turn_left(game, player);
-	
-	move_head(game, player);
-	return (0);
 }

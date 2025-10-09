@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 18:20:31 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/08 21:54:33 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	select_texture_side(t_game *game)
 {
-	/* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
 	if (game->side == 0)
 	{
 		if (game->raydir_x > 0)
@@ -101,4 +100,3 @@ void	render_raycast(t_data *data, t_game *game)
 		break ;
 	}
 }
-

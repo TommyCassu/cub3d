@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   contour_minimap.c                                  :+:      :+:    :+:   */
+/*   minimap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 00:29:19 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 22:31:02 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/08 22:25:41 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,21 @@ void	write_contour_minimap(t_data *data)
 		}
 		y++;
 	}
+}
+
+void	setup_minimap(t_data *data, t_img *img_contour_map, t_img *img_minimap)
+{
+	char	*mini;
+	int		h;
+	int		w;
+
+	mini = "./bonus/textures/minimap.xpm";
+	img_contour_map->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
+			mini, &w, &h);
+	img_contour_map->addr = (int *)mlx_get_data_addr(img_contour_map->ptr,
+			&img_contour_map->bpp, &img_contour_map->line_s,
+			&img_contour_map->endian);
+	img_minimap->ptr = mlx_new_image(data->mlx->ptr, RES_MMAP_X, RES_MMAP_Y);
+	img_minimap->addr = (int *)mlx_get_data_addr(img_minimap->ptr,
+			&img_minimap->bpp, &img_minimap->line_s, &img_minimap->endian);
 }

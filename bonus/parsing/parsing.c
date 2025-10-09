@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 13:44:20 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/08 22:19:27 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,18 @@ void	attribute_rgb(t_data *data, char **tab_value, char *direction)
 		data->map->floor_rgb = (r << 16) | (g << 8) | b;
 	else if (direction[0] == 'C')
 		data->map->ceilling_rgb = (r << 16) | (g << 8) | b;
+	ft_free(tab_value);
+	free(tab_value);
 }
 
 void	parsing_rgb(t_data *data, char *line, char *direction)
 {
 	char	*new_value;
 	char	**tab_value;
+	char	*tmp;
+	int		i;
 
+	i = -1;
 	new_value = NULL;
 	if (direction[0] == 'F')
 		new_value = ft_strtrim(line, " F\n");
@@ -92,11 +97,15 @@ void	parsing_rgb(t_data *data, char *line, char *direction)
 		return ;
 	if (new_value)
 		free(new_value);
+	while (++i < 3)
+	{
+		tmp = ft_strtrim(tab_value[i], " \t");
+		free(tab_value[i]);
+		tab_value[i] = tmp;
+	}
 	if (ft_verif_digit(tab_value[0]) && ft_verif_digit(tab_value[1])
 		&& ft_verif_digit(tab_value[2]))
 		attribute_rgb(data, tab_value, direction);
-	ft_free(tab_value);
-	free(tab_value);
 }
 
 int	parsing(t_data *data)

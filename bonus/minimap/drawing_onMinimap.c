@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:23:55 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/01 22:32:14 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/08 15:24:13 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	draw_cube_wall(t_data *data, int x, int y)
 				< RES_MMAP_X && center_x + i < RES_MMAP_Y
 				&& is_minimap_status(data, j + center_y, center_x + i) == 1)
 			{
-				if (j == 0 || i == 0 || j == TILES_MINIMAP_SIZE || i == TILES_MINIMAP_SIZE)
+				if (j == 0 || i == 0 || j == TILES_MINIMAP_SIZE
+					|| i == TILES_MINIMAP_SIZE)
 					pixels_to_image(data, j + center_y, center_x + i, 0x9b8568);
 				else
 					pixels_to_image(data, j + center_y, center_x + i, 0x968e7c);

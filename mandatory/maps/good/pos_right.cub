@@ -1,0 +1,11 @@
+NO ./mandatory/textures/north_face.xpm
+EA ./mandatory/textures/east_face.xpm
+WE ./mandatory/textures/west_face.xpm
+SO ./mandatory/textures/south_face.xpm
+
+F 32, 32, 32
+C 0, 0, 102
+
+111111111111111111111
+1000000000000000000E1
+111111111111111111111

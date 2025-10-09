@@ -3,7 +3,7 @@ FILES			=	main.c \
 					error/free.c \
 					initialisation/init.c \
 					initialisation/init_raycasting.c \
-					minimap/contour_minimap.c \
+					minimap/minimap_utils.c \
 					minimap/drawing_onMinimap.c \
 					parsing/parsing_map.c \
 					parsing/parsing_utils.c \
@@ -18,6 +18,8 @@ FILES			=	main.c \
 					rendering/init_render_raycast.c \
 					rendering/render_raycast.c \
 					rendering/utils_raycasting.c \
+					rendering/calc_offset.c \
+					handler/handler_functions.c \
 
 SRCS		= ${SRC}
 

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/27 01:11:03 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/08 21:58:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,8 +241,7 @@ void	draw_cube_outside(t_data *data);
 void	draw_mini_map(t_data *data);
 /* --- Main.c --- */
 void	print_map(t_map *map);
-int		test_rend(t_data *data);
+int		handler_render(t_data *data);
 void	setup_minimap(t_data *data);
 
-// void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 #endif

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/06 21:23:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/09 02:25:58 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 void	select_texture_side(t_data *data, t_game *game)
 {
-	/* Select the good texture (NORTH/SOUTH/EAST/WEST)*/
 	if (data->map->map_tab[data->game->map_x][data->game->map_y] == 'D')
 	{
 		game->text_num = 5;
-		return;
+		return ;
 	}
 	if (game->side == 0)
 	{
@@ -38,11 +37,15 @@ void	select_texture_side(t_data *data, t_game *game)
 
 void	get_texture_pos(t_data *data)
 {
-	int index_door;
-	
+	int	index_door;
+
 	index_door = get_door(data, data->game->map_y, data->game->map_x);
 	if (data->map->map_tab[data->game->map_x][data->game->map_y] == 'D')
-		data->game->tex_x = (int)(((data->game->wall_x + (1.0 - data->game->door[index_door].opening_state)) - floor(data->game->wall_x + (1.0 - data->game->door[index_door].opening_state)))* TEXT_SIZE);
+		data->game->tex_x = (int)(((data->game->wall_x
+						+ (1.0 - data->game->door[index_door].opening_state))
+					- floor(data->game->wall_x
+						+ (1.0 - data->game->door[index_door].opening_state)))
+				* TEXT_SIZE);
 	else
 		data->game->tex_x = (int)(data->game->wall_x * (double)(TEXT_SIZE));
 	if (data->game->side == 0 && data->game->raydir_x > 0)
@@ -51,7 +54,7 @@ void	get_texture_pos(t_data *data)
 		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
 	data->game->step = 1.0 * TEXT_SIZE / data->game->line_height;
 	data->game->tex_pos = (data->game->draw_start - RES_Y / 2
-				+ data->game->line_height / 2) * data->game->step;
+			+ data->game->line_height / 2) * data->game->step;
 }
 
 void	draw_wall_col(t_data *data, int x)
@@ -69,7 +72,6 @@ void	draw_wall_col(t_data *data, int x)
 		data->game->tex_pos += data->game->step;
 		color = get_pixel(data->map->textdata->img[data->game->text_num],
 				data->game->tex_x, data->game->tex_y);
-	
 		if (data->game->side == 1)
 			color = (color >> 1) & 8355711;
 		if ((i < 256 && x < 256 && is_minimap_status(data, x, i) == 0)
@@ -83,23 +85,23 @@ void	render_raycast(t_data *data, t_game *game)
 {
 	int		x;
 	double	zbuffer[RES_X];
-	//int		spriteOrder[numSprites];
-	//double	spriteDistance[numSprites];
+
 	while (1)
 	{
 		x = -1;
-		draw_floor(data, game, data->map);
+		//draw_floor(data, game, data->map);
 		calcul_jump_offset(data);
 		while (++x < RES_X)
 		{
 			init_ray(data, x);
 			setup_angle_rayon(data);
 			dda_loop(data);
-		//	manage_draw_limits(data);
+			manage_draw_limits(data);
 			select_texture_side(data, game);
 			get_texture_pos(data);
 			draw_wall_col(data, x);
 			zbuffer[x] = game->perp_wall_dist;
+			draw_floor(data, game, data->map, x);
 			draw_ceiling(data, game, x, data->map->ceilling_rgb);
 		}
 		

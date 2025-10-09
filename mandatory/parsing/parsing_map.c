@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:47:27 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/03 18:46:27 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/08 21:53:03 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	check_spawn(t_map *map, int height, int width)
 			{
 				map->player->start_x = j;
 				map->player->start_y = i;
-				map->player->x = i;
-				map->player->y = j;
+				map->player->x = i + 0.5;
+				map->player->y = j + 0.5;
 				spawn_count++;
 			}
 		}
@@ -74,7 +74,8 @@ int	is_map_closed(char **map, int height, int width)
 					!is_valid(map[i][j + 1]) || !is_valid(map[i][j - 1]))
 					return (1);
 			}
-			else if (map[i][j] != '#' && map[i][j] != '\0' && map[i][j] != '1' && map[i][j] != 'D')
+			else if (map[i][j] != '#' && map[i][j] != '\0'
+				&& map[i][j] != '1' && map[i][j] != 'D')
 				return (1);
 			j++;
 		}

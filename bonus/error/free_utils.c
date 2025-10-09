@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:08:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/02 15:18:10 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/08 22:52:39 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,8 @@ void	ft_free_map(t_data *data)
 			free(data->map->textdata->e);
 		if (data->map->textdata->w)
 			free(data->map->textdata->w);
+		ft_destroy_imgs(data);
 		ft_free_imgs(data);
-		if (data->map->textdata->img[0])
-			free(data->map->textdata->img[0]);
-		if (data->map->textdata->img[1])
-			free(data->map->textdata->img[1]);
-		if (data->map->textdata->img[2])
-			free(data->map->textdata->img[2]);
-		if (data->map->textdata->img[3])
-			free(data->map->textdata->img[3]);
-		if (data->map->textdata->img[4])
-			free(data->map->textdata->img[4]);
-		if (data->game->img_minimap)
-			free(data->game->img_minimap);
-		if (data->game->img_minimap_contour)
-			free(data->game->img_minimap_contour);
 		free(data->map->textdata);
 	}
 	if (data->map->player)
@@ -62,7 +49,7 @@ void	ft_free_map(t_data *data)
 	free_map(data->map);
 }
 
-void	ft_free_imgs(t_data *data)
+void	ft_destroy_imgs(t_data *data)
 {
 	if (data->map->textdata->img[0]->ptr)
 		mlx_destroy_image(data->mlx->ptr, data->map->textdata->img[0]->ptr);
@@ -79,14 +66,33 @@ void	ft_free_imgs(t_data *data)
 	if (data->game->img_minimap_contour)
 		mlx_destroy_image(data->mlx->ptr, data->game->img_minimap_contour->ptr);
 	if (data->game->sprite->img_sprite[0])
-		mlx_destroy_image(data->mlx->ptr, data->game->sprite->img_sprite[0]->ptr);
+		mlx_destroy_image(data->mlx->ptr, data->game
+			->sprite->img_sprite[0]->ptr);
 	if (data->game->sprite->img_sprite[0])
-			free(data->game->sprite->img_sprite[0]);
+		free(data->game->sprite->img_sprite[0]);
+}
+
+void	ft_free_imgs(t_data *data)
+{
+	if (data->map->textdata->img[0])
+		free(data->map->textdata->img[0]);
+	if (data->map->textdata->img[1])
+		free(data->map->textdata->img[1]);
+	if (data->map->textdata->img[2])
+		free(data->map->textdata->img[2]);
+	if (data->map->textdata->img[3])
+		free(data->map->textdata->img[3]);
+	if (data->map->textdata->img[4])
+		free(data->map->textdata->img[4]);
+	if (data->game->img_minimap)
+		free(data->game->img_minimap);
+	if (data->game->img_minimap_contour)
+		free(data->game->img_minimap_contour);
 }
 
 void	ft_free_mlx(t_data *data)
 {
-	if (data->mlx->img)	
+	if (data->mlx->img)
 	{
 		mlx_destroy_image(data->mlx->ptr, data->mlx->img->ptr);
 		free(data->mlx->img);
