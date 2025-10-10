@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/09 15:24:23 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/10 02:33:43 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	dda_loop(t_data *data)
 
 void	manage_draw_limits(t_data *data)
 {
-	data->game->jumpoffsetresy = ((int)(data->map->player->jumpoffset * RES_Y / data->game->perp_wall_dist));
 	if (data->game->side == 0 && data->game->hit != 2)
 		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x
 				+ data->game->walloffset
@@ -104,6 +103,7 @@ void	manage_draw_limits(t_data *data)
 				+ data->game->walloffset
 				+ (1 - data->game->step_y) / 2) / data->game->raydir_y;
 	data->game->line_height = (int)(RES_Y / data->game->perp_wall_dist);
+	data->game->jumpoffsetresy = ((int)(data->map->player->jumpoffset * RES_Y / data->game->perp_wall_dist));
 	data->game->draw_start = -data->game->line_height / 2 + RES_Y / 2 + data->game->head_view + data->game->jumpoffsetresy;
 	if (data->game->draw_start < 0)
 		data->game->draw_start = 0;
