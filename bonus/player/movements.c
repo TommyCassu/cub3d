@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:29:51 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/09 14:58:05 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/21 12:19:59 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,4 @@ void	move_head(t_game *game, t_player *player)
 	if (game->key_tab[KEY_DOWN] == 1)
 		if (game->head_view > -100)
 			game->head_view -= 8;
-}
+	}

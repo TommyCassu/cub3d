@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:08:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/08 22:52:39 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/21 12:32:31 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	ft_free_map(t_data *data)
 		free(data->map->player);
 	if (data->game->sprite)
 		free(data->game->sprite);
+	if (data->game->door)
+		free(data->game->door);
 	free_map(data->map);
 }
 
@@ -61,6 +63,10 @@ void	ft_destroy_imgs(t_data *data)
 		mlx_destroy_image(data->mlx->ptr, data->map->textdata->img[3]->ptr);
 	if (data->map->textdata->img[4]->ptr)
 		mlx_destroy_image(data->mlx->ptr, data->map->textdata->img[4]->ptr);
+	if (data->map->textdata->img[5]->ptr)
+		mlx_destroy_image(data->mlx->ptr, data->map->textdata->img[5]->ptr);
+	if (data->map->textdata->img[6]->ptr)
+		mlx_destroy_image(data->mlx->ptr, data->map->textdata->img[6]->ptr);
 	if (data->game->img_minimap)
 		mlx_destroy_image(data->mlx->ptr, data->game->img_minimap->ptr);
 	if (data->game->img_minimap_contour)
@@ -84,6 +90,10 @@ void	ft_free_imgs(t_data *data)
 		free(data->map->textdata->img[3]);
 	if (data->map->textdata->img[4])
 		free(data->map->textdata->img[4]);
+	if (data->map->textdata->img[5])
+		free(data->map->textdata->img[5]);
+	if (data->map->textdata->img[6])
+		free(data->map->textdata->img[6]);
 	if (data->game->img_minimap)
 		free(data->game->img_minimap);
 	if (data->game->img_minimap_contour)
