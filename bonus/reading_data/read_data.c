@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:35:58 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:40:03 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	read_data(t_data *data, char *filename)
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
+	if (line == NULL)
+		data->error_status = 1;
 	while (line)
 	{
 		if (is_map_line(line))

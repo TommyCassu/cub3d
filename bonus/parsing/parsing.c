@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/08 22:19:27 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/21 15:50:10 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,29 @@ int	parsing_texture(t_textdata *textures)
 
 void	attribute_rgb(t_data *data, char **tab_value, char *direction)
 {
-	int		r;
-	int		g;
-	int		b;
-
-	r = ft_atoi(tab_value[0]);
-	g = ft_atoi(tab_value[1]);
-	b = ft_atoi(tab_value[2]);
-	if (!(r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255))
+	int	r;
+	int	g;
+	int	b;
+	
+	if (ft_verif_digit(tab_value[0]) && ft_verif_digit(tab_value[1])
+	&& ft_verif_digit(tab_value[2]))
 	{
-		data->error_status = 1;
-		printf("Error map ! Please enter a valid RGB value");
-		return ;
+		r = ft_atoi(tab_value[0]);
+		g = ft_atoi(tab_value[1]);
+		b = ft_atoi(tab_value[2]);
+		if (!(r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) || tab_value[3])
+		{
+			data->error_status = 1;
+			printf("Error map ! Please enter a valid RGB value");
+		}
+		else
+		{
+			if (direction[0] == 'F')
+			data->map->floor_rgb = (r << 16) | (g << 8) | b;
+			else if (direction[0] == 'C')
+			data->map->ceilling_rgb = (r << 16) | (g << 8) | b;
+		}
 	}
-	if (direction[0] == 'F')
-		data->map->floor_rgb = (r << 16) | (g << 8) | b;
-	else if (direction[0] == 'C')
-		data->map->ceilling_rgb = (r << 16) | (g << 8) | b;
 	ft_free(tab_value);
 	free(tab_value);
 }
@@ -93,32 +99,44 @@ void	parsing_rgb(t_data *data, char *line, char *direction)
 	else if (direction[0] == 'C')
 		new_value = ft_strtrim(line, " C\n");
 	tab_value = ft_split(new_value, ',');
-	if (!tab_value[0] || !tab_value[1] || !tab_value[2])
-		return ;
 	if (new_value)
 		free(new_value);
+	if (!tab_value[0] || !tab_value[1] || !tab_value[2])
+	{
+		ft_free(tab_value);
+		free(tab_value);
+		return ;
+	}
 	while (++i < 3)
 	{
-		tmp = ft_strtrim(tab_value[i], " \t");
-		free(tab_value[i]);
-		tab_value[i] = tmp;
+		if (tab_value[i])
+		{
+			tmp = ft_strtrim(tab_value[i], " \t");
+			free(tab_value[i]);
+			tab_value[i] = tmp;
+		}
 	}
-	if (ft_verif_digit(tab_value[0]) && ft_verif_digit(tab_value[1])
-		&& ft_verif_digit(tab_value[2]))
-		attribute_rgb(data, tab_value, direction);
+	attribute_rgb(data, tab_value, direction);
 }
 
 int	parsing(t_data *data)
 {
 	if (!parsing_texture(data->map->textdata))
+	{
+		data->error_status = 1;
 		return (0);
+	}
 	if (data->map->ceilling_rgb == -1 || data->map->floor_rgb == -1)
 	{
 		if (data->error_status != 1)
 			printf("Error map ! RGB value missing");
+		data->error_status = 1;
 		return (0);
 	}
 	if (!parsing_map(data->map))
+	{
+		data->error_status = 1;
 		return (0);
+	}
 	return (1);
 }
