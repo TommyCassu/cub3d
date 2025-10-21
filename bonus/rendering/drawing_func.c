@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:39:21 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/24 16:29:15 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:32:41 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init_floor_params(t_data *data, t_game *game, int y)
 	game->ray_dir_y0 = data->map->player->dir_y - game->plane_y;
 	game->ray_dir_x1 = data->map->player->dir_x + game->plane_x;
 	game->ray_dir_y1 = data->map->player->dir_y + game->plane_y;
-	game->p = y - RES_Y / 2 - game->jumpoffsetresy - game->head_view;
+	game->p = (y - (RES_Y / 2)) + game->jumpoffsetresy + game->head_view;
 	game->pos_z = 0.5 * RES_Y;
 	game->row_distance = game->pos_z / game->p;
 	game->floor_step_x = game->row_distance * (game->ray_dir_x1
@@ -56,31 +56,57 @@ void	init_floor_params(t_data *data, t_game *game, int y)
 		* game->ray_dir_y0;
 }
 
-void	draw_floor(t_data *data, t_game *game, t_map *map)
+void	draw_floor(t_data *data, t_game *game, t_map *map, int x)
 {
-	int	y;
-	int	x;
+	double	floorXWall;
+	double	floorYWall;
+	double distWall, distPlayer, currentDist;
+	
+	if(game->side == 0 && data->game->raydir_x > 0)
+      {
+        floorXWall = data->game->map_x;
+        floorYWall = data->game->map_y + data->game->wall_x;
+      }
+      else if(game->side == 0 && data->game->raydir_x < 0)
+      {
+        floorXWall = data->game->map_x + 1.0;
+        floorYWall = data->game->map_y + data->game->wall_x;
+      }
+      else if(game->side == 1 && data->game->raydir_y > 0)
+      {
+        floorXWall = data->game->map_x + data->game->wall_x;
+        floorYWall = data->game->map_y;
+      }
+      else
+      {
+        floorXWall = data->game->map_x + data->game->wall_x;
+        floorYWall = data->game->map_y + 1.0;
+      }
 
-	y = (RES_Y / 2) + game->jumpoffsetresy + game->head_view;
-	while (y < RES_Y)
-	{
-		init_floor_params(data, game, y);
-		x = 0;
-		while (++x < RES_X)
-		{
-			game->cell_x = (int)(game->floor_x);
-			game->cell_y = (int)(game->floor_y);
-			game->tx = (int)(TEXT_SIZE * (game->floor_x - game->cell_x))
-				& (TEXT_SIZE - 1);
-			game->ty = (int)(TEXT_SIZE * (game->floor_y - game->cell_y))
-				& (TEXT_SIZE - 1);
-			game->floor_x += game->floor_step_x;
-			game->floor_y += game->floor_step_y;
-			game->color = get_pixel(map->textdata->img[4], game->tx, game->ty);
-			if ((y < 256 && x < 256 && is_minimap_status(data, x, y) == 0)
+	  distWall = game->perp_wall_dist;
+      distPlayer = 0.0;
+	
+	  if(game->draw_end < 0)
+	  	game->draw_end = RES_Y;
+
+      for(int y = (game->draw_end + 1); y < RES_Y; y++)
+      {
+        currentDist = (RES_Y + (2 * game->jumpoffsetresy * game->perp_wall_dist)) / (2 * (y - data->game->head_view) - RES_Y);
+
+        double weight = (currentDist - distPlayer) / (distWall  - distPlayer);
+
+        double currentFloorX = weight * floorXWall + (1.0 - weight) * data->map->player->x;
+        double currentFloorY = weight * floorYWall + (1.0 - weight) * data->map->player->y;
+
+        int floorTexX, floorTexY;
+        floorTexX = (int)(currentFloorX * TEXT_SIZE) & (TEXT_SIZE - 1);
+        floorTexY = (int)(currentFloorY * TEXT_SIZE) & (TEXT_SIZE - 1);
+		if (map->map_tab[(int)currentFloorX][(int)currentFloorY] && (map->map_tab[(int)currentFloorX][(int)currentFloorY] == '2' || map->map_tab[(int)currentFloorX][(int)currentFloorY] == 'D'))
+			game->color = get_pixel(map->textdata->img[6],floorTexX, floorTexY);
+		else
+			game->color = get_pixel(map->textdata->img[4],floorTexX, floorTexY);	
+		if ((y < 256 && x < 256 && is_minimap_status(data, x, y) == 0)
 				|| (y >= 256 || x >= 256))
 				pixels_to_image(data, x, y, game->color);
-		}
-		y++;
 	}
 }

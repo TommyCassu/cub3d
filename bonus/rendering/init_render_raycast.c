@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/09/24 16:26:08 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/10 02:33:43 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ void	setup_angle_rayon(t_data *data)
 
 void	dda_loop(t_data *data)
 {
-	/* ALgo DDA Loop */
+	int	value;
+
 	while (data->game->hit == 0)
 	{
+		data->game->walloffset = 0.0;
 		if (data->game->side_dist_x < data->game->side_dist_y)
 		{
 			data->game->side_dist_x += data->game->delta_dist_x;
@@ -80,29 +82,39 @@ void	dda_loop(t_data *data)
 			data->game->map_y += data->game->step_y;
 			data->game->side = 1;
 		}
-		if (data->map->map_tab[data->game->map_x][data->game->map_y] == '1')
+		value = data->map->map_tab[data->game->map_x][data->game->map_y];
+		if (value == '1')
 			data->game->hit = 1;
+		else if (value == 'D')
+		{
+			closed_door(data);
+		}
 	}
 }
 
 void	manage_draw_limits(t_data *data)
 {
-	/* Calculate the distance of the rayon from the cam position in the cam direction*/
-	if (data->game->side == 0)
-		data->game->perp_wall_dist = data->game->side_dist_x
-			- data->game->delta_dist_x;
-	else
-		data->game->perp_wall_dist = data->game->side_dist_y
-			- data->game->delta_dist_y;
-	/* Calcul height of line to draw colone wall */
-	data->game->line_height = (RES_Y / data->game->perp_wall_dist);
-	data->game->draw_start = -data->game->line_height / 2 + RES_Y / 2
-		+ data->game->head_view;
-	data->game->draw_end = data->game->line_height / 2 + RES_Y / 2
-		+ data->game->head_view;
-	/*apply jump offset*/
-	data->game->draw_start += (int)(data->map->player->jumpoffset * RES_Y);
-	data->game->draw_end += (int)(data->map->player->jumpoffset * RES_Y);
+	if (data->game->side == 0 && data->game->hit != 2)
+		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x
+				+ data->game->walloffset
+				+ (1 - data->game->step_x) / 2) / data->game->raydir_x;
+	else if (data->game->side == 1 && data->game->hit != 2)
+		data->game->perp_wall_dist = (data->game->map_y - data->map->player->y
+				+ data->game->walloffset
+				+ (1 - data->game->step_y) / 2) / data->game->raydir_y;
+	data->game->line_height = (int)(RES_Y / data->game->perp_wall_dist);
+	data->game->jumpoffsetresy = ((int)(data->map->player->jumpoffset * RES_Y / data->game->perp_wall_dist));
+	data->game->draw_start = -data->game->line_height / 2 + RES_Y / 2 + data->game->head_view + data->game->jumpoffsetresy;
 	if (data->game->draw_start < 0)
 		data->game->draw_start = 0;
+	data->game->draw_end = data->game->line_height / 2 + RES_Y / 2 + data->game->head_view + data->game->jumpoffsetresy;
+	if (data->game->draw_end >= RES_Y)
+		data->game->draw_end = RES_Y - 1;
+	if (data->game->side == 0)
+		data->game->wall_x = data->map->player->y + data->game->perp_wall_dist
+			* data->game->raydir_y;
+	else
+		data->game->wall_x = data->map->player->x + data->game->perp_wall_dist
+			* data->game->raydir_x;
+	data->game->wall_x -= floor(data->game->wall_x);
 }

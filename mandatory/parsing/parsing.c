@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/09/23 21:51:44 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/08 21:52:41 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	parsing_texture(t_textdata *textures)
 		textures->s = NULL;
 		textures->e = NULL;
 		textures->w = NULL;
-		printf("wqewqewqeqwe");
 		return (0);
 	}
 	return (1);
@@ -75,28 +74,37 @@ void	attribute_rgb(t_data *data, char **tab_value, char *direction)
 		data->map->floor_rgb = (r << 16) | (g << 8) | b;
 	else if (direction[0] == 'C')
 		data->map->ceilling_rgb = (r << 16) | (g << 8) | b;
+	ft_free(tab_value);
+	free(tab_value);
 }
 
 void	parsing_rgb(t_data *data, char *line, char *direction)
 {
 	char	*new_value;
 	char	**tab_value;
+	char	*tmp;
+	int		i;
 
+	i = -1;
 	new_value = NULL;
 	if (direction[0] == 'F')
 		new_value = ft_strtrim(line, " F\n");
 	else if (direction[0] == 'C')
 		new_value = ft_strtrim(line, " C\n");
 	tab_value = ft_split(new_value, ',');
-	if (!tab_value[0] || !tab_value[1] || !tab_value[2])
+	if (!tab_value[0] || !tab_value[1] || !tab_value[2] || tab_value[3])
 		return ;
 	if (new_value)
 		free(new_value);
+	while (++i < 3)
+	{
+		tmp = ft_strtrim(tab_value[i], " \t");
+		free(tab_value[i]);
+		tab_value[i] = tmp;
+	}
 	if (ft_verif_digit(tab_value[0]) && ft_verif_digit(tab_value[1])
 		&& ft_verif_digit(tab_value[2]))
 		attribute_rgb(data, tab_value, direction);
-	ft_free(tab_value);
-	free(tab_value);
 }
 
 int	parsing(t_data *data)
@@ -106,7 +114,7 @@ int	parsing(t_data *data)
 	if (data->map->ceilling_rgb == -1 || data->map->floor_rgb == -1)
 	{
 		if (data->error_status != 1)
-			printf("Error map ! RGB value missing");
+			printf("Error map ! RGB wrong value");
 		return (0);
 	}
 	if (!parsing_map(data->map))

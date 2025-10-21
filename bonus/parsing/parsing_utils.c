@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/09/23 21:51:57 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/08 22:20:24 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	is_player(char c)
 
 int	is_valid(char c)
 {
-	return (c == '0' || c == '1' || is_player(c));
+	return (c == '0' || c == '1' || c == '2'
+		|| c == '3' || c == 'D' || is_player(c));
 }
 
 int	ft_verif_digit(char	*str)

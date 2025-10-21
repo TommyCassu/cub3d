@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/27 14:35:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/08 15:24:40 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	is_map_line(char *line)
 		return (0);
 	while (*line)
 	{
-		if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S'
-			|| *line == 'E' || *line == 'W' || *line == ' ')
+		if (*line == '0' || *line == '1' || *line == '2'
+			|| *line == '3' || *line == 'N' || *line == 'S'
+			|| *line == 'E' || *line == 'W' || *line == ' ' || *line == 'D')
 			status_map = 1;
 		line++;
 	}

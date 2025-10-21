@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/02 15:21:01 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/09 13:32:53 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@
 # define KEY_A 7
 # define KEY_D 8
 # define KEY_JUMP 9
+# define KEY_DOOR 10
 # define TEXT_SIZE 128
-# define numSprites 19
+# define M_PI		3.14159265358979323846
+
+# define BLOCK_SIZE 1
 
 typedef struct s_img
 {
@@ -56,7 +59,7 @@ typedef struct s_textdata
 	char	*s;
 	char	*w;
 	char	*e;
-	t_img	*img[5];
+	t_img	*img[7];
 }			t_textdata;
 
 typedef struct s_player
@@ -76,66 +79,79 @@ typedef struct s_sprite
 {
 	double	x;
 	double	y;
-	t_img *img_sprite[1];
+	t_img	*img_sprite[1];
 }			t_sprite;
+
+typedef struct s_door
+{
+	double	x;
+	double	y;
+	double	opening_state;
+	int		status;
+	t_img	*img_door;
+}			t_door;
 
 typedef struct s_game
 {
-	double	time;
-	double	oldtime;
-	double	plane_x;
-	double	plane_y;
-	double	raydir_x;
-	double	raydir_y;
-	double	camera_x;
-	double	movespeed;
-	double	rotspeed;
-	int		map_y;
-	int		map_x;
-	double	side_dist_y;
-	double	side_dist_x;
-	double	perp_wall_dist;
-	double	delta_dist_y;
-	double	delta_dist_x;
-	int		text_num;
-	int		tex_x;
-	int		tex_y;
-	double	tex_pos;
-	double	step;
-	int		step_x;
-	int		step_y;
-	int		hit;
-	int		side;
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-	int		head_view;
-	int		key_tab[32];
-	double	ray_dir_x0;
-	double	ray_dir_y0;
-	double	ray_dir_x1;
-	double	ray_dir_y1;
-	double	pos_z;
-	int		p;
-	int		color;
-	float	row_distance;
-	double	floor_x;
-	double	floor_y;
-	double	floor_step_y;
-	double	floor_step_x;
-	double	old_dir_x;
-	double	old_plane_x;
-	int		cell_x;
-	int		cell_y;
-	int		tx;
-	int		ty;
-	int		jumpoffsetresy;
-	t_img	*img_minimap;
-	t_img	*img_minimap_contour;
-	t_sprite *sprite;
-	int		tab_contour[256][256];
-	double	frametime;
-	double	compteur;
+	double		walloffset;
+	double		time;
+	double		oldtime;
+	double		plane_x;
+	double		plane_y;
+	double		raydir_x;
+	double		raydir_y;
+	double		wall_x;
+	double		camera_x;
+	double		movespeed;
+	double		rotspeed;
+	int			map_y;
+	int			map_x;
+	double		side_dist_y;
+	double		side_dist_x;
+	double		perp_wall_dist;
+	double		delta_dist_y;
+	double		delta_dist_x;
+	int			text_num;
+	int			tex_x;
+	int			tex_y;
+	double		tex_pos;
+	double		step;
+	int			step_x;
+	int			step_y;
+	int			hit;
+	int			side;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	int			head_view;
+	int			key_tab[32];
+	double		ray_dir_x0;
+	double		ray_dir_y0;
+	double		ray_dir_x1;
+	double		ray_dir_y1;
+	double		pos_z;
+	int			p;
+	int			color;
+	float		row_distance;
+	double		floor_x;
+	double		floor_y;
+	double		floor_step_y;
+	double		floor_step_x;
+	double		old_dir_x;
+	double		old_plane_x;
+	int			cell_x;
+	int			cell_y;
+	int			tx;
+	int			ty;
+	int			jumpoffsetresy;
+	t_img		*img_minimap;
+	t_img		*img_minimap_contour;
+	t_sprite	*sprite;
+	int			tab_contour[256][256];
+	double		frametime;
+	double		compteur;
+	int			nbdoors;
+	t_door		*door;
 }			t_game;
 
 typedef struct s_map
@@ -169,6 +185,7 @@ typedef struct s_data
 void	free_map(t_map *map);
 void	ft_free_map(t_data *data);
 void	ft_free_imgs(t_data *data);
+void	ft_destroy_imgs(t_data *data);
 void	ft_free_mlx(t_data *data);
 /* free.c */
 int		ft_exit(void *param);
@@ -227,7 +244,7 @@ void	write_map(t_map *map, char *filename);
 void	pixels_to_image(t_data *data, int x, int y, int pixcolor);
 void	draw_ceiling(t_data *data, t_game *game, int x, int color);
 void	init_floor_params(t_data *data, t_game *game, int y);
-void	draw_floor(t_data *data, t_game *game, t_map *map);
+void	draw_floor(t_data *data, t_game *game, t_map *map, int x);
 /* init_render_raycast */
 void	init_ray(t_data *data, int x);
 void	setup_angle_rayon(t_data *data);
@@ -236,7 +253,7 @@ void	manage_draw_limits(t_data *data);
 /* render_raycast */
 void	get_texture_pos(t_data *data);
 void	draw_wall_col(t_data *data, int x);
-void	select_texture_side(t_game *game);
+void	select_texture_side(t_data *data, t_game *game);
 void	render_raycast(t_data *data, t_game *game);
 void	calcul_jump_offset(t_data *data);
 /* Utils_raycasting */
@@ -257,9 +274,20 @@ void	draw_cube_outside(t_data *data);
 void	draw_mini_map(t_data *data);
 /* --- Main.c --- */
 void	print_map(t_map *map);
-int		test_rend(t_data *data);
-void	setup_minimap(t_data *data);
-
+int		handler_render(t_data *data);
+void	setup_minimap(t_data *data, t_img *img_contour_map, t_img *img_minimap);
+int		mouse_handler(int new_xpos, int new_ypos, void *param);
 // void    transpose_test(t_mlx *mlx, t_img *img, int w, int h);
 void	setup_text_sprites(t_data *data, t_sprite *sprite);
+int		get_door(t_data *data, int y, int x);
+void	setup_one_door(t_data *data, int y, int x, int nbdoors);
+void	setup_doors(t_data *data);
+void	count_door(t_data *data);
+void	mooving_door(t_data *data);
+void	interaction_door(t_data *data);
+int		door_crossable(t_data *data, int x, int y);
+void	closed_door(t_data *data);
+int		calc_offset_other_side(t_game *game, t_map *map);
+int		calc_offset(t_data *data);
+
 #endif
