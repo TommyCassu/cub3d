@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:08:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/21 12:32:31 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:50:53 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	ft_free_map(t_data *data)
 			free(data->map->textdata->e);
 		if (data->map->textdata->w)
 			free(data->map->textdata->w);
-		ft_destroy_imgs(data);
+		if (data->error_status == 0)
+			ft_destroy_imgs(data);
 		ft_free_imgs(data);
 		free(data->map->textdata);
 	}
@@ -74,8 +75,6 @@ void	ft_destroy_imgs(t_data *data)
 	if (data->game->sprite->img_sprite[0])
 		mlx_destroy_image(data->mlx->ptr, data->game
 			->sprite->img_sprite[0]->ptr);
-	if (data->game->sprite->img_sprite[0])
-		free(data->game->sprite->img_sprite[0]);
 }
 
 void	ft_free_imgs(t_data *data)
@@ -98,6 +97,8 @@ void	ft_free_imgs(t_data *data)
 		free(data->game->img_minimap);
 	if (data->game->img_minimap_contour)
 		free(data->game->img_minimap_contour);
+	if (data->game->sprite->img_sprite[0])
+		free(data->game->sprite->img_sprite[0]);
 }
 
 void	ft_free_mlx(t_data *data)
