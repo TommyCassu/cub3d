@@ -49,7 +49,7 @@ RANLIB		= ranlib
 
 CC			= cc
 
-CFLAGS		= 
+CFLAGS		= -Wall -Wextra -Werror -g
 
 all:		${NAME}
 
