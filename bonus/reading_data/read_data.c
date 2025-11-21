@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/21 16:11:56 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/22 00:58:38 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	read_data(t_data *data, char *filename)
 	int		map_line;
 
 	map_line = 0;
-	// Rajouter la verif de l'extension du filename
 	check_valid_map(filename);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
