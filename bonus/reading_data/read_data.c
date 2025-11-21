@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/21 15:40:03 by npederen         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:11:56 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,31 @@ void	malloc_map(t_map *map)
 	}
 }
 
+int	check_valid_map(char *line)
+{
+	int	len;
+	int	fd;	
+
+	if (!line)
+	{
+		printf("Error please provide a map !");
+		return (1);
+	}
+	len = ft_strlen(line);
+	if (len < 4 || ft_strcmp(line + (len - 4), ".cub") != 0)
+	{
+		printf("Error : Bad extension file : %s\n", line);
+		return (1);
+	}
+	fd = open(line, O_RDONLY);
+	if (fd < 0)
+	{
+		printf("Error : Cannot open map file : %s.\n", line);
+		return (1);
+	}
+	return (0);
+}
+
 void	read_data(t_data *data, char *filename)
 {
 	int		fd;
@@ -81,6 +106,7 @@ void	read_data(t_data *data, char *filename)
 
 	map_line = 0;
 	// Rajouter la verif de l'extension du filename
+	check_valid_map(filename);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;

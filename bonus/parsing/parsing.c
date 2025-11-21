@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/21 15:50:10 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/21 23:57:06 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_valid_file(char *line)
 
 	if (!line)
 	{
-		printf("Error map ! Directionnal image missing");
+		printf("Error map ! Directionnal image missing\n");
 		return (1);
 	}
 	len = ft_strlen(line);
@@ -50,7 +50,6 @@ int	parsing_texture(t_textdata *textures)
 		textures->s = NULL;
 		textures->e = NULL;
 		textures->w = NULL;
-		printf("wqewqewqeqwe");
 		return (0);
 	}
 	return (1);
@@ -71,7 +70,7 @@ void	attribute_rgb(t_data *data, char **tab_value, char *direction)
 		if (!(r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) || tab_value[3])
 		{
 			data->error_status = 1;
-			printf("Error map ! Please enter a valid RGB value");
+			printf("Error map ! Please enter a valid RGB value\n");
 		}
 		else
 		{
@@ -129,7 +128,7 @@ int	parsing(t_data *data)
 	if (data->map->ceilling_rgb == -1 || data->map->floor_rgb == -1)
 	{
 		if (data->error_status != 1)
-			printf("Error map ! RGB value missing");
+			printf("Error map ! RGB value missing\n");
 		data->error_status = 1;
 		return (0);
 	}

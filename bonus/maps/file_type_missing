@@ -1,9 +1,10 @@
 NO ./bonus/textures/north_face.xpm
-SO ./bonus/textures/south_face.xpm 
 EA ./bonus/textures/east_face.xpm
+WE ./bonus/textures/west_face.xpm
+SO ./bonus/textures/south_face.xpm
 
-F 32, 32, 32
-C 0, 0, 102
+F 20,20,20
+C 200,200,200
 
 11111
 10001

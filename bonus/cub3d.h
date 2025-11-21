@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 13:32:53 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/10/21 16:10:51 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ void	move_head(t_game *game, t_player *player);
 void	config_memory(t_data *data, char *line, char *direction);
 int		add_data(t_data *data, char *line);
 void	malloc_map(t_map *map);
+int		check_valid_map(char *line);
 void	read_data(t_data *data, char *filename);
 /* read_map.c */
 int		is_map_line(char *line);
