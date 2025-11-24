@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 14:39:24 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:55:58 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,12 @@ void	render_raycast(t_data *data, t_game *game)
 			get_texture_pos(data);
 			draw_wall_col(data, x);
 			zbuffer[x] = game->perp_wall_dist;
-			draw_floor(data, game, data->map, x);
-			draw_ceiling(data, game, x, data->map->ceilling_rgb);
+			draw_floor_and_ceiling(data, game, x);
 		}
 		render_sprite(data, game, game->sprite, zbuffer);
 		mlx_put_image_to_window(data->mlx->ptr, data->mlx->win,
 			data->mlx->img->ptr, 0, 0);
-		show_fps(data);
-		game->movespeed = game->frametime * 8.0;
-		game->rotspeed = game->frametime * 2.0;
+		frames_speed(data, game);
 		break ;
 	}
 }

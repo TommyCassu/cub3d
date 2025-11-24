@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 15:00:57 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:34:50 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	init_raycast(t_data *data)
 	data->game->floor_y = 0.0;
 	data->game->floor_step_y = 0.0;
 	data->game->floor_step_x = 0.0;
-	data->game->jumpoffsetresy = ((int)(data->map->player->jumpoffset * RES_Y) / data->game->perp_wall_dist);
+	data->game->jumpoffsetresy = ((int)(data->map->player->jumpoffset * RES_Y)
+			/ data->game->perp_wall_dist);
 }
 
 void	setup_text_img(t_data *data, t_textdata *t)

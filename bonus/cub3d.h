@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 14:42:23 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:33:27 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,11 +300,14 @@ void	setup_sprite(t_data *data, t_game *game, t_sprite *sprite);
 void	calc_sprite(t_game *game, t_sprite *sprite);
 void	calcul_angle_sprite(t_data *data, t_game *game);
 void	print_sprite(t_data *data, t_game *game, t_sprite *sprite);
-void	render_sprite(t_data *data, t_game *game, t_sprite *sprite, double *buf);
+void	render_sprite(t_data *data, t_game *game,
+			t_sprite *sprite, double *buf);
 /* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);
 void	show_fps(t_data *data);
+void	frames_speed(t_data *data, t_game *game);
+void	draw_floor_and_ceiling(t_data *data, t_game *game, int x);
 /* --- Minimap --- */
 /* contour_minimap.c */
 int		is_minimap_status(t_data *data, int x, int y);

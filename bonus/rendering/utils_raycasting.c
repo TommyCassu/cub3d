@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:38:59 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 13:30:34 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:58:41 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,17 @@ void	show_fps(t_data *data)
 	sprintf(fpsbuffer, "FPS %F", 1.0 / data->game->frametime);
 	mlx_string_put(data->mlx->ptr, data->mlx->win,
 		500, 20, 0x000000, fpsbuffer);
+}
+
+void	frames_speed(t_data *data, t_game *game)
+{
+	show_fps(data);
+	game->movespeed = game->frametime * 8.0;
+	game->rotspeed = game->frametime * 2.0;
+}
+
+void	draw_floor_and_ceiling(t_data *data, t_game *game, int x)
+{
+	draw_floor(data, game, data->map, x);
+	draw_ceiling(data, game, x, data->map->ceilling_rgb);
 }
