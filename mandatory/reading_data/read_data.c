@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 15:55:56 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:25:16 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	add_data(t_data *data, char *line)
 	}
 	else if (line[0] != '\n')
 	{
-		printf("Error map ! %s", line);
+		printf("Error map ! %s\n", line);
 		data->error_status = 1;
 	}
 	return (0);
@@ -80,7 +80,7 @@ int	check_valid_map(char *line)
 
 	if (!line)
 	{
-		printf("Error please provide a map !");
+		printf("Error please provide a map !\n");
 		return (1);
 	}
 	len = ft_strlen(line);
