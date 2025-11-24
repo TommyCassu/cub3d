@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/21 16:10:51 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 03:26:41 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,12 @@ typedef struct s_game
 	double		floor_y;
 	double		floor_step_y;
 	double		floor_step_x;
+	double		floor_x_wall;
+	double		floor_y_wall;
+	int			floor_text_x;
+	int			floor_text_y;
+	double		current_floor_x;
+	double		current_floor_y;
 	double		old_dir_x;
 	double		old_plane_x;
 	int			cell_x;
@@ -209,6 +215,8 @@ int		parsing_map(t_map *map);
 int		is_player(char c);
 int		is_valid(char c);
 int		ft_verif_digit(char *str);
+int		check_rgb_value(char *new_value, char **tab_value);
+int		check_rgb_limit(int r, int g, int b, char **tab_value);
 /* parsing.c */
 int		check_valid_file(char *line);
 int		parsing_texture(t_textdata *textures);
@@ -235,6 +243,8 @@ int		add_data(t_data *data, char *line);
 void	malloc_map(t_map *map);
 int		check_valid_map(char *line);
 void	read_data(t_data *data, char *filename);
+/* read_data_utils.c */
+void	read_line_gnl(t_data *data, int fd, int map_line);
 /* read_map.c */
 int		is_map_line(char *line);
 void	read_map(t_map *map, char *line);

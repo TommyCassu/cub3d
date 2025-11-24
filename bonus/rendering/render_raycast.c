@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_raycast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 14:51:33 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 03:12:14 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	render_raycast(t_data *data, t_game *game)
 			draw_floor(data, game, data->map, x);
 			draw_ceiling(data, game, x, data->map->ceilling_rgb);
 		}
-		
 		double sprite_x = game->sprite[0].x - data->map->player->x;
 		double sprite_y = game->sprite[0].y - data->map->player->y;
 		double inv_det = 1.0 / (game->plane_x * data->map->player->dir_y - data->map->player->dir_x * game->plane_y); //required for correct matrix multiplication

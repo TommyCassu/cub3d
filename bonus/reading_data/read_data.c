@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/22 00:58:38 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/23 23:05:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	check_valid_map(char *line)
 void	read_data(t_data *data, char *filename)
 {
 	int		fd;
-	char	*line;
 	int		map_line;
 
 	map_line = 0;
@@ -109,22 +108,8 @@ void	read_data(t_data *data, char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;
-	line = get_next_line(fd);
-	if (line == NULL)
-		data->error_status = 1;
-	while (line)
-	{
-		if (is_map_line(line))
-			map_line = 1;
-		if (map_line)
-			read_map(data->map, line);
-		else
-			add_data(data, line);
-		free(line);
-		line = get_next_line(fd);
-	}
+	read_line_gnl(data, fd, map_line);
 	close(fd);
 	malloc_map(data->map);
-	free(line);
 	return ;
 }

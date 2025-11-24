@@ -12,9 +12,11 @@ FILES			=	main.c \
 					player/movements.c \
 					reading_data/read_data.c \
 					reading_data/read_map.c \
+					reading_data/read_data_utils.c \
 					door/init_doors.c \
 					door/utils_doors.c \
 					rendering/drawing_func.c \
+					rendering/drawing_floor.c \
 					rendering/init_render_raycast.c \
 					rendering/render_raycast.c \
 					rendering/utils_raycasting.c \
