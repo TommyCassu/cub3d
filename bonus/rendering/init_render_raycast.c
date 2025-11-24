@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   init_render_raycast.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:56:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/11/24 03:28:01 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/24 13:29:43 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/* Setup ray */
+/* calcul length of ray */
+
 void	init_ray(t_data *data, int x)
 {
-	/* Setup ray */
 	data->game->camera_x = 2 * x / (double)RES_X - 1;
 	data->game->raydir_x = data->map->player->dir_x + data->game->plane_x
 		* data->game->camera_x;
@@ -23,7 +25,6 @@ void	init_ray(t_data *data, int x)
 	data->game->map_x = (int)data->map->player->x;
 	data->game->map_y = (int)data->map->player->y;
 	data->game->hit = 0;
-	/* calcul length of ray */
 	if (data->game->raydir_x == 0)
 		data->game->delta_dist_x = 1e30;
 	else
@@ -34,9 +35,10 @@ void	init_ray(t_data *data, int x)
 		data->game->delta_dist_y = fabs(1 / data->game->raydir_y);
 }
 
+	/* Algo DDA ( Setup angle rayon ) */
+
 void	setup_angle_rayon(t_data *data)
 {
-	/* Algo DDA ( Setup angle rayon ) */
 	if (data->game->raydir_x < 0)
 	{
 		data->game->step_x = -1;
@@ -92,7 +94,7 @@ void	dda_loop(t_data *data)
 	}
 }
 
-void	manage_draw_limits(t_data *data)
+void	manage_side_limits(t_data *data)
 {
 	if (data->game->side == 0 && data->game->hit != 2)
 		data->game->perp_wall_dist = (data->game->map_x - data->map->player->x
@@ -104,9 +106,14 @@ void	manage_draw_limits(t_data *data)
 				+ (1 - data->game->step_y) / 2) / data->game->raydir_y;
 	data->game->line_height = (int)(RES_Y / data->game->perp_wall_dist);
 	data->game->jumpoffsetresy = ((int)(data->map->player->jumpoffset
-			* RES_Y / data->game->perp_wall_dist));
+				* RES_Y / data->game->perp_wall_dist));
 	data->game->draw_start = -data->game->line_height / 2 + RES_Y / 2
 		+ data->game->head_view + data->game->jumpoffsetresy;
+}
+
+void	manage_draw_limits(t_data *data)
+{
+	manage_side_limits(data);
 	if (data->game->draw_start < 0)
 		data->game->draw_start = 0;
 	data->game->draw_end = data->game->line_height / 2 + RES_Y / 2

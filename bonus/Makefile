@@ -19,6 +19,7 @@ FILES			=	main.c \
 					rendering/drawing_floor.c \
 					rendering/init_render_raycast.c \
 					rendering/render_raycast.c \
+					rendering/render_sprite.c \
 					rendering/utils_raycasting.c \
 					rendering/calc_offset.c \
 					handler/handler_functions.c \

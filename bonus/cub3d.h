@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 03:26:41 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/24 14:42:23 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@
 # define KEY_DOOR 10
 # define TEXT_SIZE 128
 # define M_PI		3.14159265358979323846
+# define UDIV 2
+# define VDIV 2
+# define VMOVE 200.0
+# define SPRITE_X 5
+# define SPRITE_Y 5
 
 # define BLOCK_SIZE 1
 
@@ -80,6 +85,29 @@ typedef struct s_sprite
 	double	x;
 	double	y;
 	t_img	*img_sprite[1];
+	double	sprite_x;
+	double	sprite_y;
+	double	inv_det;
+	double	transform_x;
+	double	transform_y;
+	int		spritescreen_x;
+	int		vmove_screen;
+	int		sprite_height;
+	int		drawstart_y;
+	int		drawend_y;
+	int		sprite_width;
+	int		drawstart_x;
+	int		drawend_x;
+	double	dx;
+	double	dy;
+	double	angle_sprite;
+	double	pa;
+	double	relative_angle;
+	int		dir_index;
+	int		stripe;
+	int		tex_xsprite;
+	int		d;
+	int		tex_ysprite;
 }			t_sprite;
 
 typedef struct s_door
@@ -266,7 +294,13 @@ void	get_texture_pos(t_data *data);
 void	draw_wall_col(t_data *data, int x);
 void	select_texture_side(t_data *data, t_game *game);
 void	render_raycast(t_data *data, t_game *game);
-void	calcul_jump_offset(t_data *data);
+/* render_sprite */
+void	calcul_jump_offset(t_data *data);;
+void	setup_sprite(t_data *data, t_game *game, t_sprite *sprite);
+void	calc_sprite(t_game *game, t_sprite *sprite);
+void	calcul_angle_sprite(t_data *data, t_game *game);
+void	print_sprite(t_data *data, t_game *game, t_sprite *sprite);
+void	render_sprite(t_data *data, t_game *game, t_sprite *sprite, double *buf);
 /* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);

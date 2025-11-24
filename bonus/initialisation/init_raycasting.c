@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/23 22:41:39 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/24 13:37:07 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	init_raycast(t_data *data)
 	ft_memset(data->game, 0, sizeof(t_game));
 	data->game->sprite = malloc(sizeof(t_sprite));
 	ft_memset(data->game->sprite, 0, sizeof(t_sprite));
-	data->game->sprite[0].x = 21.5;
-	data->game->sprite[0].y = 12.5;
+	data->game->sprite[0].x = SPRITE_X;
+	data->game->sprite[0].y = SPRITE_Y;
 	data->game->sprite->img_sprite[0] = malloc(sizeof(t_img));
 	data->game->img_minimap = malloc(sizeof(t_img));
 	data->game->img_minimap_contour = malloc(sizeof(t_img));
