@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/08 21:52:41 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/24 16:30:33 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_valid_file(char *line)
 
 	if (!line)
 	{
-		printf("Error map ! Directionnal image missing");
+		printf("Error map ! Directionnal image missing\n");
 		return (1);
 	}
 	len = ft_strlen(line);
@@ -67,7 +67,7 @@ void	attribute_rgb(t_data *data, char **tab_value, char *direction)
 	if (!(r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255))
 	{
 		data->error_status = 1;
-		printf("Error map ! Please enter a valid RGB value");
+		printf("Error map ! Please enter a valid RGB value\n");
 		return ;
 	}
 	if (direction[0] == 'F')
@@ -110,14 +110,21 @@ void	parsing_rgb(t_data *data, char *line, char *direction)
 int	parsing(t_data *data)
 {
 	if (!parsing_texture(data->map->textdata))
+	{
+		data->error_status = 1;
 		return (0);
+	}
 	if (data->map->ceilling_rgb == -1 || data->map->floor_rgb == -1)
 	{
 		if (data->error_status != 1)
-			printf("Error map ! RGB wrong value");
+			printf("Error map ! RGB wrong value\n");
+		data->error_status = 1;
 		return (0);
 	}
 	if (!parsing_map(data->map))
+	{
+		data->error_status = 1;
 		return (0);
+	}
 	return (1);
 }

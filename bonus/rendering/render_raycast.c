@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:48:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 14:51:33 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:55:58 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	get_texture_pos(t_data *data)
 		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
 	data->game->step = 1.0 * TEXT_SIZE / data->game->line_height;
 	data->game->tex_pos = (data->game->draw_start - RES_Y / 2
-			+ data->game->line_height / 2 - data->game->head_view - data->game->jumpoffsetresy) * data->game->step;
+			+ data->game->line_height / 2 - data->game->head_view
+			- data->game->jumpoffsetresy) * data->game->step;
 }
 
 void	draw_wall_col(t_data *data, int x)
@@ -89,7 +90,6 @@ void	render_raycast(t_data *data, t_game *game)
 	while (1)
 	{
 		x = -1;
-		//draw_floor(data, game, data->map);
 		calcul_jump_offset(data);
 		while (++x < RES_X)
 		{
@@ -101,83 +101,12 @@ void	render_raycast(t_data *data, t_game *game)
 			get_texture_pos(data);
 			draw_wall_col(data, x);
 			zbuffer[x] = game->perp_wall_dist;
-			draw_floor(data, game, data->map, x);
-			draw_ceiling(data, game, x, data->map->ceilling_rgb);
+			draw_floor_and_ceiling(data, game, x);
 		}
-		
-		double sprite_x = game->sprite[0].x - data->map->player->x;
-		double sprite_y = game->sprite[0].y - data->map->player->y;
-		double inv_det = 1.0 / (game->plane_x * data->map->player->dir_y - data->map->player->dir_x * game->plane_y); //required for correct matrix multiplication
-		double transform_x = inv_det * (data->map->player->dir_y * sprite_x - data->map->player->dir_x * sprite_y);
-		double transform_y = inv_det * (-game->plane_y * sprite_x + game->plane_x * sprite_y); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
-
-		int spritescreen_x = (int)((RES_X / 2) * (1 + transform_x / transform_y));
-		#define uDiv 2
-		#define vDiv 2
-		#define vMove 200.0
-		int vmove_screen = (int)(vMove / transform_y);
-
-		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(RES_Y / (transform_y))) / vDiv; //using "transform_y" instead of the real distance prevents fisheye
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawstart_y = -spriteHeight / 2 + RES_Y / 2 + vmove_screen + data->game->head_view + data->game->jumpoffsetresy;
-		if(drawstart_y < 0)
-			drawstart_y = 0;
-		int drawend_y = spriteHeight / 2 + RES_Y / 2 + vmove_screen + data->game->head_view + data->game->jumpoffsetresy;
-		if(drawend_y >= RES_Y)
-			drawend_y = RES_Y - 1;
-		//calculate width of the sprite
-		int spriteWidth = abs((int) (RES_Y / (transform_y))) / uDiv; 
-		int drawstart_x = -spriteWidth / 2 + spritescreen_x;
-		if(drawstart_x < 0)
-			drawstart_x = 0;
-		int drawend_x = spriteWidth / 2 + spritescreen_x;
-		if(drawend_x > RES_X)
-			drawend_x = RES_X;
-		/* calcul angle sprite player*/
-		double dx = data->game->sprite->x - data->map->player->y;
-		double dy = data->game->sprite->y - data->map->player->x;
-		double angleToSprite = atan2(dx, dy);
-		double pa = atan2(data->map->player->dir_y, data->map->player->dir_x);
-		double relativeAngle = angleToSprite - pa;
-		
-		while (relativeAngle < 0)
-			relativeAngle += 2*M_PI;
-		while (relativeAngle >= 2*M_PI)
-			relativeAngle -= 2*M_PI;
-		int dirIndex = (int)((relativeAngle + M_PI) / (2*M_PI) * 8) % 8;
-		int stripe = drawstart_x;
-		
-		while (stripe < drawend_x)
-		{
-			
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spritescreen_x)) * 128 / spriteWidth) / 256;
-			texX += floor(data->game->compteur) * 128;
-			if(transform_y > 0 && transform_y < zbuffer[stripe])
-			{
-				int y = drawstart_y;
-				while(y < drawend_y) //for every pixel of the current stripe
-				{
-					int d = (y - data->game->head_view - data->game->jumpoffsetresy - vmove_screen) * 256 - RES_Y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = (((d  * 128) / spriteHeight) / 256) + (dirIndex * 128);
-					unsigned int color = get_pixel(data->game->sprite->img_sprite[0], texX , texY );
-					if((color & 0x00FFFFFF) != 0)
-						if ((y < 256 && stripe < 256 && is_minimap_status(data, stripe, y) == 0)
-							|| (y >= 256 || stripe >= 256))
-							pixels_to_image(data, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
-					y++;
-				}
-			}
-			stripe++;
-		}
-		data->game->compteur += 0.2;
-		if (data->game->compteur >= 21)
-			data->game->compteur = 0;
+		render_sprite(data, game, game->sprite, zbuffer);
 		mlx_put_image_to_window(data->mlx->ptr, data->mlx->win,
 			data->mlx->img->ptr, 0, 0);
-		show_fps(data);
-		game->movespeed = game->frametime * 8.0;
-		game->rotspeed = game->frametime * 2.0;
+		frames_speed(data, game);
 		break ;
 	}
 }

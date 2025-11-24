@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 21:27:43 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 13:38:25 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/23 22:29:49 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	door_crossable(t_data *data, int x, int y)
 	int	door_id;
 
 	door_id = 0;
-	
-	if (data->map->map_tab[x][y] == 'D' ||data->map->map_tab[x][y] == 'D')
+	if (data->map->map_tab[x][y] == 'D' || data->map->map_tab[x][y] == 'D')
 	{
 		while (door_id < data->game->nbdoors)
 		{
@@ -28,12 +27,10 @@ int	door_crossable(t_data *data, int x, int y)
 				if (data->game->door[door_id].opening_state == 0.0)
 					return (1);
 				else if (data->game->door[door_id].opening_state == 1.0)
-				
 					return (2);
 			}
 			door_id++;
 		}
-		
 	}
 	return (0);
 }

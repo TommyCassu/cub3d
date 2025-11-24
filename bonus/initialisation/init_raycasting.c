@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 01:46:05 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/24 13:37:07 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	init_raycast(t_data *data)
 	ft_memset(data->game, 0, sizeof(t_game));
 	data->game->sprite = malloc(sizeof(t_sprite));
 	ft_memset(data->game->sprite, 0, sizeof(t_sprite));
-	data->game->sprite[0].x = 21.5;
-	data->game->sprite[0].y = 12.5;
+	data->game->sprite[0].x = SPRITE_X;
+	data->game->sprite[0].y = SPRITE_Y;
 	data->game->sprite->img_sprite[0] = malloc(sizeof(t_img));
 	data->game->img_minimap = malloc(sizeof(t_img));
 	data->game->img_minimap_contour = malloc(sizeof(t_img));
@@ -57,6 +57,25 @@ void	setup_text_sprites(t_data *data, t_sprite *sprite)
 	sprite->img_sprite[0]->addr = (int *)mlx_get_data_addr(sprite
 			->img_sprite[0]->ptr, &sprite->img_sprite[0]->bpp,
 			&sprite->img_sprite[0]->line_s, &sprite->img_sprite[0]->endian);
+}
+
+void	setup_text_img_presset(t_data *data, t_textdata *t)
+{
+	int	w;
+	int	h;
+
+	t->img[4]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
+			"./bonus/textures/floor.xpm", &w, &h);
+	t->img[4]->addr = (int *)mlx_get_data_addr(t->img[4]->ptr, &t->img[4]->bpp,
+			&t->img[4]->line_s, &t->img[4]->endian);
+	t->img[5]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
+			"./bonus/textures/door.xpm", &w, &h);
+	t->img[5]->addr = (int *)mlx_get_data_addr(t->img[5]->ptr, &t->img[5]->bpp,
+			&t->img[5]->line_s, &t->img[5]->endian);
+	t->img[6]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
+			"./bonus/textures/floor2.xpm", &w, &h);
+	t->img[6]->addr = (int *)mlx_get_data_addr(t->img[6]->ptr, &t->img[6]->bpp,
+			&t->img[6]->line_s, &t->img[6]->endian);
 }
 
 void	setup_text_img(t_data *data, t_textdata *t)
@@ -76,16 +95,5 @@ void	setup_text_img(t_data *data, t_textdata *t)
 	t->img[3]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, t->w, &w, &h);
 	t->img[3]->addr = (int *)mlx_get_data_addr(t->img[3]->ptr, &t->img[3]->bpp,
 			&t->img[3]->line_s, &t->img[3]->endian);
-	t->img[4]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
-			"./bonus/textures/floor.xpm", &w, &h);
-	t->img[4]->addr = (int *)mlx_get_data_addr(t->img[4]->ptr, &t->img[4]->bpp,
-			&t->img[4]->line_s, &t->img[4]->endian);
-	t->img[5]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
-			"./bonus/textures/door.xpm", &w, &h);
-	t->img[5]->addr = (int *)mlx_get_data_addr(t->img[5]->ptr, &t->img[5]->bpp,
-			&t->img[5]->line_s, &t->img[5]->endian);
-	t->img[6]->ptr = mlx_xpm_file_to_image(data->mlx->ptr,
-			"./bonus/textures/floor2.xpm", &w, &h);
-	t->img[6]->addr = (int *)mlx_get_data_addr(t->img[6]->ptr, &t->img[6]->bpp,
-			&t->img[6]->line_s, &t->img[6]->endian);
+	setup_text_img_presset(data, t);
 }

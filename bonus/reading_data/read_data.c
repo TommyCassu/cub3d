@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/21 15:40:03 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:24:21 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	add_data(t_data *data, char *line)
 	}
 	else if (line[0] != '\n')
 	{
-		printf("Error map ! %s", line);
+		printf("Error map ! %s\n", line);
 		data->error_status = 1;
 	}
 	return (0);
@@ -73,33 +73,43 @@ void	malloc_map(t_map *map)
 	}
 }
 
+int	check_valid_map(char *line)
+{
+	int	len;
+	int	fd;	
+
+	if (!line)
+	{
+		printf("Error please provide a map !\n");
+		return (1);
+	}
+	len = ft_strlen(line);
+	if (len < 4 || ft_strcmp(line + (len - 4), ".cub") != 0)
+	{
+		printf("Error : Bad extension file : %s\n", line);
+		return (1);
+	}
+	fd = open(line, O_RDONLY);
+	if (fd < 0)
+	{
+		printf("Error : Cannot open map file : %s.\n", line);
+		return (1);
+	}
+	return (0);
+}
+
 void	read_data(t_data *data, char *filename)
 {
 	int		fd;
-	char	*line;
 	int		map_line;
 
 	map_line = 0;
-	// Rajouter la verif de l'extension du filename
+	check_valid_map(filename);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;
-	line = get_next_line(fd);
-	if (line == NULL)
-		data->error_status = 1;
-	while (line)
-	{
-		if (is_map_line(line))
-			map_line = 1;
-		if (map_line)
-			read_map(data->map, line);
-		else
-			add_data(data, line);
-		free(line);
-		line = get_next_line(fd);
-	}
+	read_line_gnl(data, fd, map_line);
 	close(fd);
 	malloc_map(data->map);
-	free(line);
 	return ;
 }

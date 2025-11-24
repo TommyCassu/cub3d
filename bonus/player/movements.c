@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:29:51 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/21 12:19:59 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/23 22:36:34 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,18 @@ int	go_forward(t_data *data, t_player *player)
 		>= data->map->height_map || (int)(player->y + msdiry) < 0
 			|| (int)(player->y + msdiry) >= data->map->width_map)
 		return (1);
-	if (data->map->map_tab[(int)(player->x + msdirx)][(int)player->y] != '1' && !((data->map->map_tab[(int)(player->x + msdirx)][(int)player->y] == 'D') && door_crossable(data, (int)(player->x + msdirx),(int)player->y) == 1))
+	if (data->map->map_tab[(int)(player->x + msdirx)][(int)player->y] != '1'
+		&& !((data->map->map_tab[(int)(player->x + msdirx)]
+		[(int)player->y] == 'D')
+		&& door_crossable(data, (int)(player->x + msdirx),
+		(int)player->y) == 1))
 		player->x += msdirx;
-	if (data->map->map_tab[(int)player->x][(int)(player->y + msdiry)] != '1' && !((data->map->map_tab[(int)player->x][(int)(player->y + msdiry)] == 'D') && door_crossable(data, (int)player->x,((int)(player->y + msdiry)))  == 1))
+	if (data->map->map_tab[(int)player->x]
+		[(int)(player->y + msdiry)] != '1'
+		&& !((data->map->map_tab[(int)player->x]
+		[(int)(player->y + msdiry)] == 'D')
+		&& door_crossable(data,
+		(int)player->x, ((int)(player->y + msdiry))) == 1))
 		player->y += msdiry;
 	return (0);
 }
@@ -41,9 +50,17 @@ int	go_backward(t_data *data, t_player *player)
 		>= data->map->height_map || (int)(player->y - msdiry) < 0
 			|| (int)(player->y - msdiry) >= data->map->width_map)
 		return (1);
-	if (data->map->map_tab[(int)(player->x - msdirx)][(int)player->y] != '1' && !((data->map->map_tab[(int)(player->x - msdirx)][(int)player->y] == 'D') && door_crossable(data, (int)(player->x - msdirx),(int)player->y) == 1))
+	if (data->map->map_tab[(int)(player->x - msdirx)]
+		[(int)player->y] != '1'
+		&& !((data->map->map_tab[(int)(player->x - msdirx)]
+		[(int)player->y] == 'D') && door_crossable(data,
+		(int)(player->x - msdirx), (int)player->y) == 1))
 		player->x -= msdirx;
-	if (data->map->map_tab[(int)player->x][(int)(player->y - msdiry)] != '1' && !((data->map->map_tab[(int)player->x][(int)(player->y - msdiry)] == 'D') && door_crossable(data, (int)player->x,(int)(player->y - msdiry)) == 1))
+	if (data->map->map_tab[(int)player->x]
+		[(int)(player->y - msdiry)] != '1'
+		&& !((data->map->map_tab[(int)player->x]
+		[(int)(player->y - msdiry)] == 'D') && door_crossable(data,
+		(int)player->x, (int)(player->y - msdiry)) == 1))
 		player->y -= msdiry;
 	return (0);
 }
@@ -59,9 +76,17 @@ int	go_right(t_data *data, t_player *player)
 		>= data->map->height_map || (int)(player->y + msplany) < 0
 			|| (int)(player->y + msplany) >= data->map->width_map)
 		return (1);
-	if (data->map->map_tab[(int)(player->x + msplanx)][(int)player->y] != '1' && !((data->map->map_tab[(int)(player->x + msplanx)][(int)player->y] == 'D') && door_crossable(data, (int)(player->x + msplanx),(int)player->y) == 1))
+	if (data->map->map_tab[(int)(player->x + msplanx)]
+		[(int)player->y] != '1'
+		&& !((data->map->map_tab[(int)(player->x + msplanx)]
+		[(int)player->y] == 'D') && door_crossable(data,
+		(int)(player->x + msplanx), (int)player->y) == 1))
 		player->x += msplanx;
-	if (data->map->map_tab[(int)player->x][(int)(player->y + msplany)] != '1' && !((data->map->map_tab[(int)player->x][(int)(player->y + msplany)] == 'D') && door_crossable(data, (int)player->x,(int)(player->y + msplany)) == 1))
+	if (data->map->map_tab[(int)player->x]
+		[(int)(player->y + msplany)] != '1'
+		&& !((data->map->map_tab[(int)player->x]
+		[(int)(player->y + msplany)] == 'D') && door_crossable(data,
+		(int)player->x, (int)(player->y + msplany)) == 1))
 		player->y += msplany;
 	return (0);
 }
@@ -77,9 +102,17 @@ int	go_left(t_data *data, t_player *player)
 		>= data->map->height_map || (int)(player->y - msplany) < 0
 			|| (int)(player->y - msplany) >= data->map->width_map)
 		return (1);
-	if (data->map->map_tab[(int)(player->x - msplanx)][(int)player->y] != '1' && !((data->map->map_tab[(int)(player->x - msplanx)][(int)player->y] == 'D') && door_crossable(data, (int)(player->x - msplanx),(int)player->y) == 1))
+	if (data->map->map_tab[(int)(player->x - msplanx)]
+		[(int)player->y] != '1'
+		&& !((data->map->map_tab[(int)(player->x - msplanx)]
+		[(int)player->y] == 'D') && door_crossable(data,
+		(int)(player->x - msplanx), (int)player->y) == 1))
 		player->x -= msplanx;
-	if (data->map->map_tab[(int)player->x][(int)(player->y - msplany)] != '1' && !((data->map->map_tab[(int)player->x][(int)(player->y - msplany)] == 'D') && door_crossable(data, (int)player->x , (int)(player->y - msplany)) == 1))
+	if (data->map->map_tab[(int)player->x]
+		[(int)(player->y - msplany)] != '1'
+		&& !((data->map->map_tab[(int)player->x]
+		[(int)(player->y - msplany)] == 'D') && door_crossable(data,
+		(int)player->x, (int)(player->y - msplany)) == 1))
 		player->y -= msplany;
 	return (0);
 }
@@ -97,4 +130,4 @@ void	move_head(t_game *game, t_player *player)
 	if (game->key_tab[KEY_DOWN] == 1)
 		if (game->head_view > -100)
 			game->head_view -= 8;
-	}
+}

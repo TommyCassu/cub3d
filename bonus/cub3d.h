@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/09 13:32:53 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/24 15:33:27 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@
 # define KEY_DOOR 10
 # define TEXT_SIZE 128
 # define M_PI		3.14159265358979323846
+# define UDIV 2
+# define VDIV 2
+# define VMOVE 200.0
+# define SPRITE_X 5
+# define SPRITE_Y 5
 
 # define BLOCK_SIZE 1
 
@@ -80,6 +85,29 @@ typedef struct s_sprite
 	double	x;
 	double	y;
 	t_img	*img_sprite[1];
+	double	sprite_x;
+	double	sprite_y;
+	double	inv_det;
+	double	transform_x;
+	double	transform_y;
+	int		spritescreen_x;
+	int		vmove_screen;
+	int		sprite_height;
+	int		drawstart_y;
+	int		drawend_y;
+	int		sprite_width;
+	int		drawstart_x;
+	int		drawend_x;
+	double	dx;
+	double	dy;
+	double	angle_sprite;
+	double	pa;
+	double	relative_angle;
+	int		dir_index;
+	int		stripe;
+	int		tex_xsprite;
+	int		d;
+	int		tex_ysprite;
 }			t_sprite;
 
 typedef struct s_door
@@ -137,6 +165,12 @@ typedef struct s_game
 	double		floor_y;
 	double		floor_step_y;
 	double		floor_step_x;
+	double		floor_x_wall;
+	double		floor_y_wall;
+	int			floor_text_x;
+	int			floor_text_y;
+	double		current_floor_x;
+	double		current_floor_y;
 	double		old_dir_x;
 	double		old_plane_x;
 	int			cell_x;
@@ -209,6 +243,8 @@ int		parsing_map(t_map *map);
 int		is_player(char c);
 int		is_valid(char c);
 int		ft_verif_digit(char *str);
+int		check_rgb_value(char *new_value, char **tab_value);
+int		check_rgb_limit(int r, int g, int b, char **tab_value);
 /* parsing.c */
 int		check_valid_file(char *line);
 int		parsing_texture(t_textdata *textures);
@@ -233,7 +269,10 @@ void	move_head(t_game *game, t_player *player);
 void	config_memory(t_data *data, char *line, char *direction);
 int		add_data(t_data *data, char *line);
 void	malloc_map(t_map *map);
+int		check_valid_map(char *line);
 void	read_data(t_data *data, char *filename);
+/* read_data_utils.c */
+void	read_line_gnl(t_data *data, int fd, int map_line);
 /* read_map.c */
 int		is_map_line(char *line);
 void	read_map(t_map *map, char *line);
@@ -255,11 +294,20 @@ void	get_texture_pos(t_data *data);
 void	draw_wall_col(t_data *data, int x);
 void	select_texture_side(t_data *data, t_game *game);
 void	render_raycast(t_data *data, t_game *game);
-void	calcul_jump_offset(t_data *data);
+/* render_sprite */
+void	calcul_jump_offset(t_data *data);;
+void	setup_sprite(t_data *data, t_game *game, t_sprite *sprite);
+void	calc_sprite(t_game *game, t_sprite *sprite);
+void	calcul_angle_sprite(t_data *data, t_game *game);
+void	print_sprite(t_data *data, t_game *game, t_sprite *sprite);
+void	render_sprite(t_data *data, t_game *game,
+			t_sprite *sprite, double *buf);
 /* Utils_raycasting */
 int		get_pixel(t_img *image, int x, int y);
 long	get_time(void);
 void	show_fps(t_data *data);
+void	frames_speed(t_data *data, t_game *game);
+void	draw_floor_and_ceiling(t_data *data, t_game *game, int x);
 /* --- Minimap --- */
 /* contour_minimap.c */
 int		is_minimap_status(t_data *data, int x, int y);

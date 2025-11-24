@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:08:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/08 21:49:16 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/24 16:31:16 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	ft_free_map(t_data *data)
 			free(data->map->textdata->e);
 		if (data->map->textdata->w)
 			free(data->map->textdata->w);
-		ft_free_imgs(data);
+		if (data->error_status == 0)
+			ft_free_imgs(data);
 		if (data->map->textdata->img[0])
 			free(data->map->textdata->img[0]);
 		if (data->map->textdata->img[1])

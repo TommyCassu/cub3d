@@ -1,13 +1,13 @@
-   WE                            ./textures/bark.xpm
-NO      ./textures/bark.xpm
+   WE                            ./bonus/textures/north_face.xpm
+NO      ./bonus/textures/north_face.xpm
 
 
 
-SO ./textures/bark.xpm
+SO ./bonus/textures/north_face.xpm
 
 F      55,    55,     55
 
-EA ./textures/bark.xpm
+EA ./bonus/textures/north_face.xpm
 
 
 

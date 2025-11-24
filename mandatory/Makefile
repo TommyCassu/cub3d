@@ -3,6 +3,7 @@ FILES			=	main.c \
 					parsing/parsing_map.c \
 					parsing/parsing_utils.c \
 					reading_data/read_data.c \
+					reading_data/read_data_utils.c \
 					reading_data/read_map.c \
 					error/free.c \
 					error/free_utils.c \

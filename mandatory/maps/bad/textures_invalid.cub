@@ -1,4 +1,4 @@
-NO ./textures/bark.xpm
+NO ./bonus/textures/north_face.xpm
 SO ./textures/bricks.xpm 
 EA ./textures/x
 WE ./textures/wood.xpm
