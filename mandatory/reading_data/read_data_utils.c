@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:55:39 by npederen          #+#    #+#             */
-/*   Updated: 2025/11/24 15:56:14 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:30:49 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	read_line_gnl(t_data *data, int fd, int map_line)
 {
 	char	*line;
 	char	*tmp_line;
-	
+
 	line = get_next_line(fd);
 	if (line == NULL)
 	{
@@ -35,7 +35,7 @@ void	read_line_gnl(t_data *data, int fd, int map_line)
 			tmp_line = ft_strtrim(line, " \t");
 			add_data(data, tmp_line);
 			free(tmp_line);
-		}	
+		}
 		free(line);
 		line = get_next_line(fd);
 	}

@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 16:24:54 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:30:33 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,5 @@ int	parsing(t_data *data)
 		data->error_status = 1;
 		return (0);
 	}
-		
 	return (1);
 }
