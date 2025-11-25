@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 14:33:45 by npederen          #+#    #+#             */
-/*   Updated: 2025/11/25 03:14:27 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/25 03:27:33 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	setup_sprite(t_data *data, t_game *game, t_sprite *sprite)
 	sprite->sprite_x = sprite[0].x - data->map->player->x;
 	sprite->sprite_y = sprite[0].y - data->map->player->y;
 	sprite->inv_det = 1.0 / (game->plane_x * data->map->player->dir_y
-			- data->map->player->dir_x * game->plane_y); //required for correct matrix multiplication
+			- data->map->player->dir_x * game->plane_y);
 	sprite->transform_x = sprite->inv_det
 		* (data->map->player->dir_y * sprite->sprite_x
 			- data->map->player->dir_x * sprite->sprite_y);
 	sprite->transform_y = sprite->inv_det * (-game->plane_y
-			* sprite->sprite_x + game->plane_x * sprite->sprite_y); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
+			* sprite->sprite_x + game->plane_x * sprite->sprite_y);
 	sprite->spritescreen_x = (int)((RES_X / 2)
 			* (1 + sprite->transform_x / sprite->transform_y));
 	sprite->vmove_screen = (int)(VMOVE / sprite->transform_y);
@@ -30,9 +30,7 @@ void	setup_sprite(t_data *data, t_game *game, t_sprite *sprite)
 
 void	calc_sprite(t_game *game, t_sprite *sprite)
 {
-	//calculate height of the sprite on screen
-	sprite->sprite_height = abs((int)(RES_Y / (sprite->transform_y))) / VDIV; //using "transform_y" instead of the real distance prevents fisheye
-	//calculate lowest and highest pixel to fill in current stripe
+	sprite->sprite_height = abs((int)(RES_Y / (sprite->transform_y))) / VDIV;
 	sprite->drawstart_y = -sprite->sprite_height / 2 + RES_Y / 2
 		+ sprite->vmove_screen + game->head_view + game->jumpoffsetresy;
 	if (sprite->drawstart_y < 0)
@@ -41,7 +39,6 @@ void	calc_sprite(t_game *game, t_sprite *sprite)
 		+ sprite->vmove_screen + game->head_view + game->jumpoffsetresy;
 	if (sprite->drawend_y >= RES_Y)
 		sprite->drawend_y = RES_Y - 1;
-	//calculate width of the sprite
 	sprite->sprite_width = abs((int)(RES_Y / (sprite->transform_y))) / UDIV;
 	sprite->drawstart_x = -sprite->sprite_width / 2 + sprite->spritescreen_x;
 	if (sprite->drawstart_x < 0)
@@ -54,8 +51,8 @@ void	calc_sprite(t_game *game, t_sprite *sprite)
 /* calcul angle sprite player*/
 void	calcul_angle_sprite(t_data *data, t_game *game)
 {
-	game->sprite->pa = atan2(-data->map->player->dir_y, data->map->player->dir_x);
-	
+	game->sprite->pa = atan2(-data->map->player->dir_y,
+			data->map->player->dir_x);
 	while (game->sprite->pa < 0)
 		game->sprite->pa += 2 * M_PI;
 	while (game->sprite->pa >= 2 * M_PI)
@@ -66,7 +63,6 @@ void	calcul_angle_sprite(t_data *data, t_game *game)
 		game->sprite->dir_index = 0;
 	if (game->sprite->dir_index > 7)
 		game->sprite->dir_index = 7;
-	printf("%f\n", game->sprite->pa);
 	game->sprite->stripe = game->sprite->drawstart_x;
 }
 
@@ -76,11 +72,11 @@ void	print_sprite(t_data *data, t_game *game, t_sprite *sprite)
 	unsigned int	color;
 
 	y = sprite->drawstart_y;
-	while (y < sprite->drawend_y) //for every pixel of the current stripe
+	while (y < sprite->drawend_y)
 	{
 		sprite->d = (y - game->head_view - game->jumpoffsetresy
 				- sprite->vmove_screen) * 256 - RES_Y * 128
-			+ sprite->sprite_height * 128; //256 and 128 factors to avoid floats
+			+ sprite->sprite_height * 128;
 		sprite->tex_ysprite = (((sprite->d * 128) / sprite->sprite_height)
 				/ 256) + (sprite->dir_index * 128);
 		color = get_pixel(sprite->img_sprite[0], sprite->tex_xsprite,
@@ -89,7 +85,7 @@ void	print_sprite(t_data *data, t_game *game, t_sprite *sprite)
 			if ((y < 256 && sprite->stripe < 256
 					&& is_minimap_status(data, sprite->stripe, y) == 0)
 				|| (y >= 256 || sprite->stripe >= 256))
-				pixels_to_image(data, sprite->stripe, y, color); //paint pixel if it isn't black, black is the invisible color
+				pixels_to_image(data, sprite->stripe, y, color);
 		y++;
 	}
 }
