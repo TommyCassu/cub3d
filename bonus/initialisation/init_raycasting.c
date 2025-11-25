@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 13:37:07 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:35:26 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	setup_text_img(t_data *data, t_textdata *t)
 	t->img[0]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, t->n, &t->img[0]->w, &t->img[0]->h);
 	t->img[0]->addr = (int *)mlx_get_data_addr(t->img[0]->ptr, &t->img[0]->bpp,
 			&t->img[0]->line_s, &t->img[0]->endian);
-	printf("%d %d\n", t->img[0]->w, t->img[0]->h);
 	t->img[1]->ptr = mlx_xpm_file_to_image(data->mlx->ptr, t->s, &t->img[1]->w, &t->img[1]->h);
 	t->img[1]->addr = (int *)mlx_get_data_addr(t->img[1]->ptr, &t->img[1]->bpp,
 			&t->img[1]->line_s, &t->img[1]->endian);
