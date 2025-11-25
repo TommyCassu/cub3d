@@ -46,6 +46,8 @@ typedef struct s_img
 	int		line_s;
 	int		bpp;
 	int		endian;
+	int		h;
+	int		w;
 }			t_img;
 
 typedef struct s_textdata
