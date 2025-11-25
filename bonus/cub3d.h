@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 15:33:27 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 03:15:55 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,7 @@ typedef struct s_sprite
 	int		drawend_x;
 	double	dx;
 	double	dy;
-	double	angle_sprite;
 	double	pa;
-	double	relative_angle;
 	int		dir_index;
 	int		stripe;
 	int		tex_xsprite;

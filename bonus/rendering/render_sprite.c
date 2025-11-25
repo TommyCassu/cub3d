@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_sprite.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 14:33:45 by npederen          #+#    #+#             */
-/*   Updated: 2025/11/24 14:42:49 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 03:14:27 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ void	calc_sprite(t_game *game, t_sprite *sprite)
 /* calcul angle sprite player*/
 void	calcul_angle_sprite(t_data *data, t_game *game)
 {
-	game->sprite->dx = data->game->sprite->x - data->map->player->y;
-	game->sprite->dy = data->game->sprite->y - data->map->player->x;
-	game->sprite->angle_sprite = atan2(game->sprite->dx, game->sprite->dy);
-	game->sprite->pa = atan2(data->map->player->dir_y,
-			data->map->player->dir_x);
-	game->sprite->relative_angle = game->sprite->angle_sprite
-		- game->sprite->pa;
-	while (game->sprite->relative_angle < 0)
-		game->sprite->relative_angle += 2 * M_PI;
-	while (game->sprite->relative_angle >= 2 * M_PI)
-		game->sprite->relative_angle -= 2 * M_PI;
-	game->sprite->dir_index = (int)((game->sprite->relative_angle + M_PI)
-			/ (2 * M_PI) * 8) % 8;
+	game->sprite->pa = atan2(-data->map->player->dir_y, data->map->player->dir_x);
+	
+	while (game->sprite->pa < 0)
+		game->sprite->pa += 2 * M_PI;
+	while (game->sprite->pa >= 2 * M_PI)
+		game->sprite->pa -= 2 * M_PI;
+	game->sprite->dir_index = (int)((game->sprite->pa)
+			/ (2 * M_PI) * 8);
+	if (game->sprite->dir_index < 0)
+		game->sprite->dir_index = 0;
+	if (game->sprite->dir_index > 7)
+		game->sprite->dir_index = 7;
+	printf("%f\n", game->sprite->pa);
 	game->sprite->stripe = game->sprite->drawstart_x;
 }
 
