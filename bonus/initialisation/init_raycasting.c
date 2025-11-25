@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/25 18:35:26 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 19:45:26 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	init_raycast_two(t_data *data)
 	data->game->camera_x = 0.0;
 	data->game->plane_x = 0.0;
 	data->game->wall_x = 0.0;
-	data->game->plane_y = 0.66;
 	data->game->head_view = 0;
 	data->game->ray_dir_x0 = 0.0;
 	data->game->ray_dir_y0 = 0.0;

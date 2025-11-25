@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:47:27 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/25 16:38:31 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 19:59:05 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	is_map_closed(char **map, int height, int width)
 					return (1);
 			}
 			else if (map[i][j] != '#' && map[i][j] != '\0'
-				&& map[i][j] != '1' && map[i][j] != 'D')
+				&& map[i][j] != '1')
 				return (1);
 			j++;
 		}

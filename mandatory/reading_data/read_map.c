@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/27 14:35:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/25 20:17:46 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ void	read_map(t_map *map, char *line)
 	int	size;
 
 	size = 0;
-	if (is_map_line(line))
-	{
-		map->height_map++;
-		size = ft_strlen(line) - 1;
-		if (map->width_map < size)
-			map->width_map = size;
-	}
+	map->height_map++;
+	size = ft_strlen(line) - 1;
+	if (map->width_map < size)
+		map->width_map = size;
+
 }
 
 void	write_line(t_map *map, char	*line, int *i)
@@ -52,9 +50,9 @@ void	write_line(t_map *map, char	*line, int *i)
 	int	j;
 
 	j = 0;
-	while (line[j] && line[j] != '\n' && j < map->width_map)
+	while (line[j] && j < map->width_map)
 	{
-		if (line[j] == ' ')
+		if (line[j] == ' ' || line[j] == '\n' || line[j] == '\t')
 			map->map_tab[*i][j] = '#';
 		else
 			map->map_tab[*i][j] = line[j];
@@ -78,7 +76,6 @@ void	write_map(t_map *map, char	*filename)
 	line = get_next_line(fd);
 	while (line)
 	{
-		map_line = 0;
 		if (is_map_line(line))
 			map_line = 1;
 		if (map_line)

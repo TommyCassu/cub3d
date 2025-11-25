@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/11/25 16:48:14 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 19:46:52 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	is_valid(char c)
 	return (c == '0' || c == '1' || c == '2'
 		|| c == '3' || c == 'D' || is_player(c));
 }
-
 
 void	set_plane_dir(t_game *game, t_player *player)
 {
