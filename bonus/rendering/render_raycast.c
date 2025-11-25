@@ -38,21 +38,23 @@ void	select_texture_side(t_data *data, t_game *game)
 void	get_texture_pos(t_data *data)
 {
 	int	index_door;
+	int	size_img_text;
 
+	size_img_text = data->map->textdata->img[data->game->text_num]->h;
 	index_door = get_door(data, data->game->map_y, data->game->map_x);
 	if (data->map->map_tab[data->game->map_x][data->game->map_y] == 'D')
 		data->game->tex_x = (int)(((data->game->wall_x
 						+ (1.0 - data->game->door[index_door].opening_state))
 					- floor(data->game->wall_x
 						+ (1.0 - data->game->door[index_door].opening_state)))
-				* TEXT_SIZE);
+				* size_img_text);
 	else
-		data->game->tex_x = (int)(data->game->wall_x * (double)(TEXT_SIZE));
+		data->game->tex_x = (int)(data->game->wall_x * (double)(size_img_text));
 	if (data->game->side == 0 && data->game->raydir_x > 0)
-		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
+		data->game->tex_x = size_img_text - data->game->tex_x - 1;
 	if (data->game->side == 1 && data->game->raydir_y < 0)
-		data->game->tex_x = TEXT_SIZE - data->game->tex_x - 1;
-	data->game->step = 1.0 * TEXT_SIZE / data->game->line_height;
+		data->game->tex_x = size_img_text - data->game->tex_x - 1;
+	data->game->step = 1.0 * size_img_text / data->game->line_height;
 	data->game->tex_pos = (data->game->draw_start - RES_Y / 2
 			+ data->game->line_height / 2 - data->game->head_view
 			- data->game->jumpoffsetresy) * data->game->step;
@@ -69,7 +71,8 @@ void	draw_wall_col(t_data *data, int x)
 		data->game->draw_end = RES_Y - 1;
 	while (i < data->game->draw_end)
 	{
-		data->game->tex_y = (int)data->game->tex_pos & (TEXT_SIZE - 1);
+		data->game->tex_y = (int)data->game->tex_pos
+			& (data->map->textdata->img[data->game->text_num]->h - 1);
 		data->game->tex_pos += data->game->step;
 		color = get_pixel(data->map->textdata->img[data->game->text_num],
 				data->game->tex_x, data->game->tex_y);

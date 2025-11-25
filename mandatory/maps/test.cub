@@ -1,4 +1,4 @@
-NO ./mandatory/textures/north_face.xpm
+NO ./mandatory/textures/pillar.xpm
 EA ./mandatory/textures/east_face.xpm
 WE ./mandatory/textures/west_face.xpm
 SO ./mandatory/textures/south_face.xpm
