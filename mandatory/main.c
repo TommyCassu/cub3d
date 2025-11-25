@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:14 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/08 21:59:16 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/25 15:52:01 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int ac, char **av)
 {
 	t_data	*data;
 
-	if (ac == 2)
+	if (ac == 2 && check_valid_map(av[1]) == 0)
 	{
 		data = malloc(sizeof(t_data));
 		init_data(data);
@@ -71,5 +71,7 @@ int	main(int ac, char **av)
 		}
 		ft_free_cub3d(data);
 	}
+	else
+		printf("program needs two arguments <./cub3d file.cub>\n");
 	return (0);
 }

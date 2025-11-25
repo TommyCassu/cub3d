@@ -6,6 +6,7 @@ FILES			=	main.c \
 					minimap/minimap_utils.c \
 					minimap/drawing_onMinimap.c \
 					parsing/parsing_map.c \
+					parsing/parsing_rgb.c \
 					parsing/parsing_utils.c \
 					parsing/parsing.c \
 					player/key_events.c \
@@ -42,7 +43,7 @@ LIBMLX		= -Lmlx_linux -lmlx_Linux -L$(LIBMLX_DIR) -Imlx_linux -lX11 -lXext -lm -
 # Include paths
 INCLUDES	= -Iinclude -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
 
-NAME		= ../cub3d_bonus
+NAME		= ../cub3D_bonus
 
 AR			= ar rc
 

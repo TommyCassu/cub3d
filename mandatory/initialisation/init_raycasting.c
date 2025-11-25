@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:44:41 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 15:34:50 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:23:04 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	init_raycast(t_data *data)
 	data->game = malloc(sizeof(t_game));
 	ft_memset(data->game, 0, sizeof(t_game));
 	data->game->camera_x = 0.0;
-	data->game->plane_x = 0.0;
-	data->game->plane_y = 0.66;
 	data->game->head_view = 0;
 	data->game->ray_dir_x0 = 0.0;
 	data->game->ray_dir_y0 = 0.0;

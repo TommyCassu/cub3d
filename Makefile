@@ -1,9 +1,10 @@
-NAME		= cub3d
+NAME		= cub3D
 
-NAME		= cub3d_bonus
+NAME		= cub3D_bonus
 
 all:
 	$(LIBFT)
+	@make -C minilibx-linux
 	make -C mandatory
 	make -C bonus
 
@@ -12,6 +13,7 @@ $(LIBFT):
 
 clean:
 	@echo "\033[1;32m" "Cleaning .o \033[0m"
+	@make -C minilibx-linux
 	@make -C mandatory clean
 	@make -C bonus clean
 	@make -C libft/ clean

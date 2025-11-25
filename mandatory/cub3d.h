@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:55:54 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 16:01:14 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:09:12 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,10 +173,14 @@ int		spawn_count_is_1(int spawn_count);
 int		check_spawn(t_map *map, int height, int width);
 int		is_map_closed(char **map, int height, int width);
 int		parsing_map(t_map *map);
+/* parsing_rgb.c */
+int		ft_verif_digit(char *str);
+int		check_rgb_value(char *new_value, char **tab_value);
+int		check_rgb_limit(int r, int g, int b, char **tab_value);
 /* parsing_utils.c */
 int		is_player(char c);
 int		is_valid(char c);
-int		ft_verif_digit(char *str);
+void	set_plane_dir(t_game *game, t_player *player);
 /* parsing.c */
 int		check_valid_file(char *line);
 int		parsing_texture(t_textdata *textures);
@@ -203,6 +207,7 @@ void	read_line_gnl(t_data *data, int fd, int map_line);
 void	config_memory(t_data *data, char *line, char *direction);
 int		add_data(t_data *data, char *line);
 void	malloc_map(t_map *map);
+int		check_valid_map(char *line);
 void	read_data(t_data *data, char *filename);
 /* read_map.c */
 int		is_map_line(char *line);

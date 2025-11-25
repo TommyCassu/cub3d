@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 22:19:29 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/24 16:24:21 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:22:35 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,10 @@ void	read_data(t_data *data, char *filename)
 	int		map_line;
 
 	map_line = 0;
-	check_valid_map(filename);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;
 	read_line_gnl(data, fd, map_line);
 	close(fd);
 	malloc_map(data->map);
-	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:47:27 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/08 22:20:33 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/25 18:14:04 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,30 @@ int	spawn_count_is_1(int spawn_count)
 	return (0);
 }
 
+void	set_dir_player(t_map *map, char spawn_point)
+{
+	if (spawn_point == 'N')
+	{
+		map->player->dir_x = -1;
+		map->player->dir_y = 0;
+	}
+	else if (spawn_point == 'E')
+	{
+		map->player->dir_x = 0;
+		map->player->dir_y = 1;
+	}
+	else if (spawn_point == 'S')
+	{
+		map->player->dir_x = 1;
+		map->player->dir_y = 0;
+	}
+	else
+	{
+		map->player->dir_x = 0;
+		map->player->dir_y = -1;
+	}
+}
+
 int	check_spawn(t_map *map, int height, int width)
 {
 	int	i;
@@ -42,6 +66,7 @@ int	check_spawn(t_map *map, int height, int width)
 		{
 			if (is_player(map->map_tab[i][j]))
 			{
+				set_dir_player(map, map->map_tab[i][j]);
 				map->player->start_x = j;
 				map->player->start_y = i;
 				map->player->x = i;
@@ -83,6 +108,7 @@ int	is_map_closed(char **map, int height, int width)
 	}
 	return (0);
 }
+
 
 int	parsing_map(t_map	*map)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:06 by npederen          #+#    #+#             */
-/*   Updated: 2025/10/08 16:33:27 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/25 16:47:35 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,30 @@ int	is_player(char c)
 
 int	is_valid(char c)
 {
-	return (c == '0' || c == '1' || is_player(c));
+	return (c == '0' || c == '1' || c == '2'
+		|| c == '3' || c == 'D' || is_player(c));
 }
 
-int	ft_verif_digit(char	*str)
+void	set_plane_dir(t_game *game, t_player *player)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	if (player->dir_x == -1 && player->dir_y == 0)
 	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
+		game->plane_x = 0.0;
+		game->plane_y = 0.66;
 	}
-	return (1);
+	else if (player->dir_x == 0 && player->dir_y == 1)
+	{
+		game->plane_x = 0.66;
+		game->plane_y = 0.0;
+	}
+	else if (player->dir_x == 1 && player->dir_y == 0)
+	{
+		game->plane_x = 0.0;
+		game->plane_y = -0.66;
+	}
+	else
+	{
+		game->plane_x = -0.66;
+		game->plane_y = 0.0;
+	}
 }
