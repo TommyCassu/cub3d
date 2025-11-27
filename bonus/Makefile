@@ -60,13 +60,15 @@ all:		${NAME}
 .c.o:
 	${CC} ${CFLAGS} -c ${INCLUDES} $< -o ${<:.c=.o}
 
-${NAME}:	${OBJS}
+${NAME}:	${OBJS} $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft $(LIBMLX) -o $(NAME)
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
 clean:
 	@echo "\033[1;32m" "Cleaning .o \033[0m"
 	@rm -rf $(OBJDIR)

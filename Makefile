@@ -3,13 +3,12 @@ NAME		= cub3D
 NAME		= cub3D_bonus
 
 all:
-	$(LIBFT)
 	@make -C minilibx-linux
 	make -C mandatory
-	make -C bonus
 
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+bonus:
+	@make -C minilibx-linux
+	make -C bonus
 
 clean:
 	@echo "\033[1;32m" "Cleaning .o \033[0m"
@@ -26,4 +25,4 @@ fclean:
 
 re:			fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re bonus
