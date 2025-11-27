@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_onMinimap.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:23:55 by tcassu            #+#    #+#             */
-/*   Updated: 2025/10/08 15:24:13 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/27 16:51:38 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	draw_player_minmap(t_data *data)
 	int	i;
 	int	j;
 
-	player_size = 8;
-	px = RES_MMAP_X / 2;
-	py = RES_MMAP_X / 2;
+	player_size = 6;
+	px = RES_MMAP_X / 2 - 3;
+	py = RES_MMAP_X / 2 - 2;
 	i = 0;
 	while (i < player_size / 2)
 	{

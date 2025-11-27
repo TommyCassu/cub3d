@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:49:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/25 20:17:46 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/11/27 16:21:39 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	read_map(t_map *map, char *line)
 	size = ft_strlen(line) - 1;
 	if (map->width_map < size)
 		map->width_map = size;
-
 }
 
 void	write_line(t_map *map, char	*line, int *i)
