@@ -3,7 +3,7 @@ SO ./mandatory/textures/north_face.xpm
 EA ./mandatory/textures/north_face.xpm
 WE ./mandatory/textures/north_face.xpm
 
-F 20,20,20,20,20,20,20,20,20
+F 20,25,20,123123
 C 200,200,200
 
 11111

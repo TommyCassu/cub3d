@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:46:55 by npederen          #+#    #+#             */
-/*   Updated: 2025/11/25 16:47:44 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/27 17:26:05 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_rgb_value(char *new_value, char **tab_value)
 {
 	if (new_value)
 		free(new_value);
-	if (!tab_value[0] || !tab_value[1] || !tab_value[2])
+	if (!tab_value[0] || !tab_value[1] || !tab_value[2] || tab_value[3])
 	{
 		ft_free(tab_value);
 		free(tab_value);

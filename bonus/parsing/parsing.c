@@ -6,7 +6,7 @@
 /*   By: npederen <npederen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by tcassu            #+#    #+#             */
-/*   Updated: 2025/11/25 18:11:48 by npederen         ###   ########.fr       */
+/*   Updated: 2025/11/27 17:36:35 by npederen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	attribute_rgb(t_data *data, char **tab_value, char *direction)
 		g = ft_atoi(tab_value[1]);
 		b = ft_atoi(tab_value[2]);
 		if (check_rgb_limit(r, g, b, tab_value) == 1)
-		{
 			data->error_status = 1;
-			return ;
-		}
 		else
 		{
 			if (direction[0] == 'F')
