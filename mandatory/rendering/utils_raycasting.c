@@ -28,14 +28,15 @@ long	get_time(void)
 	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
 }
 
-void	show_fps(t_data *data)
-{
+/*
 	//char	fpsbuffer[32];
-
-	data->game->oldtime = data->game->time;
-	data->game->time = get_time();
-	data->game->frametime = (data->game->time - data->game->oldtime) / 1000.0;
 	//sprintf(fpsbuffer, "FPS %F", 1.0 / data->game->frametime);
 	//mlx_string_put(data->mlx->ptr, data->mlx->win,
 	//	500, 20, 0x000000, fpsbuffer);
+*/
+void	show_fps(t_data *data)
+{
+	data->game->oldtime = data->game->time;
+	data->game->time = get_time();
+	data->game->frametime = (data->game->time - data->game->oldtime) / 1000.0;
 }

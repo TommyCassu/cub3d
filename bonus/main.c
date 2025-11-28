@@ -73,7 +73,6 @@ int	main(int ac, char **av)
 		write_map(data->map, av[1]);
 		if (parsing(data))
 		{
-			print_map(data->map);
 			setups_bonus_functions(data);
 			main_hook(data);
 		}

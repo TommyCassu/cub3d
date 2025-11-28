@@ -65,7 +65,6 @@ int	main(int ac, char **av)
 		write_map(data->map, av[1]);
 		if (parsing(data))
 		{
-			print_map(data->map);
 			setup_text_img(data, data->map->textdata);
 			main_hook(data);
 		}
